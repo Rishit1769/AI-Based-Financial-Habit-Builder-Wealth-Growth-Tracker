@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Design tokens – applied via CSS custom properties.
+   Components read var(--token) so themes switch automatically.
+───────────────────────────────────────────────────────────── */
+:root, [data-theme="dark"] {
+  /* backgrounds */
+  --bg:         #09090b;   /* zinc-950 */
+  --surface:    #18181b;   /* zinc-900 */
+  --elevated:   #27272a;   /* zinc-800 */
+  --hover:      #3f3f46;   /* zinc-700 */
+
+  /* text */
+  --text:       #fafafa;   /* zinc-50 */
+  --text-2:     #a1a1aa;   /* zinc-400 */
+  --text-3:     #71717a;   /* zinc-500 */
+
+  /* border */
+  --border:     #27272a;   /* zinc-800 */
+  --border-2:   #3f3f46;   /* zinc-700 */
+
+  /* accent (single: indigo) */
+  --accent:     #6366f1;
+  --accent-dim: rgba(99,102,241,0.12);
+  --accent-txt: #818cf8;   /* lighter for dark bg */
+}
+
+[data-theme="light"] {
+  --bg:         #f4f4f5;
+  --surface:    #ffffff;
+  --elevated:   #f4f4f5;
+  --hover:      #e4e4e7;
+
+  --text:       #09090b;
+  --text-2:     #52525b;
+  --text-3:     #a1a1aa;
+
+  --border:     #e4e4e7;
+  --border-2:   #d4d4d8;
+
+  --accent:     #4f46e5;
+  --accent-dim: rgba(79,70,229,0.08);
+  --accent-txt: #4f46e5;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html { font-size: 15px; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+  /* ── Focus ring ── */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ─────── TOKEN UTILITY CLASSES (used by re-written components) ──────── */
+  .bg-base      { background-color: var(--bg); }
+  .bg-surface   { background-color: var(--surface); }
+  .bg-elevated  { background-color: var(--elevated); }
+  .bg-hover     { background-color: var(--hover); }
+  .bg-accent-dim{ background-color: var(--accent-dim); }
+
+  .text-main    { color: var(--text); }
+  .text-sub     { color: var(--text-2); }
+  .text-muted   { color: var(--text-3); }
+  .text-accent  { color: var(--accent-txt); }
+
+  .border-base  { border-color: var(--border); }
+  .border-mid   { border-color: var(--border-2); }
+  .divide-base > * + * { border-color: var(--border); }
+
+  /* card */
+  .card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    transition: border-color 0.15s ease;
+  }
+  .card:hover { border-color: var(--border-2); }
+
+  /* input */
+  .field {
+    width: 100%;
+    background-color: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--text);
+    font-size: 0.875rem;
+    padding: 0.625rem 0.875rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    outline: none;
+  }
+  .field::placeholder { color: var(--text-3); }
+  .field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+
+  /* sidebar nav-link */
+  .nav-link {
+    display: flex; align-items: center; gap: 0.625rem;
+    padding: 0.5rem 0.75rem; border-radius: 0.5rem;
+    font-size: 0.8125rem; font-weight: 500;
+    color: var(--text-2);
+    transition: background-color 0.12s ease, color 0.12s ease;
+    cursor: pointer;
+  }
+  .nav-link:hover { background-color: var(--elevated); color: var(--text); }
+  .nav-link.active {
+    background-color: var(--accent-dim);
+    color: var(--accent-txt);
+  }
+}
