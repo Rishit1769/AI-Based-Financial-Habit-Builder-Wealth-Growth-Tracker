@@ -10,7 +10,7 @@ import StatCard from '../components/common/StatCard';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
 import toast from 'react-hot-toast';
 
-const EMPTY_GOAL = { name: '', target_amount: '', current_amount: 0, deadline: '', notes: '' };
+const EMPTY_GOAL = { title: '', target_amount: '', current_amount: 0, deadline: '', description: '' };
 
 export default function SavingsGoals() {
   const [goals, setGoals] = useState([]);
@@ -36,7 +36,7 @@ export default function SavingsGoals() {
   const openAdd = () => { setEditing(null); setForm(EMPTY_GOAL); setModal(true); };
   const openEdit = (g) => {
     setEditing(g);
-    setForm({ name: g.name, target_amount: g.target_amount, current_amount: g.current_amount, deadline: g.deadline?.split('T')[0] || '', notes: g.notes || '' });
+    setForm({ title: g.title, target_amount: g.target_amount, current_amount: g.current_amount, deadline: g.deadline?.split('T')[0] || '', description: g.description || '' });
     setModal(true);
   };
   const openContribute = (g) => { setSelectedGoal(g); setContribution(''); setContributeModal(true); };
@@ -58,7 +58,7 @@ export default function SavingsGoals() {
     setSaving(true);
     try {
       await contribute(selectedGoal.id, Number(contribution));
-      toast.success(`Added ${formatCurrency(contribution)} to "${selectedGoal.name}"!`);
+      toast.success(`Added ${formatCurrency(contribution)} to "${selectedGoal.title}"!`);
       setContributeModal(false);
       load();
     } catch { toast.error('Failed to add contribution'); }
@@ -114,7 +114,7 @@ export default function SavingsGoals() {
                         <PiggyBank className={`w-5 h-5 ${g.is_completed ? 'text-emerald-400' : 'text-indigo-400'}`} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold text-main">{g.name}</h3>
+                        <h3 className="text-sm font-semibold text-main">{g.title}</h3>
                         {g.deadline && (
                           <p className={`text-xs ${days !== null && days < 0 ? 'text-rose-400' : days !== null && days < 30 ? 'text-amber-400' : 'text-muted'}`}>
                             {days !== null && days < 0 ? `${Math.abs(days)}d overdue` : days !== null ? `${days}d left` : ''} · Deadline {formatDate(g.deadline)}
@@ -142,7 +142,7 @@ export default function SavingsGoals() {
                     </div>
                   </div>
 
-                  {g.notes && <p className="text-xs text-muted mt-3 italic">{g.notes}</p>}
+                  {g.description && <p className="text-xs text-muted mt-3 italic">{g.description}</p>}
 
                   <div className="flex gap-2 mt-4">
                     {!g.is_completed && (
@@ -165,8 +165,8 @@ export default function SavingsGoals() {
       {/* Add/Edit Goal Modal */}
       <Modal open={modal} onClose={() => setModal(false)} title={editing ? 'Edit Goal' : 'New Savings Goal'}>
         <form onSubmit={handleSave} className="space-y-4">
-          <Input label="Goal Name" placeholder="e.g. Emergency Fund" value={form.name}
-            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} required />
+          <Input label="Goal Name" placeholder="e.g. Emergency Fund" value={form.title}
+            onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required />
           <Input label="Target Amount (₹)" type="number" placeholder="0.00" min="1" step="0.01"
             value={form.target_amount} onChange={(e) => setForm((f) => ({ ...f, target_amount: e.target.value }))} required />
           {!editing && (
@@ -175,8 +175,8 @@ export default function SavingsGoals() {
           )}
           <Input label="Deadline (optional)" type="date" value={form.deadline}
             onChange={(e) => setForm((f) => ({ ...f, deadline: e.target.value }))} />
-          <Input label="Notes (optional)" placeholder="What's this goal for?" value={form.notes}
-            onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} />
+          <Input label="Notes (optional)" placeholder="What's this goal for?" value={form.description}
+            onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
           <div className="flex gap-3 pt-2">
             <Button variant="secondary" onClick={() => setModal(false)} className="flex-1">Cancel</Button>
             <Button type="submit" loading={saving} className="flex-1">{editing ? 'Update' : 'Create Goal'}</Button>
@@ -185,7 +185,7 @@ export default function SavingsGoals() {
       </Modal>
 
       {/* Contribute Modal */}
-      <Modal open={contributeModal} onClose={() => setContributeModal(false)} title={`Add to "${selectedGoal?.name}"`}>
+      <Modal open={contributeModal} onClose={() => setContributeModal(false)} title={`Add to "${selectedGoal?.title}"`}>
         <form onSubmit={handleContribute} className="space-y-4">
           <div className="p-4 bg-elevated rounded-xl text-center">
             <p className="text-xs text-muted">Current Savings</p>

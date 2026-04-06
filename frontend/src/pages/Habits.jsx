@@ -39,7 +39,7 @@ export default function Habits() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', description: '', frequency: 'daily', target_days: 30 });
+  const [form, setForm] = useState({ name: '', description: '', frequency: 'daily', target_count: 30 });
   const [saving, setSaving] = useState(false);
   const [expandedHabit, setExpandedHabit] = useState(null);
   const [heatmapData, setHeatmapData] = useState({});
@@ -54,7 +54,7 @@ export default function Habits() {
 
   useEffect(() => { load(); }, []);
 
-  const openAdd = () => { setEditing(null); setForm({ name: '', description: '', frequency: 'daily', target_days: 30 }); setModal(true); };
+  const openAdd = () => { setEditing(null); setForm({ name: '', description: '', frequency: 'daily', target_count: 30 }); setModal(true); };
   const openEdit = (h) => { setEditing(h); setForm({ name: h.name, description: h.description || '', frequency: h.frequency, target_days: h.target_days }); setModal(true); };
 
   const handleSave = async (e) => {
@@ -92,7 +92,7 @@ export default function Habits() {
     if (expandedHabit === habitId) { setExpandedHabit(null); return; }
     try {
       const res = await getCompletions(habitId, 63);
-      const dates = res.data.data.map((c) => c.completed_date?.split('T')[0] || c.completed_date);
+      const dates = res.data.data.map((c) => (typeof c === 'string' ? c.split('T')[0] : String(c)));
       setHeatmapData((d) => ({ ...d, [habitId]: buildHeatmap(dates) }));
       setExpandedHabit(habitId);
     } catch { toast.error('Failed to load history'); }
@@ -194,8 +194,8 @@ export default function Habits() {
               {FREQUENCIES.map((f) => <option key={f} value={f} className="capitalize">{f}</option>)}
             </select>
           </div>
-          <Input label="Target days" type="number" min="1" max="365" value={form.target_days}
-            onChange={(e) => setForm((f) => ({ ...f, target_days: Number(e.target.value) }))} />
+          <Input label="Target days" type="number" min="1" max="365" value={form.target_count}
+            onChange={(e) => setForm((f) => ({ ...f, target_count: Number(e.target.value) }))} />
           <div className="flex gap-3 pt-2">
             <Button variant="secondary" onClick={() => setModal(false)} className="flex-1">Cancel</Button>
             <Button type="submit" loading={saving} className="flex-1">{editing ? 'Update' : 'Create'}</Button>

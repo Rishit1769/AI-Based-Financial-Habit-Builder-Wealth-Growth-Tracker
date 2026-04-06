@@ -12,7 +12,7 @@ import LoadingSkeleton from '../components/common/LoadingSkeleton';
 import InvestmentChart from '../components/charts/InvestmentChart';
 import toast from 'react-hot-toast';
 
-const EMPTY = { name: '', type: 'stocks', amount_invested: '', current_value: '', purchase_date: new Date().toISOString().split('T')[0], notes: '' };
+const EMPTY = { asset_name: '', asset_type: 'stock', amount_invested: '', current_value: '', date_added: new Date().toISOString().split('T')[0], notes: '' };
 
 export default function Investments() {
   const [records, setRecords] = useState([]);
@@ -37,7 +37,7 @@ export default function Investments() {
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (r) => {
     setEditing(r);
-    setForm({ name: r.name, type: r.type, amount_invested: r.amount_invested, current_value: r.current_value, purchase_date: r.purchase_date?.split('T')[0] || '', notes: r.notes || '' });
+    setForm({ asset_name: r.asset_name, asset_type: r.asset_type, amount_invested: r.amount_invested, current_value: r.current_value, date_added: r.date_added?.split('T')[0] || '', notes: r.notes || '' });
     setModal(true);
   };
 
@@ -134,8 +134,8 @@ export default function Investments() {
                         {gain >= 0 ? <TrendingUp className="w-4 h-4 text-emerald-400" /> : <TrendingDown className="w-4 h-4 text-rose-400" />}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-main truncate">{r.name}</p>
-                        <p className="text-xs text-muted capitalize">{r.type} · {formatDate(r.purchase_date)}</p>
+                        <p className="text-sm font-medium text-main truncate">{r.asset_name}</p>
+                        <p className="text-xs text-muted capitalize">{r.asset_type} · {formatDate(r.date_added)}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 ml-3">
@@ -168,13 +168,13 @@ export default function Investments() {
 
       <Modal open={modal} onClose={() => setModal(false)} title={editing ? 'Edit Investment' : 'Add Investment'}>
         <form onSubmit={handleSave} className="space-y-4">
-          <Input label="Name" placeholder="e.g. HDFC Bank Shares, Bitcoin" value={form.name}
-            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} required />
+          <Input label="Name" placeholder="e.g. HDFC Bank Shares, Bitcoin" value={form.asset_name}
+            onChange={(e) => setForm((f) => ({ ...f, asset_name: e.target.value }))} required />
           <div>
             <label className="text-xs font-medium text-sub block mb-1">Type</label>
-            <select value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}
+            <select value={form.asset_type} onChange={(e) => setForm((f) => ({ ...f, asset_type: e.target.value }))}
               className="field capitalize">
-              {INVESTMENT_TYPES.map((t) => <option key={t} value={t} className="capitalize">{t}</option>)}
+              {INVESTMENT_TYPES.map((t) => <option key={t.value} value={t.value} className="capitalize">{t.label}</option>)}
             </select>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -183,8 +183,8 @@ export default function Investments() {
             <Input label="Current Value (₹)" type="number" placeholder="0.00" min="0" step="0.01"
               value={form.current_value} onChange={(e) => setForm((f) => ({ ...f, current_value: e.target.value }))} required />
           </div>
-          <Input label="Purchase Date" type="date" value={form.purchase_date}
-            onChange={(e) => setForm((f) => ({ ...f, purchase_date: e.target.value }))} />
+          <Input label="Purchase Date" type="date" value={form.date_added}
+            onChange={(e) => setForm((f) => ({ ...f, date_added: e.target.value }))} />
           <Input label="Notes (optional)" placeholder="Any notes..." value={form.notes}
             onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} />
           <div className="flex gap-3 pt-2">
