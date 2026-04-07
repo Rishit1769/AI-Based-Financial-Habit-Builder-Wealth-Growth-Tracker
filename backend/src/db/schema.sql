@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   name          VARCHAR(100) NOT NULL,
   email         VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
+  phone         VARCHAR(20),
   role          VARCHAR(10)  NOT NULL DEFAULT 'user' CHECK (role IN ('user', 'admin')),
   avatar_url    TEXT,
   is_active     BOOLEAN NOT NULL DEFAULT TRUE,
@@ -138,6 +139,15 @@ CREATE TABLE IF NOT EXISTS reports (
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- ─── OTP Verifications ──────────────────────────────────────
+CREATE TABLE IF NOT EXISTS otp_verifications (
+  id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email      VARCHAR(255) NOT NULL,
+  otp_hash   TEXT NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- ─── Notifications ──────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS notifications (
   id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -153,6 +163,7 @@ CREATE TABLE IF NOT EXISTS notifications (
 CREATE INDEX IF NOT EXISTS idx_income_user_date      ON income_records(user_id, date DESC);
 CREATE INDEX IF NOT EXISTS idx_expense_user_date     ON expense_records(user_id, date DESC);
 CREATE INDEX IF NOT EXISTS idx_expense_user_cat      ON expense_records(user_id, category);
+CREATE INDEX IF NOT EXISTS idx_otp_email             ON otp_verifications(email);
 CREATE INDEX IF NOT EXISTS idx_habits_user           ON habits(user_id);
 CREATE INDEX IF NOT EXISTS idx_habit_comp_habit      ON habit_completions(habit_id, completed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_habit_comp_user       ON habit_completions(user_id, completed_at DESC);
