@@ -11,6 +11,9 @@ const downloadApk = async (req, res, next) => {
     if (err.code === 'NoSuchKey' || err.message?.includes('does not exist')) {
       return res.status(404).json({ success: false, message: 'APK not yet available. Check back soon!' });
     }
+    if (err.code === 'ECONNREFUSED' || err.name === 'AggregateError') {
+      return res.status(503).json({ success: false, message: 'APK download service is currently unavailable. Please try again later.' });
+    }
     next(err);
   }
 };

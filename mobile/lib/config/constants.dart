@@ -1,7 +1,7 @@
 class AppConstants {
   // Change this to your actual backend IP/domain when deploying
-  static const String baseUrl = 'http://10.0.2.2:5000/api'; // Android emulator → localhost
-  // static const String baseUrl = 'http://192.168.1.x:5000/api'; // Physical device on same WiFi
+  // static const String baseUrl = 'http://10.0.2.2:5000/api'; // Android emulator → localhost
+  static const String baseUrl = 'http://192.168.1.2:5000/api'; // Physical device on same WiFi
 
   static const String tokenKey = 'access_token';
   static const String refreshTokenKey = 'refresh_token';

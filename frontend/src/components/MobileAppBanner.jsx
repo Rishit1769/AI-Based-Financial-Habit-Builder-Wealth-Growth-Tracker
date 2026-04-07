@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Smartphone, X, Download } from 'lucide-react';
+import { Smartphone, X, Download, Clock } from 'lucide-react';
 
 export default function MobileAppBanner() {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [status, setStatus] = useState('idle'); // idle | loading | coming-soon
 
   useEffect(() => {
     const wasDismissed = sessionStorage.getItem('app_banner_dismissed');
@@ -19,10 +20,26 @@ export default function MobileAppBanner() {
     sessionStorage.setItem('app_banner_dismissed', '1');
   };
 
-  const downloadApk = () => {
-    const apiUrl = import.meta.env.VITE_API_URL || '/api';
-    window.open(`${apiUrl}/download/apk`, '_blank');
-    dismiss();
+  const downloadApk = async () => {
+    setStatus('loading');
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || '/api';
+      const res = await fetch(`${apiUrl}/download/apk`);
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'financial-habit-builder.apk';
+        a.click();
+        URL.revokeObjectURL(url);
+        dismiss();
+      } else {
+        setStatus('coming-soon');
+      }
+    } catch {
+      setStatus('coming-soon');
+    }
   };
 
   if (!visible || dismissed) return null;
@@ -43,16 +60,31 @@ export default function MobileAppBanner() {
           </div>
           <div className="flex-1 min-w-0 pr-4">
             <p className="text-sm font-semibold text-main">Get Our Mobile App</p>
-            <p className="text-xs text-sub mt-0.5">
-              Track habits, expenses & wealth on the go.
-            </p>
-            <button
-              onClick={downloadApk}
-              className="mt-3 flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium px-3.5 py-1.5 rounded-lg transition-colors"
-            >
-              <Download className="w-3 h-3" />
-              Download APK
-            </button>
+            {status === 'coming-soon' ? (
+              <>
+                <p className="text-xs text-sub mt-0.5">
+                  Mobile app is coming soon. Stay tuned!
+                </p>
+                <div className="mt-3 flex items-center gap-1.5 text-amber-500 text-xs font-medium">
+                  <Clock className="w-3 h-3" />
+                  Coming Soon
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-sub mt-0.5">
+                  Track habits, expenses & wealth on the go.
+                </p>
+                <button
+                  onClick={downloadApk}
+                  disabled={status === 'loading'}
+                  className="mt-3 flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-medium px-3.5 py-1.5 rounded-lg transition-colors"
+                >
+                  <Download className="w-3 h-3" />
+                  {status === 'loading' ? 'Checking...' : 'Download APK'}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
