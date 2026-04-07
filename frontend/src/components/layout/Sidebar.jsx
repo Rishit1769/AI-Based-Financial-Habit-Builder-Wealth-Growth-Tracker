@@ -30,27 +30,27 @@ export default function Sidebar({ open, onClose }) {
   return (
     <>
       {open && (
-        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden backdrop-blur-[1px]" onClick={onClose} />
+        <div className="fixed inset-0 z-40 lg:hidden" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={onClose} />
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-56 flex flex-col
-          border-r border-base transition-transform duration-200 ease-in-out
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 flex flex-col
+          border-r transition-transform duration-200 ease-in-out
           ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
-        style={{ backgroundColor: 'var(--surface)' }}
+        style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-14 px-4 border-b border-base flex-shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center flex-shrink-0">
-              <Wallet className="w-3.5 h-3.5 text-white" />
+        <div className="flex items-center justify-between h-16 px-4 flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl grad-brand flex items-center justify-center flex-shrink-0 shadow-[0_0_16px_rgba(99,102,241,0.4)]">
+              <Wallet className="w-4 h-4 text-white" />
             </div>
-            <span className="text-main font-semibold text-sm">FinTrack</span>
+            <div>
+              <span className="text-main font-bold text-sm tracking-tight">FinTrack</span>
+              <p className="text-muted" style={{ fontSize: '10px' }}>Wealth Manager</p>
+            </div>
           </div>
-          <button
-            onClick={onClose}
-            className="lg:hidden text-muted hover:text-main transition-colors"
-          >
+          <button onClick={onClose} className="lg:hidden text-muted hover:text-main transition-colors p-1 rounded-lg hover:bg-[var(--elevated)]">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -85,19 +85,20 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         {/* Footer */}
-        <div className="p-3 border-t border-base flex-shrink-0">
-          <div className="flex items-center gap-2.5 px-2 py-2 mb-1">
-            <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-xs flex-shrink-0">
+        <div className="p-3 flex-shrink-0" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="flex items-center gap-3 px-2 py-2.5 mb-1 rounded-xl" style={{ background: 'var(--elevated)' }}>
+            <div className="w-8 h-8 rounded-full grad-brand flex items-center justify-center text-white font-bold text-xs flex-shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.3)]">
               {user?.name?.charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-main text-xs font-medium truncate">{user?.name}</p>
-              <p className="text-muted text-xs truncate">{user?.email}</p>
+              <p className="text-main text-xs font-semibold truncate">{user?.name}</p>
+              <p className="text-muted truncate" style={{ fontSize: '10px' }}>{user?.email}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="nav-link w-full text-rose-500 hover:text-rose-400 hover:!bg-rose-500/10"
+            className="nav-link w-full mt-1"
+            style={{ color: 'var(--danger)' }}
           >
             <LogOut className="w-3.5 h-3.5 flex-shrink-0" />
             Sign out

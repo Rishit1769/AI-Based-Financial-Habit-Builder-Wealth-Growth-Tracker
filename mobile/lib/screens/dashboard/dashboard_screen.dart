@@ -51,17 +51,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Good ${_greeting()},', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+                            Text('Good ${_greeting()},', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13, fontWeight: FontWeight.w500)),
                             Text(auth.user?.name.split(' ').first ?? 'User',
-                              style: const TextStyle(color: AppTheme.textPrimary, fontSize: 20, fontWeight: FontWeight.bold)),
+                              style: const TextStyle(color: AppTheme.textPrimary, fontSize: 22, fontWeight: FontWeight.w800, letterSpacing: -0.5)),
                           ],
                         ),
                       ),
-                      CircleAvatar(
-                        backgroundColor: AppTheme.primary.withOpacity(0.2),
-                        child: Text(
-                          auth.user?.name.substring(0, 1).toUpperCase() ?? '?',
-                          style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold),
+                      Container(
+                        width: 42, height: 42,
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.primaryGradient,
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: AppTheme.shadowAccent(AppTheme.primary),
+                        ),
+                        child: Center(
+                          child: Text(
+                            auth.user?.name.substring(0, 1).toUpperCase() ?? '?',
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16),
+                          ),
                         ),
                       ),
                     ],
@@ -73,22 +80,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ] else ...[
                     // Net worth card
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
                       decoration: BoxDecoration(
                         gradient: AppTheme.primaryGradient,
                         borderRadius: BorderRadius.circular(20),
+                        boxShadow: AppTheme.shadowAccent(AppTheme.primary),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Net Worth', style: TextStyle(color: Colors.white70, fontSize: 13)),
-                          const SizedBox(height: 6),
-                          Text(_fmt(d.netWorth), style: const TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold)),
+                          Row(
+                            children: [
+                              const Icon(Icons.account_balance_wallet_rounded, color: Colors.white60, size: 14),
+                              const SizedBox(width: 6),
+                              const Text('Net Worth', style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.5)),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(_fmt(d.netWorth), style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900, letterSpacing: -1)),
+                          const SizedBox(height: 14),
+                          Container(height: 1, color: Colors.white.withOpacity(0.15)),
                           const SizedBox(height: 12),
                           Row(
                             children: [
                               _MiniStat(label: 'Savings', value: _fmt(d.totalSavings), icon: Icons.savings_rounded),
-                              const SizedBox(width: 20),
+                              const SizedBox(width: 24),
                               _MiniStat(label: 'Invested', value: _fmt(d.totalInvestments), icon: Icons.show_chart_rounded),
                             ],
                           ),

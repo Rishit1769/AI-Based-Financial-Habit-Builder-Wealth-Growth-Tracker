@@ -1,31 +1,34 @@
-const iconColors = {
-  indigo:  { bg: 'bg-indigo-500/10',  text: 'text-indigo-500' },
-  emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-500' },
-  rose:    { bg: 'bg-rose-500/10',    text: 'text-rose-500' },
-  amber:   { bg: 'bg-amber-500/10',   text: 'text-amber-500' },
-  purple:  { bg: 'bg-purple-500/10',  text: 'text-purple-500' },
-  blue:    { bg: 'bg-blue-500/10',    text: 'text-blue-500' },
+const colorMap = {
+  indigo:  { bg: 'rgba(99,102,241,0.12)',  text: '#818cf8', glow: 'rgba(99,102,241,0.25)',  grad: 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(99,102,241,0.02))' },
+  emerald: { bg: 'rgba(16,185,129,0.12)',  text: '#34d399', glow: 'rgba(16,185,129,0.25)',  grad: 'linear-gradient(135deg,rgba(16,185,129,0.08),rgba(16,185,129,0.02))' },
+  rose:    { bg: 'rgba(244,63,94,0.12)',   text: '#fb7185', glow: 'rgba(244,63,94,0.25)',   grad: 'linear-gradient(135deg,rgba(244,63,94,0.08),rgba(244,63,94,0.02))' },
+  amber:   { bg: 'rgba(245,158,11,0.12)',  text: '#fbbf24', glow: 'rgba(245,158,11,0.25)',  grad: 'linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.02))' },
+  purple:  { bg: 'rgba(139,92,246,0.12)',  text: '#a78bfa', glow: 'rgba(139,92,246,0.25)',  grad: 'linear-gradient(135deg,rgba(139,92,246,0.08),rgba(139,92,246,0.02))' },
+  blue:    { bg: 'rgba(59,130,246,0.12)',  text: '#60a5fa', glow: 'rgba(59,130,246,0.25)',  grad: 'linear-gradient(135deg,rgba(59,130,246,0.08),rgba(59,130,246,0.02))' },
 };
 
 export default function StatCard({ title, value, icon: Icon, color = 'indigo', change, prefix = '' }) {
-  const ic = iconColors[color] || iconColors.indigo;
+  const c = colorMap[color] || colorMap.indigo;
   return (
-    <div className="card p-5">
+    <div className="card p-5 hover:translate-y-[-1px]" style={{ background: c.grad, borderLeft: `2px solid ${c.bg}` }}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-sub text-xs font-medium tracking-wide truncate mb-1">{title}</p>
-          <p className="text-main text-xl font-semibold tracking-tight truncate">
+          <p className="text-sub text-xs font-semibold tracking-wide truncate mb-2 uppercase" style={{ letterSpacing: '0.04em' }}>{title}</p>
+          <p className="text-main text-2xl font-black tracking-tight truncate">
             {prefix}{typeof value === 'number' ? value.toLocaleString('en-IN') : value}
           </p>
           {change !== undefined && (
-            <p className={`text-xs mt-1 font-medium ${change >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+            <div className={`inline-flex items-center gap-1 mt-2 text-xs font-semibold px-1.5 py-0.5 rounded-md ${
+              change >= 0 ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'
+            }`}>
               {change >= 0 ? '↑' : '↓'} {Math.abs(change)}%
-              <span className="text-muted font-normal"> vs last month</span>
-            </p>
+              <span className="font-normal opacity-70">vs last month</span>
+            </div>
           )}
         </div>
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${ic.bg}`}>
-          <Icon className={`w-4.5 h-4.5 ${ic.text}`} />
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+          style={{ background: c.bg, boxShadow: `0 0 16px ${c.glow}` }}>
+          <Icon className="w-5 h-5" style={{ color: c.text }} />
         </div>
       </div>
     </div>

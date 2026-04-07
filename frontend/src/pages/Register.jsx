@@ -102,28 +102,39 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-10" style={{ backgroundColor: 'var(--bg)' }}>
-      <div className="w-full max-w-sm">
+    <div className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden" style={{ backgroundColor: 'var(--bg)' }}>
+      {/* Background orbs */}
+      <div className="absolute w-96 h-96 rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.6) 0%, transparent 70%)', top: '-80px', right: '-60px', filter: 'blur(70px)' }} />
+      <div className="absolute w-80 h-80 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.5) 0%, transparent 70%)', bottom: '-60px', left: '-80px', filter: 'blur(60px)' }} />
+
+      <div className="w-full max-w-sm relative z-10">
+        {/* Brand header */}
         <div className="text-center mb-7">
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-600 mb-4">
-            <Wallet className="w-5 h-5 text-white" />
-          </div>
-          <h1 className="text-xl font-semibold text-main">
+          <Link to="/" className="inline-flex items-center gap-3 mb-5 group">
+            <div className="w-10 h-10 rounded-2xl grad-brand flex items-center justify-center shadow-[0_0_24px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_36px_rgba(99,102,241,0.7)] transition-all">
+              <Wallet className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-main font-bold text-lg tracking-tight">FinTrack</span>
+          </Link>
+          <h1 className="text-2xl font-black text-main tracking-tight">
             {step === 1 ? 'Create an account' : 'Verify your email'}
           </h1>
           <p className="text-sub mt-1 text-sm">
-            {step === 1 ? 'Start your financial journey' : `We sent a 6-digit code to ${form.email}`}
+            {step === 1 ? 'Start your financial journey today' : `We sent a code to ${form.email}`}
           </p>
         </div>
 
-        {/* Step indicator */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <div className={`h-1.5 w-16 rounded-full transition-colors ${step >= 1 ? 'bg-indigo-600' : 'bg-elevated'}`} />
-          <div className={`h-1.5 w-16 rounded-full transition-colors ${step >= 2 ? 'bg-indigo-600' : 'bg-elevated'}`} />
+        {/* Step progress bar */}
+        <div className="flex items-center gap-2 mb-6">
+          <div className="flex-1 h-1 rounded-full transition-all" style={{ background: step >= 1 ? 'linear-gradient(90deg,#6366f1,#8b5cf6)' : 'var(--elevated)', boxShadow: step >= 1 ? '0 0 8px rgba(99,102,241,0.4)' : 'none' }} />
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all" style={{ background: step >= 1 ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' : 'var(--elevated)', color: step >= 1 ? 'white' : 'var(--text-muted)' }}>1</div>
+          <div className="flex-1 h-1 rounded-full transition-all" style={{ background: step >= 2 ? 'linear-gradient(90deg,#6366f1,#8b5cf6)' : 'var(--elevated)', boxShadow: step >= 2 ? '0 0 8px rgba(99,102,241,0.4)' : 'none' }} />
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all" style={{ background: step >= 2 ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' : 'var(--elevated)', color: step >= 2 ? 'white' : 'var(--text-muted)' }}>2</div>
+          <div className="flex-1 h-1 rounded-full" style={{ background: 'var(--elevated)' }} />
         </div>
 
         {step === 1 ? (
-          <form onSubmit={handleSendOtp} className="card p-6 space-y-4">
+          <form onSubmit={handleSendOtp} className="card-glass rounded-2xl p-7 space-y-4" style={{ border: '1px solid var(--border)' }}>
             <Input label="Full Name" icon={User} placeholder="John Doe" value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} error={errors.name} required />
             <Input label="Email" type="email" icon={Mail} placeholder="you@example.com" value={form.email}
@@ -139,12 +150,12 @@ export default function Register() {
             </Button>
           </form>
         ) : (
-          <form onSubmit={handleRegister} className="card p-6 space-y-6">
+          <form onSubmit={handleRegister} className="card-glass rounded-2xl p-7 space-y-6" style={{ border: '1px solid var(--border)' }}>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-500/10 mb-3">
-                <ShieldCheck className="w-6 h-6 text-indigo-400" />
+              <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.12)', boxShadow: '0 0 20px rgba(99,102,241,0.2)' }}>
+                <ShieldCheck className="w-7 h-7" style={{ color: '#818cf8' }} />
               </div>
-              <p className="text-xs text-muted">Enter the 6-digit code. It expires in 10 minutes.</p>
+              <p className="text-xs text-muted">Enter the 6-digit code sent to your email. Expires in 10 minutes.</p>
             </div>
 
             <div className="flex justify-center gap-2" onPaste={handleOtpPaste}>
@@ -158,7 +169,13 @@ export default function Register() {
                   value={digit}
                   onChange={(e) => handleOtpChange(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                  className="w-11 h-12 text-center text-lg font-bold rounded-lg border border-base bg-elevated text-main focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                  className="w-11 h-13 text-center text-xl font-bold rounded-xl text-main focus:outline-none transition-all"
+                  style={{
+                    background: digit ? 'rgba(99,102,241,0.12)' : 'var(--elevated)',
+                    border: digit ? '1.5px solid rgba(99,102,241,0.5)' : '1.5px solid var(--border)',
+                    boxShadow: digit ? '0 0 10px rgba(99,102,241,0.2)' : 'none',
+                    height: '52px'
+                  }}
                 />
               ))}
             </div>
@@ -170,23 +187,23 @@ export default function Register() {
             <div className="flex items-center justify-between text-sm">
               <button type="button" onClick={() => setStep(1)}
                 className="flex items-center gap-1 text-muted hover:text-sub transition-colors">
-                <ArrowLeft className="w-3.5 h-3.5" /> Change details
+                <ArrowLeft className="w-3.5 h-3.5" /> Edit details
               </button>
               <button type="button" onClick={handleResend} disabled={resending}
-                className="text-indigo-400 hover:text-indigo-300 disabled:opacity-50 transition-colors">
+                className="font-semibold disabled:opacity-50 transition-colors hover:underline" style={{ color: 'var(--accent-txt)' }}>
                 {resending ? 'Sending…' : 'Resend code'}
               </button>
             </div>
           </form>
         )}
 
-        <p className="text-center text-sm text-sub mt-5">
-          Already have an account?{' '}
-          <Link to="/login" className="text-accent hover:underline font-medium">Sign in</Link>
-        </p>
-        <p className="text-center mt-2">
-          <Link to="/" className="text-xs text-muted hover:text-sub">← Back to home</Link>
-        </p>
+        <div className="mt-5 text-center space-y-2">
+          <p className="text-sm text-sub">
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold hover:underline" style={{ color: 'var(--accent-txt)' }}>Sign in</Link>
+          </p>
+          <Link to="/" className="text-xs text-muted hover:text-sub transition-colors block">← Back to home</Link>
+        </div>
       </div>
     </div>
   );

@@ -42,45 +42,71 @@ class _MainScreenState extends State<MainScreen> {
         index: _currentIndex,
         children: _tabs.map((t) => t.screen).toList(),
       ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: AppTheme.surface,
-          border: Border(top: BorderSide(color: AppTheme.border)),
-        ),
-        child: SafeArea(
-          child: SizedBox(
-            height: 60,
-            child: Row(
-              children: _tabs.asMap().entries.map((e) {
-                final i = e.key;
-                final t = e.value;
-                final selected = _currentIndex == i;
-                return Expanded(
-                  child: InkWell(
-                    onTap: () => setState(() => _currentIndex = i),
+      bottomNavigationBar: _buildBottomNav(),
+    );
+  }
+
+  Widget _buildBottomNav() {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        border: Border(top: BorderSide(color: AppTheme.border, width: 1)),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 20, offset: const Offset(0, -4)),
+        ],
+      ),
+      child: SafeArea(
+        child: SizedBox(
+          height: 62,
+          child: Row(
+            children: _tabs.asMap().entries.map((e) {
+              final i = e.key;
+              final t = e.value;
+              final selected = _currentIndex == i;
+              return Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _currentIndex = i),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOutCubic,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          selected ? t.activeIcon : t.icon,
-                          color: selected ? AppTheme.primary : AppTheme.textSecondary,
-                          size: 22,
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: selected ? 40 : 28,
+                          height: 28,
+                          decoration: selected
+                              ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: AppTheme.primaryGradient,
+                                  boxShadow: AppTheme.shadowAccent(AppTheme.primary),
+                                )
+                              : null,
+                          child: Icon(
+                            selected ? t.activeIcon : t.icon,
+                            color: selected ? Colors.white : AppTheme.textSecondary,
+                            size: 18,
+                          ),
                         ),
-                        const SizedBox(height: 3),
-                        Text(
-                          t.label,
+                        const SizedBox(height: 4),
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 200),
                           style: TextStyle(
                             fontSize: 9,
                             fontWeight: selected ? FontWeight.w700 : FontWeight.normal,
-                            color: selected ? AppTheme.primary : AppTheme.textSecondary,
+                            color: selected ? AppTheme.primary : AppTheme.textMuted,
                           ),
+                          child: Text(t.label),
                         ),
                       ],
                     ),
                   ),
-                );
-              }).toList(),
-            ),
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),

@@ -2,19 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Core colors
-  static const Color background = Color(0xFF0F172A);
-  static const Color surface = Color(0xFF1E293B);
-  static const Color surfaceAlt = Color(0xFF334155);
-  static const Color primary = Color(0xFF6366F1);
+  // Core colors — deep navy palette matching web design
+  static const Color background  = Color(0xFF080B12);
+  static const Color surface     = Color(0xFF0E1420);
+  static const Color surfaceAlt  = Color(0xFF141C2E);
+  static const Color elevated    = Color(0xFF1A2438);
+  static const Color primary     = Color(0xFF6366F1);
   static const Color primaryDark = Color(0xFF4F46E5);
-  static const Color secondary = Color(0xFF8B5CF6);
-  static const Color success = Color(0xFF10B981);
-  static const Color warning = Color(0xFFF59E0B);
-  static const Color error = Color(0xFFF43F5E);
-  static const Color textPrimary = Color(0xFFF8FAFC);
-  static const Color textSecondary = Color(0xFF94A3B8);
-  static const Color border = Color(0xFF334155);
+  static const Color secondary   = Color(0xFF8B5CF6);
+  static const Color success     = Color(0xFF10B981);
+  static const Color warning     = Color(0xFFF59E0B);
+  static const Color error       = Color(0xFFF43F5E);
+  static const Color textPrimary = Color(0xFFF0F4FF);
+  static const Color textSecondary = Color(0xFF8899B8);
+  static const Color textMuted   = Color(0xFF4D6082);
+  static const Color border      = Color(0x0FFFFFFF);  // ~6% white
+  static const Color borderMid   = Color(0x1AFFFFFF);  // ~10% white
+
+  // Shadow helpers
+  static List<BoxShadow> get shadowSm => [
+    BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 4, offset: const Offset(0, 2)),
+  ];
+  static List<BoxShadow> get shadowMd => [
+    BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 16, offset: const Offset(0, 4)),
+    BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 6, offset: const Offset(0, 2)),
+  ];
+  static List<BoxShadow> shadowAccent(Color color) => [
+    BoxShadow(color: color.withOpacity(0.35), blurRadius: 16, offset: const Offset(0, 4)),
+  ];
 
   static ThemeData get dark {
     return ThemeData(
@@ -29,6 +44,7 @@ class AppTheme {
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: textPrimary,
+        surfaceContainer: surfaceAlt,
       ),
       textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
         displayLarge: GoogleFonts.inter(color: textPrimary, fontWeight: FontWeight.bold),
@@ -48,6 +64,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: surface,
         elevation: 0,
+        shadowColor: Colors.black54,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: const BorderSide(color: border, width: 1),
@@ -85,7 +102,9 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: surface,
-        indicatorColor: primary.withOpacity(0.2),
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        indicatorColor: primary.withOpacity(0.15),
+        indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return GoogleFonts.inter(color: primary, fontSize: 11, fontWeight: FontWeight.w600);
@@ -225,6 +244,18 @@ class AppTheme {
 
   static const LinearGradient expenseGradient = LinearGradient(
     colors: [Color(0xFFF43F5E), Color(0xFFE11D48)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient savingsGradient = LinearGradient(
+    colors: [Color(0xFF10B981), Color(0xFF3B82F6)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient warningGradient = LinearGradient(
+    colors: [Color(0xFFF59E0B), Color(0xFFEF4444)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
