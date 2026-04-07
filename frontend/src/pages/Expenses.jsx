@@ -90,8 +90,8 @@ export default function Expenses() {
             <button onClick={() => setFilterCat('all')}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${filterCat === 'all' ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-main'}`}>All</button>
             {EXPENSE_CATEGORIES.map((c) => (
-              <button key={c} onClick={() => setFilterCat(c)}
-                className={`px-3 py-1 rounded-full text-xs font-medium capitalize transition-colors ${filterCat === c ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-main'}`}>{c}</button>
+              <button key={c.value} onClick={() => setFilterCat(c.value)}
+                className={`px-3 py-1 rounded-full text-xs font-medium capitalize transition-colors ${filterCat === c.value ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-main'}`}>{c.label}</button>
             ))}
           </div>
           {loading ? <LoadingSkeleton rows={5} /> : filtered.length === 0 ? (
@@ -137,7 +137,7 @@ export default function Expenses() {
             <label className="text-xs font-medium text-sub block mb-1">Category</label>
             <select value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
               className="field capitalize">
-              {EXPENSE_CATEGORIES.map((c) => <option key={c} value={c} className="capitalize">{c}</option>)}
+              {EXPENSE_CATEGORIES.map((c) => <option key={c.value} value={c.value} className="capitalize">{c.label}</option>)}
             </select>
           </div>
           <Input label="Date" type="date" value={form.date}

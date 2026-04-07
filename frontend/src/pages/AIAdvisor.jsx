@@ -44,8 +44,8 @@ export default function AIAdvisor() {
       .then((res) => {
         const history = res.data.data || [];
         const flat = history.flatMap((c) => [
-          { role: 'user', content: c.user_message },
-          { role: 'ai', content: c.ai_response },
+          { role: 'user', content: c.message },
+          { role: 'ai', content: c.response },
         ]);
         setMessages(flat);
       })

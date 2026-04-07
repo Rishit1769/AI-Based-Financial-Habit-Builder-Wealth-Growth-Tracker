@@ -47,7 +47,7 @@ export default function Habits() {
   const load = async () => {
     try {
       const res = await getStats();
-      setHabits(res.data.data);
+      setHabits(res.data.data.habits || []);
     } catch { toast.error('Failed to load habits'); }
     finally { setLoading(false); }
   };

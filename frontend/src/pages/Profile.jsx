@@ -5,7 +5,7 @@ import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import toast from 'react-hot-toast';
-import { User, Lock, DollarSign, Camera } from 'lucide-react';
+import { User, Lock, IndianRupee, Camera } from 'lucide-react';
 
 export default function Profile() {
   const { user, login } = useAuth();
@@ -101,7 +101,7 @@ export default function Profile() {
           <Input label="Monthly Income Target (₹)" type="number" placeholder="0.00" min="0" step="0.01"
             value={profileForm.monthly_income_target}
             onChange={(e) => setProfileForm((f) => ({ ...f, monthly_income_target: e.target.value }))}
-            icon={DollarSign} />
+            icon={IndianRupee} />
           <div>
             <label className="text-xs font-medium text-sub block mb-1">Currency</label>
             <select value={profileForm.currency} onChange={(e) => setProfileForm((f) => ({ ...f, currency: e.target.value }))}

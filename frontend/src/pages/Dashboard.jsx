@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TrendingUp, TrendingDown, DollarSign, PiggyBank, LineChart, Target } from 'lucide-react';
+import { TrendingUp, TrendingDown, IndianRupee, PiggyBank, LineChart, Target } from 'lucide-react';
 import StatCard from '../components/common/StatCard';
 import Card from '../components/common/Card';
 import NetWorthChart from '../components/charts/NetWorthChart';
@@ -58,7 +58,7 @@ export default function Dashboard() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Net Worth" value={formatCurrency(ov.netWorth)} icon={DollarSign} color="indigo" />
+        <StatCard title="Net Worth" value={formatCurrency(ov.netWorth)} icon={IndianRupee} color="indigo" />
         <StatCard title="Monthly Income" value={formatCurrency(ov.monthlyIncome)} icon={TrendingUp} color="emerald" />
         <StatCard title="Monthly Expenses" value={formatCurrency(ov.monthlyExpense)} icon={TrendingDown} color="rose" />
         <StatCard title="Monthly Savings" value={formatCurrency(ov.monthlySavings)} icon={PiggyBank}
