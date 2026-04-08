@@ -2,20 +2,20 @@ export default function Button({
   children, onClick, type = 'button', variant = 'primary', size = 'md',
   loading = false, disabled = false, className = '', icon: Icon,
 }) {
-  const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-40 disabled:cursor-not-allowed select-none';
+  const base = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-40 disabled:cursor-not-allowed select-none tracking-tight';
 
   const variants = {
-    primary:   'text-white shadow-[0_0_18px_rgba(99,102,241,0.35)] hover:shadow-[0_0_28px_rgba(99,102,241,0.55)] active:scale-[0.98]',
-    secondary: 'border text-main hover:bg-[var(--elevated)] focus-visible:ring-indigo-400',
-    danger:    'bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white shadow-[0_0_14px_rgba(244,63,94,0.3)]',
-    ghost:     'text-sub hover:text-main hover:bg-[var(--elevated)] focus-visible:ring-indigo-400',
-    success:   'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_14px_rgba(16,185,129,0.3)]',
+    primary:   'text-white hover:opacity-90 active:scale-[0.98]',
+    secondary: 'border text-main hover:bg-[var(--elevated)]',
+    danger:    'bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white',
+    ghost:     'text-sub hover:text-main hover:bg-[var(--elevated)]',
+    success:   'bg-emerald-600 hover:bg-emerald-500 text-white',
   };
 
   const sizes = {
     sm: 'px-3 py-1.5 text-xs',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-5 py-2.5 text-sm',
+    md: 'px-3.5 py-2 text-sm',
+    lg: 'px-4 py-2.5 text-sm',
   };
 
   const primaryStyle = variant === 'primary'

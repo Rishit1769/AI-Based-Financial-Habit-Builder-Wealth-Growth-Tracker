@@ -2,7 +2,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard, TrendingUp, CreditCard, Target, PiggyBank,
-  LineChart, Bot, FileText, User, ShieldCheck, X, Wallet, Bell, LogOut
+  LineChart, Bot, FileText, User, ShieldCheck, X, Bell, LogOut,
+  Wallet
 } from 'lucide-react';
 
 const navItems = [
@@ -30,33 +31,44 @@ export default function Sidebar({ open, onClose }) {
   return (
     <>
       {open && (
-        <div className="fixed inset-0 z-40 lg:hidden" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={onClose} />
+        <div
+          className="fixed inset-0 z-40 lg:hidden"
+          style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(2px)' }}
+          onClick={onClose}
+        />
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 flex flex-col
+        className={`fixed lg:static inset-y-0 left-0 z-50 flex flex-col
           border-r transition-transform duration-200 ease-in-out
           ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
-        style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+        style={{
+          width: '224px',
+          backgroundColor: 'var(--surface)',
+          borderColor: 'var(--border)',
+        }}
       >
-        {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-4 flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl grad-brand flex items-center justify-center flex-shrink-0 shadow-[0_0_16px_rgba(99,102,241,0.4)]">
-              <Wallet className="w-4 h-4 text-white" />
+        {/* Brand */}
+        <div
+          className="flex items-center justify-between h-14 px-4 flex-shrink-0"
+          style={{ borderBottom: '1px solid var(--border)' }}
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg grad-brand flex items-center justify-center flex-shrink-0">
+              <Wallet className="w-3.5 h-3.5 text-white" />
             </div>
-            <div>
-              <span className="text-main font-bold text-sm tracking-tight">FinTrack</span>
-              <p className="text-muted" style={{ fontSize: '10px' }}>Wealth Manager</p>
-            </div>
+            <span className="font-semibold text-sm text-main tracking-tight">FinTrack</span>
           </div>
-          <button onClick={onClose} className="lg:hidden text-muted hover:text-main transition-colors p-1 rounded-lg hover:bg-[var(--elevated)]">
-            <X className="w-4 h-4" />
+          <button
+            onClick={onClose}
+            className="lg:hidden text-muted hover:text-main transition-colors p-1.5 rounded-md hover:bg-[var(--elevated)]"
+          >
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-2.5 py-3 space-y-0.5 overflow-y-auto">
           {navItems.map(({ to, icon: Icon, label }) => (
             <NavLink
               key={to}
@@ -64,43 +76,48 @@ export default function Sidebar({ open, onClose }) {
               onClick={onClose}
               className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             >
-              <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+              <Icon className="w-3.5 h-3.5 flex-shrink-0 opacity-70" />
               {label}
             </NavLink>
           ))}
 
           {user?.role === 'admin' && (
             <>
-              <div className="my-2 border-t border-base" />
+              <div className="my-3 divider mx-1" />
               <NavLink
                 to="/admin"
                 onClick={onClose}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
-                <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
+                <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 opacity-70" />
                 Admin Panel
               </NavLink>
             </>
           )}
         </nav>
 
-        {/* Footer */}
-        <div className="p-3 flex-shrink-0" style={{ borderTop: '1px solid var(--border)' }}>
-          <div className="flex items-center gap-3 px-2 py-2.5 mb-1 rounded-xl" style={{ background: 'var(--elevated)' }}>
-            <div className="w-8 h-8 rounded-full grad-brand flex items-center justify-center text-white font-bold text-xs flex-shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.3)]">
+        {/* User footer */}
+        <div className="px-2.5 py-3 flex-shrink-0" style={{ borderTop: '1px solid var(--border)' }}>
+          <div
+            className="flex items-center gap-2.5 px-2 py-2 mb-1 rounded-lg"
+            style={{ background: 'var(--elevated)' }}
+          >
+            <div
+              className="w-7 h-7 rounded-md grad-brand flex items-center justify-center text-white font-semibold text-xs flex-shrink-0"
+            >
               {user?.name?.charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-main text-xs font-semibold truncate">{user?.name}</p>
+              <p className="text-main text-xs font-medium truncate">{user?.name}</p>
               <p className="text-muted truncate" style={{ fontSize: '10px' }}>{user?.email}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="nav-link w-full mt-1"
+            className="nav-link w-full mt-0.5"
             style={{ color: 'var(--danger)' }}
           >
-            <LogOut className="w-3.5 h-3.5 flex-shrink-0" />
+            <LogOut className="w-3.5 h-3.5 flex-shrink-0 opacity-80" />
             Sign out
           </button>
         </div>

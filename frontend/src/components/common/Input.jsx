@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 const Input = forwardRef(({ label, error, icon: Icon, className = '', ...props }, ref) => (
   <div className={`flex flex-col gap-1.5 ${className}`}>
     {label && (
-      <label className="text-xs font-semibold tracking-wide" style={{ color: 'var(--text-2)', letterSpacing: '0.02em' }}>{label}</label>
+      <label className="text-xs font-medium" style={{ color: 'var(--text-2)' }}>{label}</label>
     )}
     <div className="relative">
       {Icon && (
@@ -17,7 +17,7 @@ const Input = forwardRef(({ label, error, icon: Icon, className = '', ...props }
         {...props}
       />
     </div>
-    {error && <p className="text-xs font-medium mt-0.5" style={{ color: 'var(--danger)' }}>{error}</p>}
+    {error && <p className="text-xs mt-0.5" style={{ color: 'var(--danger)' }}>{error}</p>}
   </div>
 ));
 

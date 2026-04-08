@@ -159,6 +159,25 @@ CREATE TABLE IF NOT EXISTS notifications (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- ─── User Feedback / Issues ─────────────────────────────────
+CREATE TABLE IF NOT EXISTS user_feedback (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID REFERENCES users(id) ON DELETE SET NULL,
+  user_name   VARCHAR(100),
+  user_email  VARCHAR(255),
+  subject     VARCHAR(255) NOT NULL,
+  message     TEXT NOT NULL,
+  type        VARCHAR(20) NOT NULL DEFAULT 'feedback'
+              CHECK (type IN ('feedback','bug','feature','complaint')),
+  status      VARCHAR(20) NOT NULL DEFAULT 'open'
+              CHECK (status IN ('open','in_review','resolved','closed')),
+  admin_notes TEXT,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_feedback_status ON user_feedback(status, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_feedback_user   ON user_feedback(user_id);
+
 -- ─── Indexes ────────────────────────────────────────────────
 CREATE INDEX IF NOT EXISTS idx_income_user_date      ON income_records(user_id, date DESC);
 CREATE INDEX IF NOT EXISTS idx_expense_user_date     ON expense_records(user_id, date DESC);

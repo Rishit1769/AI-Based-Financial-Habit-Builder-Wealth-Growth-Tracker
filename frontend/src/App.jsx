@@ -29,9 +29,17 @@ export default function App() {
           <Toaster
             position="top-right"
             toastOptions={{
-              style: { background: '#1e293b', color: '#f1f5f9', border: '1px solid #334155' },
-              success: { iconTheme: { primary: '#10b981', secondary: '#f1f5f9' } },
-              error: { iconTheme: { primary: '#ef4444', secondary: '#f1f5f9' } },
+              style: {
+                background: 'var(--surface)',
+                color: 'var(--text)',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+                fontSize: '13px',
+                padding: '10px 14px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+              },
+              success: { iconTheme: { primary: '#10b981', secondary: '#fff' } },
+              error: { iconTheme: { primary: '#f43f5e', secondary: '#fff' } },
             }}
           />
           <Routes>
