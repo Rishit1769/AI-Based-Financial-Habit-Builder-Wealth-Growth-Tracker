@@ -1,14 +1,14 @@
 const colorMap = {
-  indigo:  { bg: 'rgba(99,102,241,0.10)',  text: '#818cf8' },
-  emerald: { bg: 'rgba(16,185,129,0.10)',  text: '#34d399' },
+  indigo:  { bg: 'rgba(74,222,128,0.10)',  text: '#4ade80' },
+  emerald: { bg: 'rgba(74,222,128,0.10)',  text: '#4ade80' },
   rose:    { bg: 'rgba(244,63,94,0.10)',   text: '#fb7185' },
   amber:   { bg: 'rgba(245,158,11,0.10)',  text: '#fbbf24' },
   purple:  { bg: 'rgba(139,92,246,0.10)',  text: '#a78bfa' },
   blue:    { bg: 'rgba(59,130,246,0.10)',  text: '#60a5fa' },
 };
 
-export default function StatCard({ title, value, icon: Icon, color = 'indigo', change, prefix = '' }) {
-  const c = colorMap[color] || colorMap.indigo;
+export default function StatCard({ title, value, icon: Icon, color = 'emerald', change, prefix = '' }) {
+  const c = colorMap[color] || colorMap.emerald;
   return (
     <div className="card p-4">
       <div className="flex items-start justify-between gap-3">

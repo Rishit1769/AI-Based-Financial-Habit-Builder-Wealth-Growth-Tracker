@@ -1,75 +1,75 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   Design tokens — professional, sleek, minimal
-   Inspired by Vercel / Linear design language
+   Design tokens — Atelier-inspired wealth management aesthetic
+   Deep charcoal + neon lime green accent system
 ───────────────────────────────────────────────────────────── */
 :root, [data-theme="dark"] {
-  /* backgrounds — deep zinc */
-  --bg:           #09090b;
-  --surface:      #111115;
-  --elevated:     #1c1c21;
-  --hover:        #26262d;
-  --glass:        rgba(17,17,21,0.85);
+  /* backgrounds — near-black charcoal */
+  --bg:           #0a0a0a;
+  --surface:      #111111;
+  --elevated:     #1a1a1a;
+  --hover:        #222222;
+  --glass:        rgba(17,17,17,0.85);
 
   /* text */
-  --text:         #fafafa;
-  --text-2:       #a1a1aa;
-  --text-3:       #52525b;
+  --text:         #f5f5f5;
+  --text-2:       #888888;
+  --text-3:       #444444;
 
-  /* borders — very subtle */
-  --border:       rgba(255,255,255,0.07);
-  --border-2:     rgba(255,255,255,0.12);
+  /* borders — very subtle warm */
+  --border:       rgba(255,255,255,0.06);
+  --border-2:     rgba(255,255,255,0.11);
 
-  /* accent — indigo brand */
-  --accent:       #6366f1;
-  --accent-hover: #4f46e5;
-  --accent-dim:   rgba(99,102,241,0.10);
-  --accent-glow:  rgba(99,102,241,0.20);
-  --accent-txt:   #818cf8;
+  /* accent — neon lime green (the Atelier signature) */
+  --accent:       #4ade80;
+  --accent-hover: #22c55e;
+  --accent-dim:   rgba(74,222,128,0.08);
+  --accent-glow:  rgba(74,222,128,0.18);
+  --accent-txt:   #4ade80;
 
   /* semantic */
-  --success:      #10b981;
+  --success:      #4ade80;
   --warning:      #f59e0b;
   --danger:       #f43f5e;
-  --info:         #3b82f6;
+  --info:         #60a5fa;
 
-  /* shadows — more refined */
-  --shadow-sm:    0 1px 2px rgba(0,0,0,0.5);
-  --shadow-md:    0 4px 12px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-lg:    0 16px 48px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.3);
-  --shadow-accent:0 0 20px rgba(99,102,241,0.25);
+  /* shadows */
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.6);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
+  --shadow-lg:    0 20px 60px rgba(0,0,0,0.7), 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-accent:0 0 24px rgba(74,222,128,0.20);
 }
 
 [data-theme="light"] {
-  --bg:           #f8f8f9;
+  --bg:           #f4f4f2;
   --surface:      #ffffff;
-  --elevated:     #f1f1f3;
-  --hover:        #e8e8ec;
-  --glass:        rgba(255,255,255,0.9);
+  --elevated:     #eeeeec;
+  --hover:        #e5e5e3;
+  --glass:        rgba(255,255,255,0.92);
 
-  --text:         #09090b;
-  --text-2:       #52525b;
-  --text-3:       #a1a1aa;
+  --text:         #0a0a0a;
+  --text-2:       #555555;
+  --text-3:       #aaaaaa;
 
   --border:       rgba(0,0,0,0.07);
   --border-2:     rgba(0,0,0,0.12);
 
-  --accent:       #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-dim:   rgba(79,70,229,0.08);
-  --accent-glow:  rgba(79,70,229,0.15);
-  --accent-txt:   #4f46e5;
+  --accent:       #16a34a;
+  --accent-hover: #15803d;
+  --accent-dim:   rgba(22,163,74,0.08);
+  --accent-glow:  rgba(22,163,74,0.15);
+  --accent-txt:   #16a34a;
 
-  --success:      #059669;
+  --success:      #16a34a;
   --warning:      #d97706;
   --danger:       #e11d48;
   --info:         #2563eb;
 
-  --shadow-sm:    0 1px 2px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
   --shadow-md:    0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
   --shadow-lg:    0 16px 48px rgba(0,0,0,0.1);
-  --shadow-accent:0 0 20px rgba(79,70,229,0.15);
+  --shadow-accent:0 0 20px rgba(22,163,74,0.15);
 }
 
 @layer base {
@@ -171,13 +171,12 @@
     color: var(--text);
   }
   .nav-link.active {
-    background-color: var(--accent-dim);
-    color: var(--accent-txt);
+    color: var(--accent);
   }
   .nav-link.active::before {
     content: '';
     position: absolute;
-    left: 0; top: 25%; bottom: 25%;
+    left: 0; top: 20%; bottom: 20%;
     width: 2px;
     background: var(--accent);
     border-radius: 0 2px 2px 0;
@@ -185,7 +184,7 @@
 
   /* ── GRADIENT TEXT ── */
   .text-gradient {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #4ade80 0%, #86efac 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -193,10 +192,10 @@
 
   /* ── GRADIENT BACKGROUNDS ── */
   .grad-brand {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
   }
   .grad-success {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
   }
   .grad-danger {
     background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
@@ -239,7 +238,7 @@
     letter-spacing: 0.02em;
   }
   .badge-accent { background: var(--accent-dim); color: var(--accent-txt); }
-  .badge-success { background: rgba(16,185,129,0.1); color: #34d399; }
+  .badge-success { background: rgba(74,222,128,0.1); color: #4ade80; }
   .badge-danger { background: rgba(244,63,94,0.1); color: #fb7185; }
   .badge-warning { background: rgba(245,158,11,0.1); color: #fbbf24; }
 

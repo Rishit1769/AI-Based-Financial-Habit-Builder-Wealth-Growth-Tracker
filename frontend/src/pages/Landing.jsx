@@ -16,11 +16,11 @@ const features = [
 ];
 
 const featureColors = {
-  indigo:  { bg: 'rgba(99,102,241,0.10)',  text: '#818cf8' },
+  indigo:  { bg: 'rgba(74,222,128,0.10)',  text: '#4ade80' },
   purple:  { bg: 'rgba(139,92,246,0.10)',  text: '#a78bfa' },
   blue:    { bg: 'rgba(59,130,246,0.10)',  text: '#60a5fa' },
   violet:  { bg: 'rgba(124,58,237,0.10)',  text: '#a78bfa' },
-  emerald: { bg: 'rgba(16,185,129,0.10)',  text: '#34d399' },
+  emerald: { bg: 'rgba(74,222,128,0.10)',  text: '#4ade80' },
   rose:    { bg: 'rgba(244,63,94,0.10)',   text: '#fb7185' },
 };
 
