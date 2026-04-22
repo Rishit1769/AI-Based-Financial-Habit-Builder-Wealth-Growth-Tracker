@@ -5,8 +5,8 @@ import {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }} className="rounded-lg p-3 text-sm">
-      <p className="text-main font-medium mb-1">{label}</p>
+    <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }} className="  p-3 text-sm">
+      <p className="text-[var(--color-ink)] font-medium mb-1">{label}</p>
       <p className="text-indigo-400">₹{Number(payload[0]?.value || 0).toLocaleString('en-IN')}</p>
     </div>
   );
@@ -22,7 +22,7 @@ export default function NetWorthChart({ data = [] }) {
             <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-ink)" />
         <XAxis dataKey="label" tick={{ fill: 'var(--text-2)', fontSize: 11 }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fill: 'var(--text-2)', fontSize: 11 }} axisLine={false} tickLine={false}
           tickFormatter={(v) => `₹${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`} />

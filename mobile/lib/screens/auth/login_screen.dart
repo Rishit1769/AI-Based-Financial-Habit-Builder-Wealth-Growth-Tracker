@@ -56,9 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 64, height: 64,
                     decoration: BoxDecoration(
                       gradient: AppTheme.primaryGradient,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.zero,
                     ),
-                    child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 32),
+                    child: const Icon(Icons.account_balance_wallet_rounded, color: const Color(0xFFF5F2EB), size: 32),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   onPressed: _loading ? null : _login,
                   child: _loading
-                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB)))
                       : const Text('Sign In'),
                 ),
                 const SizedBox(height: 20),

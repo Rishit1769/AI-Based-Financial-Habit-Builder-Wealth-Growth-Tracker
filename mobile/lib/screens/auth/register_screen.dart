@@ -57,8 +57,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Center(
                   child: Container(
                     width: 64, height: 64,
-                    decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.circular(16)),
-                    child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 32),
+                    decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.zero),
+                    child: const Icon(Icons.account_balance_wallet_rounded, color: const Color(0xFFF5F2EB), size: 32),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -97,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ElevatedButton(
                   onPressed: _loading ? null : _register,
                   child: _loading
-                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB)))
                       : const Text('Create Account'),
                 ),
                 const SizedBox(height: 20),

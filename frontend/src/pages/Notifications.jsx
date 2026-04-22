@@ -77,7 +77,7 @@ export default function Notifications() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-main flex items-center gap-2">
+          <h1 className="text-xl font-semibold text-[var(--color-ink)] flex items-center gap-2">
             <Bell className="w-5 h-5 text-indigo-400" />
             Notifications
           </h1>
@@ -102,20 +102,20 @@ export default function Notifications() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-1 bg-elevated rounded-lg p-1 w-fit">
+      <div className="flex gap-1 bg-elevated   p-1 w-fit">
         {['all', 'unread'].map(tab => (
           <button
             key={tab}
             onClick={() => setFilter(tab)}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
+            className={`px-4 py-1.5   text-sm font-medium capitalize transition-colors ${
               filter === tab
                 ? 'bg-indigo-600 text-white'
-                : 'text-sub hover:text-main'
+                : 'text-sub hover:text-[var(--color-ink)]'
             }`}
           >
             {tab}
             {tab === 'unread' && unreadCount > 0 && (
-              <span className="ml-1.5 bg-indigo-500/30 text-indigo-300 text-xs px-1.5 rounded-full">
+              <span className="ml-1.5 bg-indigo-500/30 text-indigo-300 text-xs px-1.5  ">
                 {unreadCount}
               </span>
             )}
@@ -128,7 +128,7 @@ export default function Notifications() {
         {loading ? (
           <LoadingSkeleton rows={6} />
         ) : displayed.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-muted">
+          <div className="flex flex-col items-center justify-center py-16 text-[var(--color-muted)]">
             <BellOff className="w-12 h-12 mb-3 opacity-30" />
             <p className="font-medium">No notifications</p>
             <p className="text-sm mt-1">
@@ -148,18 +148,18 @@ export default function Notifications() {
                 >
                   {/* Unread dot */}
                   <div className="mt-1.5 flex-shrink-0">
-                    <div className={`w-2.5 h-2.5 rounded-full transition-colors ${n.is_read ? 'bg-transparent' : 'bg-indigo-500'}`} />
+                    <div className={`w-2.5 h-2.5   transition-colors ${n.is_read ? 'bg-transparent' : 'bg-indigo-500'}`} />
                   </div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${ts.color}`}>
+                      <span className={`text-xs px-2 py-0.5   font-medium ${ts.color}`}>
                         {ts.label}
                       </span>
-                      <span className="text-xs text-muted">{formatDate(n.created_at)}</span>
+                      <span className="text-xs text-[var(--color-muted)]">{formatDate(n.created_at)}</span>
                     </div>
-                    <p className="text-sm font-medium text-main leading-snug">{n.title}</p>
+                    <p className="text-sm font-medium text-[var(--color-ink)] leading-snug">{n.title}</p>
                     {n.body && <p className="text-sm text-sub mt-0.5">{n.body}</p>}
                   </div>
 
@@ -168,7 +168,7 @@ export default function Notifications() {
                     {!n.is_read && (
                       <button
                         onClick={() => handleMarkRead(n.id)}
-                        className="text-muted hover:text-indigo-400 transition-colors p-1"
+                        className="text-[var(--color-muted)] hover:text-indigo-400 transition-colors p-1"
                         title="Mark as read"
                       >
                         <CheckCheck className="w-4 h-4" />
@@ -176,7 +176,7 @@ export default function Notifications() {
                     )}
                     <button
                       onClick={() => handleDeleteOne(n.id)}
-                      className="text-muted hover:text-rose-400 transition-colors p-1"
+                      className="text-[var(--color-muted)] hover:text-[var(--color-terracotta)] transition-colors p-1"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />

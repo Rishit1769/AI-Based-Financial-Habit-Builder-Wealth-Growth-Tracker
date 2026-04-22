@@ -68,7 +68,7 @@ export default function Investments() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-main">Investments</h1>
+          <h1 className="text-xl font-semibold text-[var(--color-ink)]">Investments</h1>
           <p className="text-sub text-sm mt-0.5">Track your portfolio growth</p>
         </div>
         <div className="flex gap-2">
@@ -98,14 +98,14 @@ export default function Investments() {
               {(summary?.byType || []).map((t) => {
                 const gain = Number(t.total_current) - Number(t.total_invested);
                 return (
-                  <div key={t.type} className="flex items-center justify-between p-3 bg-elevated rounded-lg">
+                  <div key={t.type} className="flex items-center justify-between p-3 bg-elevated  ">
                     <div>
-                      <p className="text-sm font-medium text-main capitalize">{t.type}</p>
-                      <p className="text-xs text-muted">{t.count} position{t.count > 1 ? 's' : ''}</p>
+                      <p className="text-sm font-medium text-[var(--color-ink)] capitalize">{t.type}</p>
+                      <p className="text-xs text-[var(--color-muted)]">{t.count} position{t.count > 1 ? 's' : ''}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-main">{formatCurrency(t.total_current)}</p>
-                      <p className={`text-xs font-medium ${gain >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      <p className="text-sm font-semibold text-[var(--color-ink)]">{formatCurrency(t.total_current)}</p>
+                      <p className={`text-xs font-medium ${gain >= 0 ? 'text-emerald-400' : 'text-[var(--color-terracotta)]'}`}>
                         {gain >= 0 ? '+' : ''}{formatCurrency(gain)}
                       </p>
                     </div>
@@ -121,39 +121,39 @@ export default function Investments() {
       <Card title="All Investments">
         <div className="px-5 pb-5">
           {loading ? <LoadingSkeleton rows={4} /> : records.length === 0 ? (
-            <p className="text-muted text-sm text-center py-8">No investments yet. Add your first one!</p>
+            <p className="text-[var(--color-muted)] text-sm text-center py-8">No investments yet. Add your first one!</p>
           ) : (
             <div className="space-y-2 mt-2">
               {records.map((r) => {
                 const gain = Number(r.current_value) - Number(r.amount_invested);
                 const pct = Number(r.amount_invested) > 0 ? ((gain / Number(r.amount_invested)) * 100).toFixed(1) : 0;
                 return (
-                  <div key={r.id} className="flex items-center justify-between p-3 bg-elevated rounded-lg hover:bg-hover transition-colors group">
+                  <div key={r.id} className="flex items-center justify-between p-3 bg-elevated   hover:bg-hover transition-colors group">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${gain >= 0 ? 'bg-emerald-500/20' : 'bg-rose-500/20'}`}>
-                        {gain >= 0 ? <TrendingUp className="w-4 h-4 text-emerald-400" /> : <TrendingDown className="w-4 h-4 text-rose-400" />}
+                      <div className={`w-9 h-9   flex items-center justify-center flex-shrink-0 ${gain >= 0 ? 'bg-emerald-500/20' : 'bg-rose-500/20'}`}>
+                        {gain >= 0 ? <TrendingUp className="w-4 h-4 text-emerald-400" /> : <TrendingDown className="w-4 h-4 text-[var(--color-terracotta)]" />}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-main truncate">{r.asset_name}</p>
-                        <p className="text-xs text-muted capitalize">{r.asset_type} · {formatDate(r.date_added)}</p>
+                        <p className="text-sm font-medium text-[var(--color-ink)] truncate">{r.asset_name}</p>
+                        <p className="text-xs text-[var(--color-muted)] capitalize">{r.asset_type} · {formatDate(r.date_added)}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 ml-3">
                       <div className="text-right hidden sm:block">
-                        <p className="text-xs text-muted">Invested</p>
+                        <p className="text-xs text-[var(--color-muted)]">Invested</p>
                         <p className="text-sm text-sub">{formatCurrency(r.amount_invested)}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-semibold text-main">{formatCurrency(r.current_value)}</p>
-                        <p className={`text-xs font-medium ${gain >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <p className="text-sm font-semibold text-[var(--color-ink)]">{formatCurrency(r.current_value)}</p>
+                        <p className={`text-xs font-medium ${gain >= 0 ? 'text-emerald-400' : 'text-[var(--color-terracotta)]'}`}>
                           {gain >= 0 ? '+' : ''}{formatCurrency(gain)} ({pct}%)
                         </p>
                       </div>
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => openEdit(r)} className="p-1.5 text-muted hover:text-main hover:bg-hover rounded transition-colors">
+                        <button onClick={() => openEdit(r)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-ink)] hover:bg-hover rounded transition-colors">
                           <Pencil className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={() => handleDelete(r.id)} className="p-1.5 text-muted hover:text-rose-400 hover:bg-rose-500/10 rounded transition-colors">
+                        <button onClick={() => handleDelete(r.id)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-terracotta)] hover:bg-rose-500/10 rounded transition-colors">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>

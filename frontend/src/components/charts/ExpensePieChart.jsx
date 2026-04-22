@@ -4,10 +4,10 @@ import { categoryColors } from '../../utils/constants';
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }} className="rounded-lg p-3 text-sm">
-      <p className="text-main font-medium capitalize">{payload[0].name}</p>
+    <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }} className="  p-3 text-sm">
+      <p className="text-[var(--color-ink)] font-medium capitalize">{payload[0].name}</p>
       <p className="text-sub">₹{Number(payload[0].value).toLocaleString('en-IN')}</p>
-      <p className="text-muted">{payload[0].payload.percent?.toFixed(1)}%</p>
+      <p className="text-[var(--color-muted)]">{payload[0].payload.percent?.toFixed(1)}%</p>
     </div>
   );
 };

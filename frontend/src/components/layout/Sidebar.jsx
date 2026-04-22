@@ -43,21 +43,21 @@ export default function Sidebar({ open, onClose }) {
           ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
         style={{
           width: '220px',
-          backgroundColor: 'var(--surface)',
-          borderRight: '1px solid var(--border)',
+          backgroundColor: 'var(--color-surface)',
+          borderRight: '1px solid var(--color-ink)',
         }}
       >
         {/* Brand */}
         <div className="flex items-center justify-between h-16 px-5 flex-shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 grad-brand rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-7 h-7 grad-brand   flex items-center justify-center flex-shrink-0">
               <Wallet className="w-3.5 h-3.5 text-black" />
             </div>
-            <span className="font-bold text-sm text-main tracking-tight">FinTrack</span>
+            <span className="font-bold text-sm text-[var(--color-ink)] tracking-tight">FinTrack</span>
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden text-muted hover:text-main transition-colors"
+            className="lg:hidden text-[var(--color-muted)] hover:text-[var(--color-ink)] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -93,27 +93,27 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         {/* Bottom section — Atelier-style */}
-        <div className="px-3 pb-4 flex-shrink-0 space-y-0.5" style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
+        <div className="px-3 pb-4 flex-shrink-0 space-y-0.5" style={{ borderTop: '1px solid var(--color-ink)', paddingTop: '12px' }}>
           {/* User info */}
-          <div className="px-2.5 py-3 mb-2 rounded-xl" style={{ background: 'var(--elevated)' }}>
+          <div className="px-2.5 py-3 mb-2  " style={{ background: 'var(--color-surface)' }}>
             <div className="flex items-center gap-2.5 mb-2">
-              <div className="w-7 h-7 grad-brand rounded-md flex items-center justify-center text-black font-bold text-xs flex-shrink-0">
+              <div className="w-7 h-7 grad-brand   flex items-center justify-center text-black font-bold text-xs flex-shrink-0">
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-main text-xs font-semibold truncate">{user?.name}</p>
+                <p className="text-[var(--color-ink)] text-xs font-semibold truncate">{user?.name}</p>
                 <div className="inline-flex items-center gap-1 mt-0.5">
-                  <Zap className="w-2.5 h-2.5" style={{ color: 'var(--accent)' }} />
-                  <span className="font-semibold uppercase" style={{ fontSize: '9px', color: 'var(--accent)', letterSpacing: '0.06em' }}>Pro Plan</span>
+                  <Zap className="w-2.5 h-2.5" style={{ color: 'var(--color-volt)' }} />
+                  <span className="font-semibold uppercase" style={{ fontSize: '9px', color: 'var(--color-volt)', letterSpacing: '0.06em' }}>Pro Plan</span>
                 </div>
               </div>
             </div>
             <button
               onClick={() => { navigate('/profile'); onClose(); }}
-              className="w-full py-1.5 rounded-lg text-xs font-semibold transition-colors"
-              style={{ background: 'var(--accent)', color: '#000', letterSpacing: '-0.01em' }}
+              className="w-full py-1.5   text-xs font-semibold transition-colors"
+              style={{ background: 'var(--color-volt)', color: '#000', letterSpacing: '-0.01em' }}
               onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-hover)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'var(--accent)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--color-volt)'}
             >
               Manage Account
             </button>

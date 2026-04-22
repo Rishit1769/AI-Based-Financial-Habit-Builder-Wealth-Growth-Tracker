@@ -28,7 +28,7 @@ function buildHeatmap(completions = []) {
 function StreakBadge({ streak }) {
   if (!streak) return null;
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-500/20 text-orange-400 rounded-full text-xs font-semibold">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-500/20 text-orange-400   text-xs font-semibold">
       <Flame className="w-3 h-3" /> {streak}d
     </span>
   );
@@ -105,7 +105,7 @@ export default function Habits() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-main">Habits</h1>
+          <h1 className="text-xl font-semibold text-[var(--color-ink)]">Habits</h1>
           <p className="text-sub text-sm mt-0.5">Build consistent financial habits</p>
         </div>
         <Button onClick={openAdd} icon={Plus}>Add Habit</Button>
@@ -116,11 +116,11 @@ export default function Habits() {
         <Card>
           <div className="p-5">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-main">Today's Progress</span>
+              <span className="text-sm font-medium text-[var(--color-ink)]">Today's Progress</span>
               <span className="text-sm font-bold text-indigo-400">{completedToday}/{todayHabits.length}</span>
             </div>
-            <div className="w-full bg-elevated rounded-full h-2">
-              <div className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
+            <div className="w-full bg-elevated   h-2">
+              <div className="bg-indigo-600 h-2   transition-all duration-500"
                 style={{ width: `${todayHabits.length ? (completedToday / todayHabits.length) * 100 : 0}%` }} />
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function Habits() {
 
       {/* Habits list */}
       {loading ? <LoadingSkeleton rows={4} /> : habits.length === 0 ? (
-        <Card><p className="text-muted text-sm text-center py-12">No habits yet. Start building good financial habits!</p></Card>
+        <Card><p className="text-[var(--color-muted)] text-sm text-center py-12">No habits yet. Start building good financial habits!</p></Card>
       ) : (
         <div className="space-y-3">
           {habits.map((h) => (
@@ -137,16 +137,16 @@ export default function Habits() {
               <div className="p-4">
                 <div className="flex items-start gap-3">
                   <button onClick={() => toggleComplete(h)}
-                    className={`mt-0.5 flex-shrink-0 transition-all duration-200 ${h.completed_today ? 'text-emerald-400' : 'text-muted hover:text-sub'}`}>
+                    className={`mt-0.5 flex-shrink-0 transition-all duration-200 ${h.completed_today ? 'text-emerald-400' : 'text-[var(--color-muted)] hover:text-sub'}`}>
                     {h.completed_today ? <CheckCircle className="w-6 h-6" /> : <Circle className="w-6 h-6" />}
                   </button>
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={`text-sm font-semibold ${h.completed_today ? 'text-muted line-through' : 'text-main'}`}>{h.name}</span>
-                      <span className="text-xs text-muted bg-elevated px-2 py-0.5 rounded-full capitalize">{h.frequency}</span>
+                      <span className={`text-sm font-semibold ${h.completed_today ? 'text-[var(--color-muted)] line-through' : 'text-[var(--color-ink)]'}`}>{h.name}</span>
+                      <span className="text-xs text-[var(--color-muted)] bg-elevated px-2 py-0.5   capitalize">{h.frequency}</span>
                       <StreakBadge streak={h.streak} />
                     </div>
-                    {h.description && <p className="text-xs text-muted mt-0.5">{h.description}</p>}
+                    {h.description && <p className="text-xs text-[var(--color-muted)] mt-0.5">{h.description}</p>}
                     <div className="flex items-center gap-3 mt-2">
                       <button onClick={() => loadHeatmap(h.id)}
                         className="text-xs text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
@@ -155,10 +155,10 @@ export default function Habits() {
                     </div>
                   </div>
                   <div className="flex gap-1 flex-shrink-0">
-                    <button onClick={() => openEdit(h)} className="p-1.5 text-muted hover:text-main hover:bg-hover rounded transition-colors">
+                    <button onClick={() => openEdit(h)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-ink)] hover:bg-hover rounded transition-colors">
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
-                    <button onClick={() => handleDelete(h.id)} className="p-1.5 text-muted hover:text-rose-400 hover:bg-rose-500/10 rounded transition-colors">
+                    <button onClick={() => handleDelete(h.id)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-terracotta)] hover:bg-rose-500/10 rounded transition-colors">
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -166,11 +166,11 @@ export default function Habits() {
                 {/* Heatmap */}
                 {expandedHabit === h.id && heatmapData[h.id] && (
                   <div className="mt-4 pt-4 border-t border-base">
-                    <p className="text-xs text-muted mb-2">Last 63 days</p>
+                    <p className="text-xs text-[var(--color-muted)] mb-2">Last 63 days</p>
                     <div className="flex flex-wrap gap-1">
                       {heatmapData[h.id].map((d) => (
                         <div key={d.date} title={`${d.date}${d.filled ? ' ✓' : ''}`}
-                          className={`w-4 h-4 rounded-sm transition-colors ${d.filled ? 'bg-emerald-500' : 'bg-elevated'}`} />
+                          className={`w-4 h-4   transition-colors ${d.filled ? 'bg-emerald-500' : 'bg-elevated'}`} />
                       ))}
                     </div>
                   </div>

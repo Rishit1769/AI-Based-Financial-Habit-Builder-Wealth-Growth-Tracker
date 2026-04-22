@@ -63,7 +63,7 @@ export default function Expenses() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-main">Expenses</h1>
+          <h1 className="text-xl font-semibold text-[var(--color-ink)]">Expenses</h1>
           <p className="text-sub text-sm mt-0.5">Monitor and manage your spending</p>
         </div>
         <div className="flex gap-2">
@@ -88,34 +88,34 @@ export default function Expenses() {
           {/* Category filter */}
           <div className="flex gap-2 flex-wrap mb-3">
             <button onClick={() => setFilterCat('all')}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${filterCat === 'all' ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-main'}`}>All</button>
+              className={`px-3 py-1   text-xs font-medium transition-colors ${filterCat === 'all' ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-[var(--color-ink)]'}`}>All</button>
             {EXPENSE_CATEGORIES.map((c) => (
               <button key={c.value} onClick={() => setFilterCat(c.value)}
-                className={`px-3 py-1 rounded-full text-xs font-medium capitalize transition-colors ${filterCat === c.value ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-main'}`}>{c.label}</button>
+                className={`px-3 py-1   text-xs font-medium capitalize transition-colors ${filterCat === c.value ? 'bg-indigo-600 text-white' : 'bg-elevated text-sub hover:text-[var(--color-ink)]'}`}>{c.label}</button>
             ))}
           </div>
           {loading ? <LoadingSkeleton rows={5} /> : filtered.length === 0 ? (
-            <p className="text-muted text-sm text-center py-8">No expense records found.</p>
+            <p className="text-[var(--color-muted)] text-sm text-center py-8">No expense records found.</p>
           ) : (
             <div className="space-y-2">
               {filtered.map((r) => (
-                <div key={r.id} className="flex items-center justify-between p-3 bg-elevated rounded-lg hover:bg-hover transition-colors group">
+                <div key={r.id} className="flex items-center justify-between p-3 bg-elevated   hover:bg-hover transition-colors group">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: (categoryColors[r.category] || '#64748b') + '30' }}>
+                    <div className="w-9 h-9   flex items-center justify-center flex-shrink-0" style={{ background: (categoryColors[r.category] || '#64748b') + '30' }}>
                       <ShoppingCart className="w-4 h-4" style={{ color: categoryColors[r.category] || '#64748b' }} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-main truncate">{r.description}</p>
-                      <p className="text-xs text-muted capitalize">{r.category} · {formatDate(r.date)}</p>
+                      <p className="text-sm font-medium text-[var(--color-ink)] truncate">{r.description}</p>
+                      <p className="text-xs text-[var(--color-muted)] capitalize">{r.category} · {formatDate(r.date)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 ml-3">
-                    <span className="text-rose-400 font-semibold text-sm whitespace-nowrap">-{formatCurrency(r.amount)}</span>
+                    <span className="text-[var(--color-terracotta)] font-semibold text-sm whitespace-nowrap">-{formatCurrency(r.amount)}</span>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => openEdit(r)} className="p-1.5 text-muted hover:text-main hover:bg-hover rounded transition-colors">
+                      <button onClick={() => openEdit(r)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-ink)] hover:bg-hover rounded transition-colors">
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
-                      <button onClick={() => handleDelete(r.id)} className="p-1.5 text-muted hover:text-rose-400 hover:bg-rose-500/10 rounded transition-colors">
+                      <button onClick={() => handleDelete(r.id)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-terracotta)] hover:bg-rose-500/10 rounded transition-colors">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>

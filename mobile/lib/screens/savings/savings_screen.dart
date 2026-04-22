@@ -72,7 +72,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 12),
                           padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: g.isCompleted ? AppTheme.success.withOpacity(0.4) : AppTheme.border)),
+                          decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: g.isCompleted ? AppTheme.success.withOpacity(0.4) : AppTheme.border)),
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                               Row(children: [
@@ -151,7 +151,7 @@ class _GoalModalState extends State<_GoalModal> {
         TextFormField(controller: _target, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Target Amount (₹)'), validator: (v) => v!.isEmpty ? 'Required' : null),
         const SizedBox(height: 16),
         ElevatedButton(onPressed: _saving ? null : _save,
-          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB)))
             : Text(widget.editing != null ? 'Update' : 'Create Goal')),
         const SizedBox(height: 12),
       ])),
@@ -191,7 +191,7 @@ class _ContributeModalState extends State<_ContributeModal> {
         TextFormField(controller: _ctrl, keyboardType: TextInputType.number, autofocus: true, decoration: const InputDecoration(labelText: 'Amount (₹)')),
         const SizedBox(height: 16),
         ElevatedButton(onPressed: _saving ? null : _save,
-          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)) : const Text('Add Funds')),
+          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB))) : const Text('Add Funds')),
         const SizedBox(height: 12),
       ]),
     );

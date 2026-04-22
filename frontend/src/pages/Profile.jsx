@@ -60,7 +60,7 @@ export default function Profile() {
 
   if (loading) return (
     <div className="space-y-4">
-      {[1,2,3].map((i) => <div key={i} className="h-24 bg-elevated rounded-xl animate-pulse" />)}
+      {[1,2,3].map((i) => <div key={i} className="h-24 bg-elevated   animate-pulse" />)}
     </div>
   );
 
@@ -69,7 +69,7 @@ export default function Profile() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-xl font-semibold text-main">Profile</h1>
+        <h1 className="text-xl font-semibold text-[var(--color-ink)]">Profile</h1>
         <p className="text-sub text-sm mt-0.5">Manage your account settings</p>
       </div>
 
@@ -77,14 +77,14 @@ export default function Profile() {
       <Card>
         <div className="p-6 flex items-center gap-5">
           <div className="relative">
-            <div className="w-16 h-16 rounded-xl bg-indigo-600 flex items-center justify-center text-xl font-bold text-white">
+            <div className="w-16 h-16   bg-indigo-600 flex items-center justify-center text-xl font-bold text-white">
               {initials}
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-main">{profile?.name}</h2>
+            <h2 className="text-lg font-semibold text-[var(--color-ink)]">{profile?.name}</h2>
             <p className="text-sub text-sm">{profile?.email}</p>
-            <span className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full capitalize font-medium ${profile?.role === 'admin' ? 'bg-amber-500/20 text-amber-400' : 'bg-indigo-500/20 text-indigo-400'}`}>
+            <span className={`inline-block mt-1 text-xs px-2 py-0.5   capitalize font-medium ${profile?.role === 'admin' ? 'bg-amber-500/20 text-amber-400' : 'bg-indigo-500/20 text-indigo-400'}`}>
               {profile?.role}
             </span>
           </div>

@@ -192,7 +192,7 @@ class _AdminScreenState extends State<AdminScreen>
       content: Text(msg),
       backgroundColor: error ? AppTheme.error : AppTheme.success,
       behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
     ));
   }
 
@@ -244,14 +244,13 @@ class _AdminScreenState extends State<AdminScreen>
       backgroundColor: AppTheme.background,
       appBar: AppBar(
         backgroundColor: AppTheme.surface,
-        elevation: 0,
-        title: Row(
+        elevation: 0, title: Row(
           children: [
             Container(
               width: 32, height: 32,
               decoration: BoxDecoration(
                 color: AppTheme.warning.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.zero,
               ),
               child: const Icon(Icons.shield_outlined, size: 18, color: AppTheme.warning),
             ),
@@ -334,7 +333,7 @@ class _AdminScreenState extends State<AdminScreen>
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: AppTheme.border),
       ),
       padding: const EdgeInsets.all(14),
@@ -346,7 +345,7 @@ class _AdminScreenState extends State<AdminScreen>
             width: 32, height: 32,
             decoration: BoxDecoration(
               color: t.color.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.zero,
             ),
             child: Icon(t.icon, size: 16, color: t.color),
           ),
@@ -381,9 +380,9 @@ class _AdminScreenState extends State<AdminScreen>
                     filled: true,
                     fillColor: AppTheme.surface,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: AppTheme.border)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: AppTheme.border)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.primary)),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide(color: AppTheme.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide(color: AppTheme.border)),
+                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: const BorderSide(color: AppTheme.primary)),
                   ),
                 ),
               ),
@@ -392,9 +391,9 @@ class _AdminScreenState extends State<AdminScreen>
                 onPressed: () { _userPage = 1; _loadUsers(q: _searchCtrl.text); },
                 style: TextButton.styleFrom(
                   backgroundColor: AppTheme.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: const Color(0xFFF5F2EB),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 ),
                 child: const Text('Search', style: TextStyle(fontSize: 13)),
               ),
@@ -442,7 +441,7 @@ class _AdminScreenState extends State<AdminScreen>
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: AppTheme.border),
       ),
       child: Row(
@@ -451,9 +450,9 @@ class _AdminScreenState extends State<AdminScreen>
             width: 38, height: 38,
             decoration: BoxDecoration(
               gradient: AppTheme.primaryGradient,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.zero,
             ),
-            child: Center(child: Text(initials, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700))),
+            child: Center(child: Text(initials, style: const TextStyle(color: const Color(0xFFF5F2EB), fontSize: 12, fontWeight: FontWeight.w700))),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -483,7 +482,7 @@ class _AdminScreenState extends State<AdminScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: isActive ? AppTheme.elevated : AppTheme.success.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.zero,
                     ),
                     child: Text(
                       isActive ? 'Deactivate' : 'Activate',
@@ -498,7 +497,7 @@ class _AdminScreenState extends State<AdminScreen>
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: AppTheme.error.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.zero,
                     ),
                     child: const Icon(Icons.delete_outline_rounded, size: 14, color: AppTheme.error),
                   ),
@@ -539,7 +538,7 @@ class _AdminScreenState extends State<AdminScreen>
                     toY: (e.value['new_users'] as num).toDouble(),
                     color: AppTheme.primary,
                     width: 16,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.zero,
                   )],
                 )).toList(),
                 titlesData: FlTitlesData(
@@ -578,8 +577,8 @@ class _AdminScreenState extends State<AdminScreen>
                   x: e.key,
                   barsSpace: 4,
                   barRods: [
-                    BarChartRodData(toY: (e.value['income'] as num).toDouble(), color: AppTheme.success, width: 10, borderRadius: BorderRadius.circular(4)),
-                    BarChartRodData(toY: (e.value['expenses'] as num).toDouble(), color: AppTheme.error, width: 10, borderRadius: BorderRadius.circular(4)),
+                    BarChartRodData(toY: (e.value['income'] as num).toDouble(), color: AppTheme.success, width: 10, borderRadius: BorderRadius.zero),
+                    BarChartRodData(toY: (e.value['expenses'] as num).toDouble(), color: AppTheme.error, width: 10, borderRadius: BorderRadius.zero),
                   ],
                 )).toList(),
                 titlesData: FlTitlesData(
@@ -641,13 +640,13 @@ class _AdminScreenState extends State<AdminScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                     decoration: BoxDecoration(
                       color: _fbStatus == s ? AppTheme.primary : AppTheme.surface,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.zero,
                       border: Border.all(color: _fbStatus == s ? AppTheme.primary : AppTheme.border),
                     ),
                     child: Text(
                       s == 'in_review' ? 'In Review' : s[0].toUpperCase() + s.substring(1),
                       style: TextStyle(
-                        color: _fbStatus == s ? Colors.white : AppTheme.textMuted,
+                        color: _fbStatus == s ? const Color(0xFFF5F2EB) : AppTheme.textMuted,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -707,7 +706,7 @@ class _AdminScreenState extends State<AdminScreen>
         margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
           color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.zero,
           border: Border.all(color: isExpanded ? AppTheme.primary.withOpacity(0.4) : AppTheme.border),
         ),
         child: Column(
@@ -738,7 +737,7 @@ class _AdminScreenState extends State<AdminScreen>
                     onTap: () => _deleteFeedback(f['id'] as String),
                     child: Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(color: AppTheme.error.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(color: AppTheme.error.withOpacity(0.1), borderRadius: BorderRadius.zero),
                       child: const Icon(Icons.delete_outline_rounded, size: 14, color: AppTheme.error),
                     ),
                   ),
@@ -757,7 +756,7 @@ class _AdminScreenState extends State<AdminScreen>
                       const SizedBox(height: 10),
                       Container(
                         padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(color: AppTheme.elevated, borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(color: AppTheme.elevated, borderRadius: BorderRadius.zero),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -777,7 +776,7 @@ class _AdminScreenState extends State<AdminScreen>
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
                             color: status == s ? AppTheme.primary.withOpacity(0.2) : AppTheme.elevated,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.zero,
                             border: Border.all(color: status == s ? AppTheme.primary.withOpacity(0.5) : Colors.transparent),
                           ),
                           child: Text(
@@ -805,7 +804,7 @@ class _AdminScreenState extends State<AdminScreen>
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: AppTheme.border),
       ),
       padding: const EdgeInsets.all(16),
@@ -862,7 +861,7 @@ class _AdminScreenState extends State<AdminScreen>
 
   Widget _chip(String label, Color color) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-    decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(6)),
+    decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.zero),
     child: Text(label, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w600)),
   );
 

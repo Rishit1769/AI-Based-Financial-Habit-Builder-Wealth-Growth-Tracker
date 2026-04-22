@@ -30,9 +30,9 @@ export default function App() {
             position="top-right"
             toastOptions={{
               style: {
-                background: 'var(--surface)',
+                background: 'var(--color-surface)',
                 color: 'var(--text)',
-                border: '1px solid var(--border)',
+                border: '1px solid var(--color-ink)',
                 borderRadius: '8px',
                 fontSize: '13px',
                 padding: '10px 14px',

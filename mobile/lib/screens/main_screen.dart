@@ -60,9 +60,7 @@ class _MainScreenState extends State<MainScreen> {
       decoration: BoxDecoration(
         color: AppTheme.surface,
         border: Border(top: BorderSide(color: AppTheme.border, width: 1)),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 20, offset: const Offset(0, -4)),
-        ],
+        
       ),
       child: SafeArea(
         child: SizedBox(
@@ -89,14 +87,14 @@ class _MainScreenState extends State<MainScreen> {
                           height: 28,
                           decoration: selected
                               ? BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.zero,
                                   gradient: AppTheme.primaryGradient,
                                   boxShadow: AppTheme.shadowAccent(AppTheme.primary),
                                 )
                               : null,
                           child: Icon(
                             selected ? t.activeIcon : t.icon,
-                            color: selected ? Colors.white : AppTheme.textSecondary,
+                            color: selected ? const Color(0xFFF5F2EB) : AppTheme.textSecondary,
                             size: 18,
                           ),
                         ),

@@ -72,7 +72,7 @@ export default function Income() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-main">Income</h1>
+          <h1 className="text-xl font-semibold text-[var(--color-ink)]">Income</h1>
           <p className="text-sub text-sm mt-0.5">Track and manage your income sources</p>
         </div>
         <div className="flex gap-2">
@@ -92,12 +92,12 @@ export default function Income() {
         <div className="px-5 pb-5">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-ink)" />
               <XAxis dataKey="month" tick={{ fill: 'var(--text-2)', fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill: 'var(--text-2)', fontSize: 11 }} axisLine={false} tickLine={false}
                 tickFormatter={(v) => `₹${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`} />
               <Tooltip
-                contentStyle={{ background: 'var(--elevated)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)' }}
+                contentStyle={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)', borderRadius: '8px', color: 'var(--text)' }}
                 formatter={(v) => [`₹${Number(v).toLocaleString('en-IN')}`, 'Income']}
               />
               <Bar dataKey="total" fill="#10b981" radius={[4,4,0,0]} />
@@ -110,27 +110,27 @@ export default function Income() {
       <Card title="Income Records">
         <div className="px-5 pb-5">
           {loading ? <LoadingSkeleton rows={5} /> : records.length === 0 ? (
-            <p className="text-muted text-sm text-center py-8">No income records yet. Add your first one!</p>
+            <p className="text-[var(--color-muted)] text-sm text-center py-8">No income records yet. Add your first one!</p>
           ) : (
             <div className="space-y-2 mt-2">
               {records.map((r) => (
-                <div key={r.id} className="flex items-center justify-between p-3 bg-elevated rounded-lg hover:bg-hover transition-colors group">
+                <div key={r.id} className="flex items-center justify-between p-3 bg-elevated   hover:bg-hover transition-colors group">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9   bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
                       <TrendingUp className="w-4 h-4 text-emerald-400" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-main truncate">{r.source}</p>
-                      <p className="text-xs text-muted capitalize">{r.category} · {formatDate(r.date)}</p>
+                      <p className="text-sm font-medium text-[var(--color-ink)] truncate">{r.source}</p>
+                      <p className="text-xs text-[var(--color-muted)] capitalize">{r.category} · {formatDate(r.date)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 ml-3">
                     <span className="text-emerald-400 font-semibold text-sm whitespace-nowrap">+{formatCurrency(r.amount)}</span>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => openEdit(r)} className="p-1.5 text-muted hover:text-main hover:bg-hover rounded transition-colors">
+                      <button onClick={() => openEdit(r)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-ink)] hover:bg-hover rounded transition-colors">
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
-                      <button onClick={() => handleDelete(r.id)} className="p-1.5 text-muted hover:text-rose-400 hover:bg-rose-500/10 rounded transition-colors">
+                      <button onClick={() => handleDelete(r.id)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-terracotta)] hover:bg-rose-500/10 rounded transition-colors">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>

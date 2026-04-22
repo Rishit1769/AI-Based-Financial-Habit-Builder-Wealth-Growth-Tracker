@@ -65,7 +65,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 if (_records.length > 1) ...[
                   Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.border)),
+                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       const Text('Portfolio Allocation', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14, fontWeight: FontWeight.w600)),
                       const SizedBox(height: 12),
@@ -74,7 +74,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                         child: PieChart(PieChartData(
                           sections: _records.map((r) => PieChartSectionData(
                             value: r.currentValue, color: _typeColor(r.type),
-                            title: r.type, titleStyle: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                            title: r.type, titleStyle: const TextStyle(color: const Color(0xFFF5F2EB), fontSize: 10, fontWeight: FontWeight.bold),
                             radius: 60,
                           )).toList(),
                           sectionsSpace: 2,
@@ -91,10 +91,10 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppTheme.border)),
+                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                     child: Row(children: [
                       Container(width: 36, height: 36,
-                        decoration: BoxDecoration(color: _typeColor(r.type).withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(color: _typeColor(r.type).withOpacity(0.15), borderRadius: BorderRadius.zero),
                         child: Icon(Icons.pie_chart_rounded, color: _typeColor(r.type), size: 18)),
                       const SizedBox(width: 12),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -144,7 +144,7 @@ class _SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppTheme.border)),
+      decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
       child: Column(children: [
         Text(value, style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.bold)),
         const SizedBox(height: 2),
@@ -214,7 +214,7 @@ class _InvestmentModalState extends State<_InvestmentModal> {
         ]),
         const SizedBox(height: 16),
         ElevatedButton(onPressed: _saving ? null : _save,
-          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB)))
             : Text(widget.editing != null ? 'Update' : 'Add')),
         const SizedBox(height: 12),
       ])),

@@ -85,10 +85,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 8),
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                          decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppTheme.border)),
+                          decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                           child: Row(children: [
                             Container(width: 36, height: 36,
-                              decoration: BoxDecoration(color: AppTheme.error.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: AppTheme.error.withOpacity(0.15), borderRadius: BorderRadius.zero),
                               child: const Icon(Icons.shopping_cart_outlined, color: AppTheme.error, size: 18)),
                             const SizedBox(width: 12),
                             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -168,7 +168,7 @@ class _ExpenseModalState extends State<_ExpenseModal> {
         ),
         const SizedBox(height: 16),
         ElevatedButton(onPressed: _saving ? null : _save,
-          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB)))
             : Text(widget.editing != null ? 'Update' : 'Add Expense')),
         const SizedBox(height: 12),
       ])),

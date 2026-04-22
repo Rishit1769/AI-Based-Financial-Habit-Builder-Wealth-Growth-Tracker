@@ -23,7 +23,7 @@ class AppStatCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: AppTheme.border),
         boxShadow: AppTheme.shadowSm,
       ),
@@ -40,7 +40,7 @@ class AppStatCard extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.zero,
                   boxShadow: AppTheme.shadowAccent(color).map((s) =>
                     BoxShadow(color: color.withOpacity(0.2), blurRadius: 10)
                   ).toList(),
@@ -74,7 +74,7 @@ class AppCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: AppTheme.border),
         boxShadow: AppTheme.shadowSm,
       ),
@@ -119,7 +119,7 @@ class GoalProgressCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.zero,
         border: Border.all(color: progress >= 1.0 ? AppTheme.success.withOpacity(0.3) : AppTheme.border),
         boxShadow: progress >= 1.0 ? AppTheme.shadowAccent(AppTheme.success) : AppTheme.shadowSm,
       ),
@@ -134,7 +134,7 @@ class GoalProgressCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: barColor.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.zero,
                 ),
                 child: Text('${(progress * 100).toStringAsFixed(0)}%',
                   style: TextStyle(color: barColor, fontSize: 11, fontWeight: FontWeight.w700)),
@@ -143,7 +143,7 @@ class GoalProgressCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           ClipRRect(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.zero,
             child: LinearProgressIndicator(
               value: progress,
               backgroundColor: AppTheme.surfaceAlt,
@@ -188,7 +188,7 @@ class HabitTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: completed ? AppTheme.success.withOpacity(0.06) : AppTheme.surface,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.zero,
         border: Border.all(
           color: completed ? AppTheme.success.withOpacity(0.35) : AppTheme.border,
         ),
@@ -205,10 +205,10 @@ class HabitTile extends StatelessWidget {
                 gradient: completed ? AppTheme.savingsGradient : null,
                 color: completed ? null : Colors.transparent,
                 border: completed ? null : Border.all(color: AppTheme.textSecondary, width: 2),
-                borderRadius: BorderRadius.circular(7),
+                borderRadius: BorderRadius.zero,
                 boxShadow: completed ? AppTheme.shadowAccent(AppTheme.success) : null,
               ),
-              child: completed ? const Icon(Icons.check_rounded, color: Colors.white, size: 14) : null,
+              child: completed ? const Icon(Icons.check_rounded, color: const Color(0xFFF5F2EB), size: 14) : null,
             ),
           ),
           const SizedBox(width: 12),
@@ -229,7 +229,7 @@ class HabitTile extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
                 color: Colors.orange.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.zero,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

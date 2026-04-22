@@ -133,7 +133,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
                     decoration: BoxDecoration(
                       color: selected ? AppTheme.primary : AppTheme.background,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.zero,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -141,7 +141,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         Text(
                           tab[0].toUpperCase() + tab.substring(1),
                           style: TextStyle(
-                            color: selected ? Colors.white : AppTheme.textSecondary,
+                            color: selected ? const Color(0xFFF5F2EB) : AppTheme.textSecondary,
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
                           ),
@@ -151,15 +151,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: selected ? Colors.white24 : AppTheme.primary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10),
+                              color: selected ? const Color(0xFFF5F2EB) : AppTheme.primary.withOpacity(0.2),
+                              borderRadius: BorderRadius.zero,
                             ),
                             child: Text(
                               '$unreadCount',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
-                                color: selected ? Colors.white : AppTheme.primary,
+                                color: selected ? const Color(0xFFF5F2EB) : AppTheme.primary,
                               ),
                             ),
                           ),
@@ -223,7 +223,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                       decoration: BoxDecoration(
                                         color: color.withOpacity(0.15),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius: BorderRadius.zero,
                                         border: Border.all(color: color.withOpacity(0.3)),
                                       ),
                                       child: Text(

@@ -89,14 +89,14 @@ class _IncomeScreenState extends State<IncomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                           decoration: BoxDecoration(
                             color: AppTheme.surface,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.zero,
                             border: Border.all(color: AppTheme.border),
                           ),
                           child: Row(
                             children: [
                               Container(
                                 width: 36, height: 36,
-                                decoration: BoxDecoration(color: AppTheme.success.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+                                decoration: BoxDecoration(color: AppTheme.success.withOpacity(0.15), borderRadius: BorderRadius.zero),
                                 child: const Icon(Icons.trending_up, color: AppTheme.success, size: 18),
                               ),
                               const SizedBox(width: 12),
@@ -189,7 +189,7 @@ class _IncomeModalState extends State<_IncomeModal> {
             onChanged: (v) => setState(() => _category = v!),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(onPressed: _saving ? null : _save, child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)) : Text(widget.editing != null ? 'Update' : 'Add Income')),
+          ElevatedButton(onPressed: _saving ? null : _save, child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB))) : Text(widget.editing != null ? 'Update' : 'Add Income')),
           const SizedBox(height: 12),
         ]),
       ),

@@ -18,11 +18,11 @@ function MessageBubble({ msg }) {
   const isUser = msg.role === 'user';
   return (
     <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isUser ? 'bg-indigo-600' : 'bg-indigo-500/10 border border-base'}`}>
+      <div className={`w-8 h-8   flex items-center justify-center flex-shrink-0 ${isUser ? 'bg-indigo-600' : 'bg-indigo-500/10 border border-base'}`}>
         {isUser ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-indigo-400" />}
       </div>
-      <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${isUser ? 'bg-indigo-600 text-white rounded-tr-sm' : 'rounded-tl-sm border border-base'}`}
-        style={!isUser ? { backgroundColor: 'var(--elevated)', color: 'var(--text)' } : {}}>
+      <div className={`max-w-[75%] px-4 py-3   text-sm leading-relaxed ${isUser ? 'bg-indigo-600 text-white rounded-tr-sm' : 'rounded-tl-sm border border-base'}`}
+        style={!isUser ? { backgroundColor: 'var(--color-surface)', color: 'var(--text)' } : {}}>
         {msg.content.split('\n').map((line, i) => {
           const bold = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
           return <p key={i} dangerouslySetInnerHTML={{ __html: bold }} className={i > 0 ? 'mt-1' : ''} />;
@@ -77,7 +77,7 @@ export default function AIAdvisor() {
   return (
     <div className="space-y-6 h-full flex flex-col">
       <div>
-        <h1 className="text-xl font-semibold text-main flex items-center gap-2">
+        <h1 className="text-xl font-semibold text-[var(--color-ink)] flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-indigo-400" /> AI Financial Advisor
         </h1>
         <p className="text-sub text-sm mt-0.5">Powered by Gemini AI — ask anything about your finances</p>
@@ -90,15 +90,15 @@ export default function AIAdvisor() {
             <LoadingSkeleton rows={3} />
           ) : messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full py-10 text-center">
-              <div className="w-14 h-14 bg-indigo-500/10 border border-base rounded-2xl flex items-center justify-center mb-4">
+              <div className="w-14 h-14 bg-indigo-500/10 border border-base   flex items-center justify-center mb-4">
                 <Sparkles className="w-7 h-7 text-indigo-400" />
               </div>
-              <h3 className="text-main font-semibold mb-1">Start a Conversation</h3>
-              <p className="text-muted text-sm max-w-xs">Ask your AI advisor anything about your finances — savings, investments, spending habits, and more.</p>
+              <h3 className="text-[var(--color-ink)] font-semibold mb-1">Start a Conversation</h3>
+              <p className="text-[var(--color-muted)] text-sm max-w-xs">Ask your AI advisor anything about your finances — savings, investments, spending habits, and more.</p>
               <div className="flex flex-wrap justify-center gap-2 mt-5">
                 {SUGGESTED.map((s) => (
                   <button key={s} onClick={() => send(s)}
-                    className="px-3 py-1.5 text-xs bg-elevated hover:bg-hover border border-base rounded-full text-sub hover:text-main transition-colors">
+                    className="px-3 py-1.5 text-xs bg-elevated hover:bg-hover border border-base   text-sub hover:text-[var(--color-ink)] transition-colors">
                     {s}
                   </button>
                 ))}
@@ -109,14 +109,14 @@ export default function AIAdvisor() {
               {messages.map((m, i) => <MessageBubble key={i} msg={m} />)}
               {sending && (
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-indigo-500/10 border border-base flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8   bg-indigo-500/10 border border-base flex items-center justify-center flex-shrink-0">
                     <Bot className="w-4 h-4 text-indigo-400" />
                   </div>
-                  <div className="border border-base px-4 py-3 rounded-2xl rounded-tl-sm" style={{ backgroundColor: 'var(--elevated)' }}>
+                  <div className="border border-base px-4 py-3   rounded-tl-sm" style={{ backgroundColor: 'var(--color-surface)' }}>
                     <div className="flex gap-1.5 items-center h-4">
-              <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <span className="w-2 h-2 bg-indigo-400   animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-indigo-400   animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-indigo-400   animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ export default function AIAdvisor() {
           <div className="px-5 pb-2 flex gap-2 overflow-x-auto">
             {SUGGESTED.slice(0, 3).map((s) => (
               <button key={s} onClick={() => send(s)}
-                className="px-3 py-1.5 text-xs bg-elevated hover:bg-hover border border-base rounded-full text-sub hover:text-main transition-colors whitespace-nowrap flex-shrink-0">
+                className="px-3 py-1.5 text-xs bg-elevated hover:bg-hover border border-base   text-sub hover:text-[var(--color-ink)] transition-colors whitespace-nowrap flex-shrink-0">
                 {s}
               </button>
             ))}
@@ -146,10 +146,10 @@ export default function AIAdvisor() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about your finances..."
               disabled={sending}
-              className="field rounded-xl flex-1"
+              className="field   flex-1"
             />
             <button type="submit" disabled={!input.trim() || sending}
-              className="p-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-colors flex items-center justify-center">
+              className="p-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white   transition-colors flex items-center justify-center">
               <Send className="w-4 h-4" />
             </button>
           </form>

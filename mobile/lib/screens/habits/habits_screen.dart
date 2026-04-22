@@ -74,14 +74,14 @@ class _HabitsScreenState extends State<HabitsScreen> {
                 if (daily.isNotEmpty) ...[
                   Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.border)),
+                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                     child: Column(children: [
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                         const Text("Today's Progress", style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
                         Text('$completedCount/${daily.length}', style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold)),
                       ]),
                       const SizedBox(height: 10),
-                      ClipRRect(borderRadius: BorderRadius.circular(4), child: LinearProgressIndicator(
+                      ClipRRect(borderRadius: BorderRadius.zero, child: LinearProgressIndicator(
                         value: daily.isEmpty ? 0 : completedCount / daily.length,
                         backgroundColor: AppTheme.surfaceAlt,
                         valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primary),
@@ -155,7 +155,7 @@ class _HabitModalState extends State<_HabitModal> {
         ),
         const SizedBox(height: 16),
         ElevatedButton(onPressed: _saving ? null : _save,
-          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+          child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB)))
             : Text(widget.editing != null ? 'Update' : 'Create')),
         const SizedBox(height: 12),
       ])),

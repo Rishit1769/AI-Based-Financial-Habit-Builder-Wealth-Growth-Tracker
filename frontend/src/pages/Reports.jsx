@@ -54,7 +54,7 @@ export default function Reports() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-main">Reports</h1>
+        <h1 className="text-xl font-semibold text-[var(--color-ink)]">Reports</h1>
         <p className="text-sub text-sm mt-0.5">Generate and download your financial reports</p>
       </div>
 
@@ -88,31 +88,31 @@ export default function Reports() {
       <Card title="Report History">
         <div className="px-5 pb-5">
           {loading ? <LoadingSkeleton rows={4} /> : reports.length === 0 ? (
-            <p className="text-muted text-sm text-center py-8">No reports generated yet. Create your first one above!</p>
+            <p className="text-[var(--color-muted)] text-sm text-center py-8">No reports generated yet. Create your first one above!</p>
           ) : (
             <div className="space-y-2 mt-2">
               {reports.map((r) => (
-                <div key={r.id} className="flex items-center justify-between p-3 bg-elevated rounded-lg hover:bg-hover transition-colors">
+                <div key={r.id} className="flex items-center justify-between p-3 bg-elevated   hover:bg-hover transition-colors">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-lg bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9   bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
                       <FileText className="w-4 h-4 text-indigo-400" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-main">
+                      <p className="text-sm font-medium text-[var(--color-ink)]">
                         {MONTHS[(r.month || 1) - 1]} {r.year}
                       </p>
-                      <p className="text-xs text-muted">Generated {formatDate(r.created_at)}</p>
+                      <p className="text-xs text-[var(--color-muted)]">Generated {formatDate(r.created_at)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ml-3">
                     {r.url && (
                       <button onClick={() => window.open(r.url, '_blank')}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-elevated hover:bg-hover text-sub hover:text-main rounded-lg transition-colors">
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-elevated hover:bg-hover text-sub hover:text-[var(--color-ink)]   transition-colors">
                         <Download className="w-3.5 h-3.5" /> Download
                       </button>
                     )}
                     <button onClick={() => handleEmail(r.id)} disabled={emailingId === r.id}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-400 hover:text-indigo-300 rounded-lg transition-colors disabled:opacity-50">
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-400 hover:text-indigo-300   transition-colors disabled:opacity-50">
                       <Mail className="w-3.5 h-3.5" /> {emailingId === r.id ? 'Sending...' : 'Email'}
                     </button>
                   </div>

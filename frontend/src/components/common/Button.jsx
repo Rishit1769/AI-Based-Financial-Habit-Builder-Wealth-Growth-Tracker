@@ -2,13 +2,13 @@ export default function Button({
   children, onClick, type = 'button', variant = 'primary', size = 'md',
   loading = false, disabled = false, className = '', icon: Icon,
 }) {
-  const base = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-40 disabled:cursor-not-allowed select-none tracking-tight';
+  const base = 'inline-flex items-center justify-center gap-2 font-medium   transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-40 disabled:cursor-not-allowed select-none tracking-tight';
 
   const variants = {
     primary:   'text-white hover:opacity-90 active:scale-[0.98]',
-    secondary: 'border text-main hover:bg-[var(--elevated)]',
+    secondary: 'border text-[var(--color-ink)] hover:bg-[var(--color-surface)]',
     danger:    'bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white',
-    ghost:     'text-sub hover:text-main hover:bg-[var(--elevated)]',
+    ghost:     'text-sub hover:text-[var(--color-ink)] hover:bg-[var(--color-surface)]',
     success:   'bg-emerald-600 hover:bg-emerald-500 text-white',
   };
 
@@ -21,7 +21,7 @@ export default function Button({
   const primaryStyle = variant === 'primary'
     ? { background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)' }
     : variant === 'secondary'
-    ? { backgroundColor: 'var(--elevated)', borderColor: 'var(--border-2)' }
+    ? { backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-ink)' }
     : {};
 
   return (
@@ -33,7 +33,7 @@ export default function Button({
       className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {loading ? (
-        <div className="w-3.5 h-3.5 border-[1.5px] border-current border-t-transparent rounded-full animate-spin" />
+        <div className="w-3.5 h-3.5 border-[1.5px] border-current border-t-transparent   animate-spin" />
       ) : Icon ? (
         <Icon className="w-3.5 h-3.5" />
       ) : null}

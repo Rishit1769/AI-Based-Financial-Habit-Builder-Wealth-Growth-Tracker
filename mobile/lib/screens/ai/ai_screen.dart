@@ -78,8 +78,8 @@ class _AiScreenState extends State<AiScreen> {
       appBar: AppBar(
         title: Row(children: [
           Container(width: 28, height: 28,
-            decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.circular(8)),
-            child: const Icon(Icons.auto_awesome, color: Colors.white, size: 14)),
+            decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.zero),
+            child: const Icon(Icons.auto_awesome, color: const Color(0xFFF5F2EB), size: 14)),
           const SizedBox(width: 10),
           const Text('AI Financial Advisor'),
         ]),
@@ -115,9 +115,9 @@ class _AiScreenState extends State<AiScreen> {
                   hintStyle: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                   filled: true, fillColor: AppTheme.surfaceAlt,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(24), borderSide: BorderSide.none),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(24), borderSide: const BorderSide(color: AppTheme.primary)),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide.none),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: const BorderSide(color: AppTheme.primary)),
                 ),
               ),
             ),
@@ -125,10 +125,10 @@ class _AiScreenState extends State<AiScreen> {
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 44, height: 44,
-              decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.circular(22)),
+              decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.zero),
               child: IconButton(
                 onPressed: _sending ? null : () => _send(),
-                icon: const Icon(Icons.send_rounded, color: Colors.white, size: 18),
+                icon: const Icon(Icons.send_rounded, color: const Color(0xFFF5F2EB), size: 18),
               ),
             ),
           ]),
@@ -176,7 +176,7 @@ class _BubbleWidget extends StatelessWidget {
                 border: Border.all(color: isUser ? Colors.transparent : AppTheme.border),
               ),
               child: Text(msg.content,
-                style: TextStyle(color: isUser ? Colors.white : AppTheme.textPrimary, fontSize: 14, height: 1.4)),
+                style: TextStyle(color: isUser ? const Color(0xFFF5F2EB) : AppTheme.textPrimary, fontSize: 14, height: 1.4)),
             ),
           ),
           if (isUser) ...[
@@ -254,8 +254,8 @@ class _EmptyState extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(width: 64, height: 64,
-            decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.circular(20)),
-            child: const Icon(Icons.auto_awesome, color: Colors.white, size: 30)),
+            decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.zero),
+            child: const Icon(Icons.auto_awesome, color: const Color(0xFFF5F2EB), size: 30)),
           const SizedBox(height: 16),
           const Text('AI Financial Advisor', style: TextStyle(color: AppTheme.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
@@ -266,7 +266,7 @@ class _EmptyState extends StatelessWidget {
               onTap: () => onSuggest(s),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.border)),
+                decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                 child: Text(s, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
               ),
             )).toList(),

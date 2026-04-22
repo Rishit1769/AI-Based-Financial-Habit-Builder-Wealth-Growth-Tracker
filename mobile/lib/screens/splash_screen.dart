@@ -56,9 +56,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 width: 80, height: 80,
                 decoration: BoxDecoration(
                   gradient: AppTheme.primaryGradient,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.zero,
                 ),
-                child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 40),
+                child: const Icon(Icons.account_balance_wallet_rounded, color: const Color(0xFFF5F2EB), size: 40),
               ),
               const SizedBox(height: 20),
               Text('FinTrack', style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 28)),

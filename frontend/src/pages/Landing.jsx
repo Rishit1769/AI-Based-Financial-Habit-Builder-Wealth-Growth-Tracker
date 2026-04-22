@@ -16,11 +16,11 @@ const features = [
 ];
 
 const featureColors = {
-  indigo:  { bg: 'rgba(74,222,128,0.10)',  text: '#4ade80' },
+  indigo:  { bg: 'rgba(74,222,128,0.10)',  text: 'var(--color-volt)' },
   purple:  { bg: 'rgba(139,92,246,0.10)',  text: '#a78bfa' },
   blue:    { bg: 'rgba(59,130,246,0.10)',  text: '#60a5fa' },
   violet:  { bg: 'rgba(124,58,237,0.10)',  text: '#a78bfa' },
-  emerald: { bg: 'rgba(74,222,128,0.10)',  text: '#4ade80' },
+  emerald: { bg: 'rgba(74,222,128,0.10)',  text: 'var(--color-volt)' },
   rose:    { bg: 'rgba(244,63,94,0.10)',   text: '#fb7185' },
 };
 
@@ -66,33 +66,33 @@ export default function Landing() {
           background: 'rgba(9,9,11,0.85)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: '1px solid var(--border)',
+          borderBottom: '1px solid var(--color-ink)',
         }}
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg grad-brand flex items-center justify-center">
+            <div className="w-7 h-7   grad-brand flex items-center justify-center">
               <Wallet className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-semibold text-main text-sm tracking-tight">FinTrack</span>
+            <span className="font-semibold text-[var(--color-ink)] text-sm tracking-tight">FinTrack</span>
           </div>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setShowAppModal(true)}
-              className="hidden sm:flex items-center gap-1.5 text-xs text-sub hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-[var(--elevated)]"
+              className="hidden sm:flex items-center gap-1.5 text-xs text-sub hover:text-[var(--color-ink)] transition-colors px-3 py-1.5   hover:bg-[var(--color-surface)]"
             >
               <Smartphone className="w-3.5 h-3.5" />
               Mobile
             </button>
             <Link
               to="/login"
-              className="text-sm text-sub hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-[var(--elevated)]"
+              className="text-sm text-sub hover:text-[var(--color-ink)] transition-colors px-3 py-1.5   hover:bg-[var(--color-surface)]"
             >
               Sign in
             </Link>
             <Link
               to="/register"
-              className="text-sm grad-brand text-white px-3.5 py-1.5 rounded-md font-medium ml-1 hover:opacity-90 transition-opacity"
+              className="text-sm grad-brand text-white px-3.5 py-1.5   font-medium ml-1 hover:opacity-90 transition-opacity"
             >
               Get started
             </Link>
@@ -104,7 +104,7 @@ export default function Landing() {
       <section className="pt-36 pb-28 px-4 text-center relative z-10">
         <div className="max-w-3xl mx-auto">
           <div
-            className="animate-fade-in inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full text-xs font-medium"
+            className="animate-fade-in inline-flex items-center gap-2 mb-6 px-3 py-1   text-xs font-medium"
             style={{
               background: 'var(--accent-dim)',
               border: '1px solid rgba(99,102,241,0.2)',
@@ -114,7 +114,7 @@ export default function Landing() {
             AI-Powered Financial Platform
           </div>
 
-          <h1 className="animate-fade-in-up delay-100 text-4xl sm:text-5xl lg:text-6xl font-bold text-main mb-5 leading-[1.1] tracking-tight">
+          <h1 className="animate-fade-in-up delay-100 text-4xl sm:text-5xl lg:text-6xl font-bold text-[var(--color-ink)] mb-5 leading-[1.1] tracking-tight">
             Build wealth,<br />
             <span className="text-gradient">one habit at a time</span>
           </h1>
@@ -127,21 +127,21 @@ export default function Landing() {
           <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-2.5 justify-center mb-20">
             <button
               onClick={() => navigate('/register')}
-              className="flex items-center justify-center gap-2 grad-brand text-white px-6 py-2.5 rounded-lg font-medium text-sm hover:opacity-90 transition-opacity"
+              className="flex items-center justify-center gap-2 grad-brand text-white px-6 py-2.5   font-medium text-sm hover:opacity-90 transition-opacity"
             >
               Start for free <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={() => setShowAppModal(true)}
-              className="flex items-center justify-center gap-2 border text-sub hover:text-main px-6 py-2.5 rounded-lg font-medium text-sm hover:bg-[var(--elevated)] transition-all"
-              style={{ borderColor: 'var(--border-2)' }}
+              className="flex items-center justify-center gap-2 border text-sub hover:text-[var(--color-ink)] px-6 py-2.5   font-medium text-sm hover:bg-[var(--color-surface)] transition-all"
+              style={{ borderColor: 'var(--color-ink)' }}
             >
               <Smartphone className="w-4 h-4" /> Download App
             </button>
           </div>
 
           {/* Stats strip */}
-          <div className="animate-fade-in-up delay-400 inline-flex items-center gap-8 px-6 py-3 rounded-xl" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+          <div className="animate-fade-in-up delay-400 inline-flex items-center gap-8 px-6 py-3  " style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}>
             {[
               { value: '10+', label: 'Features' },
               { value: 'AI', label: 'Powered' },
@@ -149,8 +149,8 @@ export default function Landing() {
               { value: '📱', label: 'Mobile' },
             ].map(s => (
               <div key={s.label} className="text-center">
-                <p className="text-sm font-semibold text-main">{s.value}</p>
-                <p className="text-xs text-muted mt-0.5">{s.label}</p>
+                <p className="text-sm font-semibold text-[var(--color-ink)]">{s.value}</p>
+                <p className="text-xs text-[var(--color-muted)] mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
@@ -162,7 +162,7 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-xs font-medium tracking-widest uppercase mb-3 text-accent">Features</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-main mb-3 tracking-tight">Everything you need</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-ink)] mb-3 tracking-tight">Everything you need</h2>
             <p className="text-sub text-sm max-w-md mx-auto">A complete suite of tools to transform your financial habits.</p>
           </div>
 
@@ -173,15 +173,15 @@ export default function Landing() {
                 <div
                   key={title}
                   className="card p-5 group"
-                  style={{ background: 'var(--surface)' }}
+                  style={{ background: 'var(--color-surface)' }}
                 >
                   <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center mb-4"
+                    className="w-9 h-9   flex items-center justify-center mb-4"
                     style={{ background: c.bg }}
                   >
                     <Icon className="w-4 h-4" style={{ color: c.text }} />
                   </div>
-                  <h3 className="font-semibold text-main text-sm mb-1.5">{title}</h3>
+                  <h3 className="font-semibold text-[var(--color-ink)] text-sm mb-1.5">{title}</h3>
                   <p className="text-xs text-sub leading-relaxed">{desc}</p>
                 </div>
               );
@@ -194,14 +194,14 @@ export default function Landing() {
       <section className="py-16 px-4 relative z-10">
         <div className="max-w-3xl mx-auto">
           <div
-            className="rounded-xl p-8 sm:p-10 relative overflow-hidden"
+            className="  p-8 sm:p-10 relative overflow-hidden"
             style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-ink)',
             }}
           >
             <p className="text-xs font-medium tracking-widest uppercase mb-4 text-accent">Why FinTrack</p>
-            <h2 className="text-xl sm:text-2xl font-bold text-main mb-8 tracking-tight">Smart features, zero learning curve</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-ink)] mb-8 tracking-tight">Smart features, zero learning curve</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
                 { icon: CheckCircle, label: 'Real-time dashboard', sub: 'See your financial health at a glance' },
@@ -210,13 +210,13 @@ export default function Landing() {
               ].map(({ icon: Icon, label, sub }) => (
                 <div key={label} className="flex items-start gap-3">
                   <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                    className="w-8 h-8   flex items-center justify-center flex-shrink-0 mt-0.5"
                     style={{ background: 'var(--accent-dim)' }}
                   >
                     <Icon className="w-4 h-4" style={{ color: 'var(--accent-txt)' }} />
                   </div>
                   <div>
-                    <p className="text-main font-medium text-sm">{label}</p>
+                    <p className="text-[var(--color-ink)] font-medium text-sm">{label}</p>
                     <p className="text-sub text-xs mt-0.5 leading-relaxed">{sub}</p>
                   </div>
                 </div>
@@ -229,7 +229,7 @@ export default function Landing() {
       {/* ── CTA ── */}
       <section className="py-24 px-4 relative z-10">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-main mb-3 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-ink)] mb-3 tracking-tight">
             Ready to transform your finances?
           </h2>
           <p className="text-sub text-sm mb-8 leading-relaxed">
@@ -237,7 +237,7 @@ export default function Landing() {
           </p>
           <button
             onClick={() => navigate('/register')}
-            className="inline-flex items-center gap-2 grad-brand text-white px-8 py-3 rounded-lg font-medium text-sm hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 grad-brand text-white px-8 py-3   font-medium text-sm hover:opacity-90 transition-opacity"
           >
             Create free account <ArrowRight className="w-4 h-4" />
           </button>
@@ -245,18 +245,18 @@ export default function Landing() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="relative z-10 py-6 px-4" style={{ borderTop: '1px solid var(--border)' }}>
+      <footer className="relative z-10 py-6 px-4" style={{ borderTop: '1px solid var(--color-ink)' }}>
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-md grad-brand flex items-center justify-center">
+            <div className="w-5 h-5   grad-brand flex items-center justify-center">
               <Wallet className="w-2.5 h-2.5 text-white" />
             </div>
-            <span className="font-medium text-main text-xs">FinTrack</span>
+            <span className="font-medium text-[var(--color-ink)] text-xs">FinTrack</span>
           </div>
-          <p className="text-xs text-muted">© 2026 Financial Habit Builder & Wealth Growth Tracker</p>
+          <p className="text-xs text-[var(--color-muted)]">© 2026 Financial Habit Builder & Wealth Growth Tracker</p>
           <div className="flex items-center gap-4">
-            <Link to="/login" className="text-xs text-muted hover:text-sub transition-colors">Sign in</Link>
-            <Link to="/register" className="text-xs text-muted hover:text-sub transition-colors">Register</Link>
+            <Link to="/login" className="text-xs text-[var(--color-muted)] hover:text-sub transition-colors">Sign in</Link>
+            <Link to="/register" className="text-xs text-[var(--color-muted)] hover:text-sub transition-colors">Register</Link>
           </div>
         </div>
       </footer>
@@ -270,11 +270,11 @@ export default function Landing() {
         >
           <div className="card w-full max-w-sm p-6 animate-fade-in-up">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl grad-brand flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12   grad-brand flex items-center justify-center flex-shrink-0">
                 <Smartphone className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h3 className="text-main font-semibold text-sm">FinTrack Mobile</h3>
+                <h3 className="text-[var(--color-ink)] font-semibold text-sm">FinTrack Mobile</h3>
                 <p className="text-sub text-xs mt-0.5">Android · Flutter</p>
               </div>
             </div>
@@ -284,16 +284,16 @@ export default function Landing() {
             <button
               onClick={downloadApk}
               disabled={downloading}
-              className="w-full flex items-center justify-center gap-2 grad-brand text-white py-2.5 rounded-lg font-medium text-sm mb-2.5 disabled:opacity-60 hover:opacity-90 transition-opacity"
+              className="w-full flex items-center justify-center gap-2 grad-brand text-white py-2.5   font-medium text-sm mb-2.5 disabled:opacity-60 hover:opacity-90 transition-opacity"
             >
               {downloading
-                ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ? <span className="w-4 h-4 border-2 border-white/30 border-t-white   animate-spin" />
                 : <Download className="w-4 h-4" />}
               {downloading ? 'Downloading...' : 'Download APK'}
             </button>
             <button
               onClick={() => setShowAppModal(false)}
-              className="w-full text-sub hover:text-main text-sm py-2 transition-colors rounded-lg hover:bg-[var(--elevated)]"
+              className="w-full text-sub hover:text-[var(--color-ink)] text-sm py-2 transition-colors   hover:bg-[var(--color-surface)]"
             >
               Maybe later
             </button>

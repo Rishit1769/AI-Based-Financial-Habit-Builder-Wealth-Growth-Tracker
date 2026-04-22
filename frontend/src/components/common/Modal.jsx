@@ -15,12 +15,12 @@ export default function Modal({ open, onClose, title, children, size = 'md' }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" onClick={onClose} />
-      <div className={`relative w-full ${sizes[size]} card shadow-2xl`}>
+      <div className={`relative w-full ${sizes[size]} card `}>
         <div className="flex items-center justify-between px-5 py-4 border-b border-base">
-          <h3 className="text-main text-base font-semibold">{title}</h3>
+          <h3 className="text-[var(--color-ink)] text-base font-semibold">{title}</h3>
           <button
             onClick={onClose}
-            className="text-muted hover:text-main hover:bg-elevated w-7 h-7 rounded-md flex items-center justify-center transition-colors"
+            className="text-[var(--color-muted)] hover:text-[var(--color-ink)] hover:bg-elevated w-7 h-7   flex items-center justify-center transition-colors"
           >
             <X className="w-4 h-4" />
           </button>

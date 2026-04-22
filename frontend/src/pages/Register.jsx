@@ -108,20 +108,20 @@ export default function Register() {
     >
       {/* Subtle background */}
       <div
-        className="fixed top-0 left-0 w-96 h-96 rounded-full pointer-events-none opacity-10"
-        style={{ background: 'radial-gradient(circle, var(--accent) 0%, transparent 70%)', filter: 'blur(100px)' }}
+        className="fixed top-0 left-0 w-96 h-96   pointer-events-none opacity-10"
+        style={{ background: 'radial-gradient(circle, var(--color-volt) 0%, transparent 70%)', filter: 'blur(100px)' }}
       />
 
       <div className="w-full max-w-sm relative z-10">
         {/* Brand */}
         <div className="text-center mb-7">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-5 group">
-            <div className="w-8 h-8 rounded-lg grad-brand flex items-center justify-center">
+            <div className="w-8 h-8   grad-brand flex items-center justify-center">
               <Wallet className="w-4 h-4 text-white" />
             </div>
-            <span className="text-main font-semibold text-sm tracking-tight">FinTrack</span>
+            <span className="text-[var(--color-ink)] font-semibold text-sm tracking-tight">FinTrack</span>
           </Link>
-          <h1 className="text-xl font-bold text-main tracking-tight">
+          <h1 className="text-xl font-bold text-[var(--color-ink)] tracking-tight">
             {step === 1 ? 'Create an account' : 'Verify your email'}
           </h1>
           <p className="text-sub mt-1 text-sm">
@@ -131,17 +131,17 @@ export default function Register() {
 
         {/* Step indicator */}
         <div className="flex items-center gap-2 mb-6 px-2">
-          <div className="flex-1 h-px" style={{ background: step >= 1 ? 'var(--accent)' : 'var(--border)' }} />
+          <div className="flex-1 h-px" style={{ background: step >= 1 ? 'var(--color-volt)' : 'var(--color-ink)' }} />
           <div
-            className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium transition-all"
-            style={{ background: step >= 1 ? 'var(--accent)' : 'var(--elevated)', color: step >= 1 ? 'white' : 'var(--text-3)' }}
+            className="w-6 h-6   flex items-center justify-center text-xs font-medium transition-all"
+            style={{ background: step >= 1 ? 'var(--color-volt)' : 'var(--color-surface)', color: step >= 1 ? 'white' : 'var(--text-3)' }}
           >1</div>
-          <div className="flex-1 h-px" style={{ background: step >= 2 ? 'var(--accent)' : 'var(--border)' }} />
+          <div className="flex-1 h-px" style={{ background: step >= 2 ? 'var(--color-volt)' : 'var(--color-ink)' }} />
           <div
-            className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium transition-all"
-            style={{ background: step >= 2 ? 'var(--accent)' : 'var(--elevated)', color: step >= 2 ? 'white' : 'var(--text-3)' }}
+            className="w-6 h-6   flex items-center justify-center text-xs font-medium transition-all"
+            style={{ background: step >= 2 ? 'var(--color-volt)' : 'var(--color-surface)', color: step >= 2 ? 'white' : 'var(--text-3)' }}
           >2</div>
-          <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+          <div className="flex-1 h-px" style={{ background: 'var(--color-ink)' }} />
         </div>
 
         {step === 1 ? (
@@ -164,12 +164,12 @@ export default function Register() {
           <form onSubmit={handleRegister} className="card p-6 space-y-5">
             <div className="text-center">
               <div
-                className="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center"
+                className="w-12 h-12   mx-auto mb-3 flex items-center justify-center"
                 style={{ background: 'var(--accent-dim)' }}
               >
                 <ShieldCheck className="w-5 h-5" style={{ color: 'var(--accent-txt)' }} />
               </div>
-              <p className="text-xs text-muted">Enter the 6-digit code sent to your email. Expires in 10 minutes.</p>
+              <p className="text-xs text-[var(--color-muted)]">Enter the 6-digit code sent to your email. Expires in 10 minutes.</p>
             </div>
 
             <div className="flex justify-center gap-2" onPaste={handleOtpPaste}>
@@ -183,12 +183,12 @@ export default function Register() {
                   value={digit}
                   onChange={(e) => handleOtpChange(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                  className="text-center text-base font-semibold rounded-lg text-main focus:outline-none transition-all"
+                  className="text-center text-base font-semibold   text-[var(--color-ink)] focus:outline-none transition-all"
                   style={{
                     width: '42px',
                     height: '48px',
-                    background: digit ? 'var(--accent-dim)' : 'var(--elevated)',
-                    border: `1px solid ${digit ? 'rgba(99,102,241,0.4)' : 'var(--border)'}`,
+                    background: digit ? 'var(--accent-dim)' : 'var(--color-surface)',
+                    border: `1px solid ${digit ? 'rgba(99,102,241,0.4)' : 'var(--color-ink)'}`,
                   }}
                 />
               ))}
@@ -202,7 +202,7 @@ export default function Register() {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="flex items-center gap-1 text-muted hover:text-sub transition-colors text-xs"
+                className="flex items-center gap-1 text-[var(--color-muted)] hover:text-sub transition-colors text-xs"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Edit details
               </button>
@@ -224,7 +224,7 @@ export default function Register() {
             Already have an account?{' '}
             <Link to="/login" className="font-medium hover:underline" style={{ color: 'var(--accent-txt)' }}>Sign in</Link>
           </p>
-          <Link to="/" className="text-xs text-muted hover:text-sub transition-colors block">← Back to home</Link>
+          <Link to="/" className="text-xs text-[var(--color-muted)] hover:text-sub transition-colors block">← Back to home</Link>
         </div>
       </div>
     </div>

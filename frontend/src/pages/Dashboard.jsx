@@ -67,8 +67,8 @@ export default function Dashboard() {
     return (
       <div className="space-y-5">
         <div
-          className="h-10 w-64 rounded-xl animate-pulse"
-          style={{ background: 'var(--elevated)' }}
+          className="h-10 w-64   animate-pulse"
+          style={{ background: 'var(--color-surface)' }}
         />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
@@ -82,8 +82,8 @@ export default function Dashboard() {
           {[1, 2, 3, 4].map((item) => (
             <div
               key={item}
-              className="h-28 rounded-2xl animate-pulse"
-              style={{ background: 'var(--elevated)' }}
+              className="h-28   animate-pulse"
+              style={{ background: 'var(--color-surface)' }}
             />
           ))}
         </div>
@@ -103,14 +103,14 @@ export default function Dashboard() {
       pct: null,
       sublabel: 'This month',
       value: formatCurrency(ov.monthlyIncome || 0),
-      color: '#4ade80',
+      color: 'var(--color-volt)',
     },
     {
       label: 'Monthly Expenses',
       pct: null,
       sublabel: 'This month',
       value: formatCurrency(ov.monthlyExpense || 0),
-      color: '#f87171',
+      color: 'var(--color-terracotta)',
     },
     {
       label: 'Active Habits',
@@ -124,7 +124,7 @@ export default function Dashboard() {
       pct: null,
       sublabel: 'Net this month',
       value: formatCurrency(ov.monthlySavings || 0),
-      color: (ov.monthlySavings || 0) >= 0 ? '#4ade80' : '#f87171',
+      color: (ov.monthlySavings || 0) >= 0 ? 'var(--color-volt)' : 'var(--color-terracotta)',
     },
   ];
 
@@ -133,7 +133,7 @@ export default function Dashboard() {
       <div>
         <p className="text-sub text-sm mb-1">{greeting()},</p>
         <h1
-          className="text-main leading-none tracking-tight"
+          className="text-[var(--color-ink)] leading-none tracking-tight"
           style={{
             fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
             fontWeight: 900,
@@ -143,19 +143,19 @@ export default function Dashboard() {
         >
           Welcome Back, {firstName}.
         </h1>
-        <p className="text-muted text-sm mt-2">Your financial health is being tracked in real-time.</p>
+        <p className="text-[var(--color-muted)] text-sm mt-2">Your financial health is being tracked in real-time.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div
-          className="lg:col-span-2 rounded-2xl overflow-hidden"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+          className="lg:col-span-2   overflow-hidden"
+          style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
         >
           <div className="px-6 pt-5 pb-2">
-            <p className="text-muted text-xs uppercase tracking-widest font-medium mb-2">Current Net Worth</p>
+            <p className="text-[var(--color-muted)] text-xs uppercase tracking-widest font-medium mb-2">Current Net Worth</p>
             <div className="flex items-end gap-3">
               <span
-                className="text-main font-black tracking-tight"
+                className="text-[var(--color-ink)] font-bold tracking-tight"
                 style={{
                   fontSize: 'clamp(2rem, 5vw, 3.25rem)',
                   letterSpacing: '-0.04em',
@@ -166,8 +166,8 @@ export default function Dashboard() {
 
               {(ov.monthlyIncome || 0) > 0 && (
                 <div
-                  className="mb-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold"
-                  style={{ background: 'rgba(74,222,128,0.12)', color: '#4ade80' }}
+                  className="mb-1 inline-flex items-center gap-1 px-2 py-0.5   text-xs font-bold"
+                  style={{ background: 'rgba(74,222,128,0.12)', color: 'var(--color-volt)' }}
                 >
                   <TrendingUp className="w-3 h-3" />
                   +
@@ -187,22 +187,22 @@ export default function Dashboard() {
         <div className="flex flex-col gap-3">
           <Link
             to="/income"
-            className="flex items-center justify-between p-4 rounded-2xl group transition-colors cursor-pointer"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+            className="flex items-center justify-between p-4   group transition-colors cursor-pointer"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--accent)';
+              e.currentTarget.style.borderColor = 'var(--color-volt)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
           >
             <div>
-              <p className="text-main text-sm font-semibold">Add Income</p>
-              <p className="text-muted text-xs mt-0.5">Record a new income source</p>
+              <p className="text-[var(--color-ink)] text-sm font-semibold">Add Income</p>
+              <p className="text-[var(--color-muted)] text-xs mt-0.5">Record a new income source</p>
             </div>
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'var(--accent)', color: '#000' }}
+              className="w-8 h-8   flex items-center justify-center flex-shrink-0"
+              style={{ background: 'var(--color-volt)', color: '#000' }}
             >
               <TrendingUp className="w-4 h-4" />
             </div>
@@ -210,22 +210,22 @@ export default function Dashboard() {
 
           <Link
             to="/reports"
-            className="flex items-center justify-between p-4 rounded-2xl group transition-colors cursor-pointer"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+            className="flex items-center justify-between p-4   group transition-colors cursor-pointer"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-2)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
           >
             <div>
-              <p className="text-main text-sm font-semibold">Generate Report</p>
-              <p className="text-muted text-xs mt-0.5">Monthly financial summary</p>
+              <p className="text-[var(--color-ink)] text-sm font-semibold">Generate Report</p>
+              <p className="text-[var(--color-muted)] text-xs mt-0.5">Monthly financial summary</p>
             </div>
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'var(--elevated)', color: 'var(--text-2)' }}
+              className="w-8 h-8   flex items-center justify-center flex-shrink-0"
+              style={{ background: 'var(--color-surface)', color: 'var(--text-2)' }}
             >
               <Download className="w-4 h-4" />
             </div>
@@ -233,22 +233,22 @@ export default function Dashboard() {
 
           <Link
             to="/expenses"
-            className="flex items-center justify-between p-4 rounded-2xl group transition-colors cursor-pointer"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+            className="flex items-center justify-between p-4   group transition-colors cursor-pointer"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-2)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
           >
             <div>
-              <p className="text-main text-sm font-semibold">Add Expense</p>
-              <p className="text-muted text-xs mt-0.5">Log a transaction</p>
+              <p className="text-[var(--color-ink)] text-sm font-semibold">Add Expense</p>
+              <p className="text-[var(--color-muted)] text-xs mt-0.5">Log a transaction</p>
             </div>
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'var(--elevated)', color: 'var(--text-2)' }}
+              className="w-8 h-8   flex items-center justify-center flex-shrink-0"
+              style={{ background: 'var(--color-surface)', color: 'var(--text-2)' }}
             >
               <Plus className="w-4 h-4" />
             </div>
@@ -256,22 +256,22 @@ export default function Dashboard() {
 
           <Link
             to="/ai-advisor"
-            className="flex items-center justify-between p-4 rounded-2xl transition-colors cursor-pointer"
-            style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }}
+            className="flex items-center justify-between p-4   transition-colors cursor-pointer"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-2)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)';
+              e.currentTarget.style.borderColor = 'var(--color-ink)';
             }}
           >
             <div>
-              <p className="text-main text-sm font-semibold">AI Advisor</p>
-              <p className="text-muted text-xs mt-0.5">Get personalized insights</p>
+              <p className="text-[var(--color-ink)] text-sm font-semibold">AI Advisor</p>
+              <p className="text-[var(--color-muted)] text-xs mt-0.5">Get personalized insights</p>
             </div>
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'rgba(74,222,128,0.1)', color: '#4ade80' }}
+              className="w-8 h-8   flex items-center justify-center flex-shrink-0"
+              style={{ background: 'rgba(74,222,128,0.1)', color: 'var(--color-volt)' }}
             >
               <Bot className="w-4 h-4" />
             </div>
@@ -281,11 +281,11 @@ export default function Dashboard() {
 
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-main text-sm font-semibold">Financial Overview</h2>
+          <h2 className="text-[var(--color-ink)] text-sm font-semibold">Financial Overview</h2>
           <Link
             to="/investments"
             className="text-xs flex items-center gap-1 transition-colors"
-            style={{ color: 'var(--accent)' }}
+            style={{ color: 'var(--color-volt)' }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.8';
             }}
@@ -301,8 +301,8 @@ export default function Dashboard() {
           {assetCards.map((card, index) => (
             <div
               key={index}
-              className="rounded-2xl p-4 transition-colors"
-              style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+              className="  p-4 transition-colors"
+              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
             >
               {card.pct !== null && (
                 <p
@@ -312,10 +312,10 @@ export default function Dashboard() {
                   {card.pct}% of target
                 </p>
               )}
-              <p className="text-muted text-xs mb-2">{card.sublabel}</p>
-              <p className="text-main text-sm font-bold truncate">{card.label}</p>
+              <p className="text-[var(--color-muted)] text-xs mb-2">{card.sublabel}</p>
+              <p className="text-[var(--color-ink)] text-sm font-bold truncate">{card.label}</p>
               <p
-                className="font-black mt-1 truncate"
+                className="font-bold mt-1 truncate"
                 style={{ fontSize: '1.25rem', color: card.color, letterSpacing: '-0.03em' }}
               >
                 {card.value}
@@ -328,8 +328,8 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-main text-sm font-semibold">Savings Goals</h2>
-            <Link to="/savings" className="text-xs flex items-center gap-1 transition-colors" style={{ color: 'var(--accent)' }}>
+            <h2 className="text-[var(--color-ink)] text-sm font-semibold">Savings Goals</h2>
+            <Link to="/savings" className="text-xs flex items-center gap-1 transition-colors" style={{ color: 'var(--color-volt)' }}>
               View All <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -337,11 +337,11 @@ export default function Dashboard() {
           <div className="space-y-3">
             {(data?.savingsGoals || []).length === 0 ? (
               <div
-                className="rounded-2xl p-8 text-center"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+                className="  p-8 text-center"
+                style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
               >
-                <p className="text-muted text-sm">No savings goals yet</p>
-                <Link to="/savings" className="text-xs mt-2 inline-block" style={{ color: 'var(--accent)' }}>
+                <p className="text-[var(--color-muted)] text-sm">No savings goals yet</p>
+                <Link to="/savings" className="text-xs mt-2 inline-block" style={{ color: 'var(--color-volt)' }}>
                   Create your first goal →
                 </Link>
               </div>
@@ -355,14 +355,14 @@ export default function Dashboard() {
                 return (
                   <div
                     key={goal.id}
-                    className="rounded-2xl p-4"
-                    style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+                    className="  p-4"
+                    style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <p className="text-main text-sm font-semibold">{goal.title}</p>
+                        <p className="text-[var(--color-ink)] text-sm font-semibold">{goal.title}</p>
                         {goal.deadline && (
-                          <p className="text-muted text-xs mt-0.5">
+                          <p className="text-[var(--color-muted)] text-xs mt-0.5">
                             Target:{' '}
                             {new Date(goal.deadline).toLocaleDateString('en-IN', {
                               month: 'short',
@@ -373,20 +373,20 @@ export default function Dashboard() {
                       </div>
                       <span
                         className="font-bold text-sm"
-                        style={{ color: pct >= 100 ? '#4ade80' : 'var(--accent)' }}
+                        style={{ color: pct >= 100 ? 'var(--color-volt)' : 'var(--color-volt)' }}
                       >
                         {pct}%
                       </span>
                     </div>
 
-                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--elevated)' }}>
+                    <div className="h-1.5   overflow-hidden" style={{ background: 'var(--color-surface)' }}>
                       <div
-                        className="h-full rounded-full transition-all duration-700"
-                        style={{ width: `${pct}%`, background: pct >= 100 ? '#4ade80' : 'var(--accent)' }}
+                        className="h-full   transition-all duration-700"
+                        style={{ width: `${pct}%`, background: pct >= 100 ? 'var(--color-volt)' : 'var(--color-volt)' }}
                       />
                     </div>
 
-                    <div className="flex justify-between text-xs text-muted mt-2">
+                    <div className="flex justify-between text-xs text-[var(--color-muted)] mt-2">
                       <span>{formatCurrency(goal.current_amount)} saved</span>
                       <span>Target: {formatCurrency(goal.target_amount)}</span>
                     </div>
@@ -399,16 +399,16 @@ export default function Dashboard() {
 
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-main text-sm font-semibold">Recent Activity</h2>
+            <h2 className="text-[var(--color-ink)] text-sm font-semibold">Recent Activity</h2>
             <div className="flex items-center gap-3">
               <span
-                className="text-muted text-xs uppercase font-medium"
+                className="text-[var(--color-muted)] text-xs uppercase font-medium"
                 style={{ fontSize: '10px', letterSpacing: '0.06em' }}
               >
                 TRANSACTION
               </span>
               <span
-                className="text-muted text-xs uppercase font-medium"
+                className="text-[var(--color-muted)] text-xs uppercase font-medium"
                 style={{ fontSize: '10px', letterSpacing: '0.06em' }}
               >
                 AMOUNT
@@ -417,12 +417,12 @@ export default function Dashboard() {
           </div>
 
           <div
-            className="rounded-2xl overflow-hidden"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+            className="  overflow-hidden"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
           >
             {(data?.recentTransactions || []).length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-muted text-sm">No recent transactions</p>
+                <p className="text-[var(--color-muted)] text-sm">No recent transactions</p>
               </div>
             ) : (
               <div>
@@ -430,9 +430,9 @@ export default function Dashboard() {
                   <div
                     key={`${tx.id || tx.date || index}-${index}`}
                     className="flex items-center justify-between px-4 py-3 transition-colors"
-                    style={{ borderBottom: index < 6 ? '1px solid var(--border)' : 'none' }}
+                    style={{ borderBottom: index < 6 ? '1px solid var(--color-ink)' : 'none' }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--elevated)';
+                      e.currentTarget.style.background = 'var(--color-surface)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent';
@@ -440,20 +440,20 @@ export default function Dashboard() {
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div
-                        className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                          tx.type === 'income' ? 'bg-[rgba(74,222,128,0.12)]' : 'bg-[rgba(248,113,113,0.12)]'
+                        className={`w-8 h-8   flex items-center justify-center flex-shrink-0 ${
+                          tx.type === 'income' ? 'bg-[rgba(200,255,0,0.12)]' : 'bg-[rgba(214,74,42,0.12)]'
                         }`}
                       >
                         {tx.type === 'income' ? (
-                          <TrendingUp className="w-3.5 h-3.5" style={{ color: '#4ade80' }} />
+                          <TrendingUp className="w-3.5 h-3.5" style={{ color: 'var(--color-volt)' }} />
                         ) : (
-                          <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
+                          <TrendingDown className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
                         )}
                       </div>
 
                       <div className="min-w-0">
-                        <p className="text-main text-xs font-semibold truncate">{tx.label}</p>
-                        <p className="text-muted truncate" style={{ fontSize: '10px' }}>
+                        <p className="text-[var(--color-ink)] text-xs font-semibold truncate">{tx.label}</p>
+                        <p className="text-[var(--color-muted)] truncate" style={{ fontSize: '10px' }}>
                           {formatDate(tx.date)}
                         </p>
                       </div>
@@ -461,7 +461,7 @@ export default function Dashboard() {
 
                     <span
                       className={`text-xs font-bold ml-3 flex-shrink-0 ${
-                        tx.type === 'income' ? 'text-[#4ade80]' : 'text-rose-400'
+                        tx.type === 'income' ? 'text-[var(--color-volt)]' : 'text-[var(--color-terracotta)]'
                       }`}
                     >
                       {tx.type === 'income' ? '+' : '-'}
@@ -476,7 +476,7 @@ export default function Dashboard() {
                     className="text-xs transition-colors"
                     style={{ color: 'var(--text-2)' }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'var(--accent)';
+                      e.currentTarget.style.color = 'var(--color-volt)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.color = 'var(--text-2)';
@@ -493,15 +493,15 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div
-          className="rounded-2xl overflow-hidden"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+          className="  overflow-hidden"
+          style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
         >
           <div
             className="px-4 pt-4 pb-2 flex items-center justify-between"
-            style={{ borderBottom: '1px solid var(--border)' }}
+            style={{ borderBottom: '1px solid var(--color-ink)' }}
           >
-            <h3 className="text-main text-sm font-semibold">Income vs Expenses</h3>
-            <span className="text-muted text-xs">6 months</span>
+            <h3 className="text-[var(--color-ink)] text-sm font-semibold">Income vs Expenses</h3>
+            <span className="text-[var(--color-muted)] text-xs">6 months</span>
           </div>
           <div className="px-4 pt-2 pb-4">
             <IncomeExpenseBar data={comparison || []} />
@@ -509,21 +509,21 @@ export default function Dashboard() {
         </div>
 
         <div
-          className="rounded-2xl overflow-hidden"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+          className="  overflow-hidden"
+          style={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)' }}
         >
           <div
             className="px-4 pt-4 pb-2 flex items-center justify-between"
-            style={{ borderBottom: '1px solid var(--border)' }}
+            style={{ borderBottom: '1px solid var(--color-ink)' }}
           >
-            <h3 className="text-main text-sm font-semibold">Expense Breakdown</h3>
-            <span className="text-muted text-xs">This month</span>
+            <h3 className="text-[var(--color-ink)] text-sm font-semibold">Expense Breakdown</h3>
+            <span className="text-[var(--color-muted)] text-xs">This month</span>
           </div>
           <div className="px-4 pt-2 pb-4">
             {data?.expenseByCategory?.length > 0 ? (
               <ExpensePieChart data={data.expenseByCategory} />
             ) : (
-              <div className="h-52 flex items-center justify-center text-muted text-sm">
+              <div className="h-52 flex items-center justify-center text-[var(--color-muted)] text-sm">
                 No expenses this month
               </div>
             )}

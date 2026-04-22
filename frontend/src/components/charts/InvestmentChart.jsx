@@ -26,7 +26,7 @@ export default function InvestmentChart({ data = [] }) {
           ))}
         </Pie>
         <Tooltip
-        contentStyle={{ background: 'var(--elevated)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)' }}
+        contentStyle={{ background: 'var(--color-surface)', border: '1px solid var(--color-ink)', borderRadius: '8px', color: 'var(--text)' }}
           formatter={(v) => [`₹${Number(v).toLocaleString('en-IN')}`, 'Value']}
           labelStyle={{ color: '#f1f5f9' }}
         />

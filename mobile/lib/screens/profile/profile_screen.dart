@@ -98,8 +98,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(children: [
                     Container(
                       width: 80, height: 80,
-                      decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.circular(20)),
-                      child: Center(child: Text(initials, style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold))),
+                      decoration: BoxDecoration(gradient: AppTheme.primaryGradient, borderRadius: BorderRadius.zero),
+                      child: Center(child: Text(initials, style: const TextStyle(color: const Color(0xFFF5F2EB), fontSize: 28, fontWeight: FontWeight.bold))),
                     ),
                     const SizedBox(height: 12),
                     Text(user?.email ?? '', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
@@ -107,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 4),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                        decoration: BoxDecoration(color: AppTheme.warning.withOpacity(0.2), borderRadius: BorderRadius.circular(20)),
+                        decoration: BoxDecoration(color: AppTheme.warning.withOpacity(0.2), borderRadius: BorderRadius.zero),
                         child: const Text('Admin', style: TextStyle(color: AppTheme.warning, fontSize: 11, fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Edit form
                 Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.border)),
+                  decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                     const Text('Personal Information', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 16),
@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: _saving ? null : _save,
-                      child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)) : const Text('Save Changes'),
+                      child: _saving ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: const Color(0xFFF5F2EB))) : const Text('Save Changes'),
                     ),
                   ]),
                 ),
@@ -150,12 +150,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Consumer<ThemeProvider>(
                   builder: (context, themeProvider, _) => Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.border)),
+                    decoration: BoxDecoration(color: AppTheme.surface, borderRadius: BorderRadius.zero, border: Border.all(color: AppTheme.border)),
                     child: Row(
                       children: [
                         Container(
                           width: 36, height: 36,
-                          decoration: BoxDecoration(color: AppTheme.primary.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+                          decoration: BoxDecoration(color: AppTheme.primary.withOpacity(0.15), borderRadius: BorderRadius.zero),
                           child: Icon(themeProvider.isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded, color: AppTheme.primary, size: 20),
                         ),
                         const SizedBox(width: 12),
@@ -184,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: AppTheme.error),
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                   ),
                 ),
               ]),

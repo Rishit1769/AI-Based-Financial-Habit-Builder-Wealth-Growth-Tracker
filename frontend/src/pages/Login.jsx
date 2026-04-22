@@ -34,20 +34,20 @@ export default function Login() {
     >
       {/* Subtle background */}
       <div
-        className="fixed top-0 right-0 w-96 h-96 rounded-full pointer-events-none opacity-10"
-        style={{ background: 'radial-gradient(circle, var(--accent) 0%, transparent 70%)', filter: 'blur(100px)' }}
+        className="fixed top-0 right-0 w-96 h-96   pointer-events-none opacity-10"
+        style={{ background: 'radial-gradient(circle, var(--color-volt) 0%, transparent 70%)', filter: 'blur(100px)' }}
       />
 
       <div className="w-full max-w-sm relative z-10">
         {/* Brand */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-6 group">
-            <div className="w-8 h-8 rounded-lg grad-brand flex items-center justify-center">
+            <div className="w-8 h-8   grad-brand flex items-center justify-center">
               <Wallet className="w-4 h-4 text-white" />
             </div>
-            <span className="text-main font-semibold text-sm tracking-tight">FinTrack</span>
+            <span className="text-[var(--color-ink)] font-semibold text-sm tracking-tight">FinTrack</span>
           </Link>
-          <h1 className="text-xl font-bold text-main tracking-tight">Welcome back</h1>
+          <h1 className="text-xl font-bold text-[var(--color-ink)] tracking-tight">Welcome back</h1>
           <p className="text-sub mt-1 text-sm">Sign in to your account</p>
         </div>
 
@@ -86,7 +86,7 @@ export default function Login() {
               Create one
             </Link>
           </p>
-          <Link to="/" className="text-xs text-muted hover:text-sub transition-colors block">
+          <Link to="/" className="text-xs text-[var(--color-muted)] hover:text-sub transition-colors block">
             ← Back to home
           </Link>
         </div>

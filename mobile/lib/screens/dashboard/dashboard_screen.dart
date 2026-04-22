@@ -61,13 +61,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         width: 42, height: 42,
                         decoration: BoxDecoration(
                           gradient: AppTheme.primaryGradient,
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.zero,
                           boxShadow: AppTheme.shadowAccent(AppTheme.primary),
                         ),
                         child: Center(
                           child: Text(
                             auth.user?.name.substring(0, 1).toUpperCase() ?? '?',
-                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16),
+                            style: const TextStyle(color: const Color(0xFFF5F2EB), fontWeight: FontWeight.w800, fontSize: 16),
                           ),
                         ),
                       ),
@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
                       decoration: BoxDecoration(
                         gradient: AppTheme.primaryGradient,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.zero,
                         boxShadow: AppTheme.shadowAccent(AppTheme.primary),
                       ),
                       child: Column(
@@ -91,15 +91,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.account_balance_wallet_rounded, color: Colors.white60, size: 14),
+                              const Icon(Icons.account_balance_wallet_rounded, color: const Color(0xFFF5F2EB), size: 14),
                               const SizedBox(width: 6),
-                              const Text('Net Worth', style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.5)),
+                              const Text('Net Worth', style: TextStyle(color: const Color(0xFFF5F2EB), fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.5)),
                             ],
                           ),
                           const SizedBox(height: 8),
-                          Text(_fmt(d.netWorth), style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900, letterSpacing: -1)),
+                          Text(_fmt(d.netWorth), style: const TextStyle(color: const Color(0xFFF5F2EB), fontSize: 32, fontWeight: FontWeight.w900, letterSpacing: -1)),
                           const SizedBox(height: 14),
-                          Container(height: 1, color: Colors.white.withOpacity(0.15)),
+                          Container(height: 1, color: const Color(0xFFF5F2EB).withOpacity(0.15)),
                           const SizedBox(height: 12),
                           Row(
                             children: [
@@ -215,7 +215,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                           decoration: BoxDecoration(
                             color: AppTheme.surface,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.zero,
                             border: Border.all(color: AppTheme.border),
                           ),
                           child: Row(
@@ -224,7 +224,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 width: 36, height: 36,
                                 decoration: BoxDecoration(
                                   color: isIncome ? AppTheme.success.withOpacity(0.15) : AppTheme.error.withOpacity(0.15),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.zero,
                                 ),
                                 child: Icon(isIncome ? Icons.trending_up : Icons.trending_down,
                                   color: isIncome ? AppTheme.success : AppTheme.error, size: 18),
@@ -282,13 +282,13 @@ class _MiniStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: Colors.white70, size: 14),
+        Icon(icon, color: const Color(0xFFF5F2EB), size: 14),
         const SizedBox(width: 4),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(color: Colors.white60, fontSize: 10)),
-            Text(value, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
+            Text(label, style: const TextStyle(color: const Color(0xFFF5F2EB), fontSize: 10)),
+            Text(value, style: const TextStyle(color: const Color(0xFFF5F2EB), fontSize: 12, fontWeight: FontWeight.w600)),
           ],
         ),
       ],
