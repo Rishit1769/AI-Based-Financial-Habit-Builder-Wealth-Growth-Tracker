@@ -25,12 +25,7 @@ const operations = [
 
 function DotLabel({ color = 'var(--orbit)', text }) {
   return (
-    <p className="eyebrow flex items-center gap-2 px-1" style={{ color: 'var(--muted-ink)' }}>
-      <span
-        aria-hidden="true"
-        className="h-2 w-2 radius-circle"
-        style={{ background: color }}
-      />
+    <p className="eyebrow px-1" style={{ color: 'color-mix(in srgb, var(--ink) 34%, transparent)' }}>
       {text}
     </p>
   );
@@ -42,7 +37,7 @@ function SideNavLink({ to, icon: Icon, label, onClose }) {
       to={to}
       onClick={onClose}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-3.5 pill-button text-[1.02rem] transition-all duration-200 ${
+        `flex items-center gap-3 px-4 py-3.5 pill-button text-[1.01rem] transition-all duration-200 ${
           isActive ? 'font-semibold' : 'font-medium'
         }`
       }
@@ -75,12 +70,12 @@ export default function Sidebar({ open, onClose }) {
         className={`fixed inset-y-0 left-0 z-50 flex flex-col transition-transform duration-300 ease-out
           ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
         style={{
-          width: 'min(16.5rem, 86vw)',
+          width: 'min(15.5rem, 86vw)',
           background: 'var(--lifted-surface)',
           borderRight: '1px solid var(--border)',
         }}
       >
-        <div className="flex h-20 items-center justify-between px-6">
+        <div className="flex h-24 items-center justify-between px-6">
           <div className="flex items-center gap-3">
             <div className="relative h-8 w-10" aria-hidden="true">
               <span
@@ -104,8 +99,8 @@ export default function Sidebar({ open, onClose }) {
           </button>
         </div>
 
-        <nav className="flex-1 space-y-9 overflow-y-auto px-6 pb-6 pt-6">
-          <section className="space-y-2">
+        <nav className="flex-1 space-y-11 overflow-y-auto px-6 pb-6 pt-9">
+          <section className="space-y-3">
             <DotLabel text="Core Portfolio" color="var(--signal)" />
             <div className="space-y-2">
               {corePortfolio.map((item) => (
@@ -114,7 +109,7 @@ export default function Sidebar({ open, onClose }) {
             </div>
           </section>
 
-          <section className="space-y-2">
+          <section className="space-y-3">
             <DotLabel text="Operations" color="var(--growth)" />
             <div className="space-y-2">
               {operations.map((item) => (
@@ -131,7 +126,7 @@ export default function Sidebar({ open, onClose }) {
           )}
         </nav>
 
-        <div className="px-6 pb-6 pt-3">
+        <div className="px-6 pb-6 pt-4">
           <div
             className="radius-stadium px-5 py-4"
             style={{

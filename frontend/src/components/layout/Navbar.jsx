@@ -18,13 +18,13 @@ export default function Navbar({ onMenuClick, title }) {
         >
           <FaBars />
         </button>
-        <h1 className="wealth-display text-[clamp(1.95rem,3.4vw,2.85rem)] font-bold">{title}</h1>
+        <h1 className="wealth-display text-[clamp(1.8rem,3.15vw,2.65rem)] font-bold">{title}</h1>
       </div>
 
       <div className="ml-2 flex items-center gap-3">
         <button
           onClick={toggleTheme}
-          className="radius-circle flex h-12 w-12 items-center justify-center"
+          className="radius-circle flex h-11 w-11 items-center justify-center"
           style={{
             border: '1px solid var(--border)',
             color: 'var(--ink)',
@@ -49,12 +49,12 @@ export default function Navbar({ onMenuClick, title }) {
           aria-label="Open account settings"
         >
           <span
-            className="radius-circle flex h-8 w-8 items-center justify-center text-[0.78rem] font-semibold"
+            className="radius-circle flex h-7.5 w-7.5 items-center justify-center text-[0.75rem] font-semibold"
             style={{ background: 'var(--ink)', color: 'var(--canvas)' }}
           >
             RI
           </span>
-          <span className="hidden text-[1rem] font-semibold sm:inline" style={{ color: 'var(--ink)' }}>Rishit P.</span>
+          <span className="hidden text-[0.98rem] font-semibold sm:inline" style={{ color: 'var(--ink)' }}>Rishit P.</span>
         </button>
       </div>
     </div>

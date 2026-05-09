@@ -43,40 +43,40 @@ export default function Dashboard() {
   const goalProgress = Math.min(100, Math.round((goalCurrent / Math.max(goalTarget, 1)) * 100));
 
   return (
-    <div className="space-y-9 pb-8 pt-1 md:space-y-11">
-      <section className="relative grid gap-8 lg:grid-cols-[1.18fr_0.82fr] lg:items-start">
-        <span className="ghost-watermark" style={{ left: '0.2rem', top: '0.6rem', bottom: 'auto' }}>
+    <div className="space-y-9 pb-8 pt-4 md:space-y-11 md:pt-7">
+      <section className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        <span className="ghost-watermark" style={{ left: '-0.2rem', top: '0.2rem', bottom: 'auto' }}>
           ASSETS
         </span>
 
-        <div className="relative z-10 max-w-xl pt-4">
+        <div className="relative z-10 max-w-[31rem] pt-4">
           <p className="eyebrow flex items-center gap-2" style={{ color: 'var(--muted-ink)' }}>
             <FaCircle style={{ color: 'var(--signal)' }} />
             Wealth Intelligence Active
           </p>
-          <h2 className="wealth-display mt-4 text-[clamp(3rem,7vw,5.3rem)] font-bold leading-[0.96]">
+          <h2 className="wealth-display mt-4 text-[clamp(2.9rem,6.6vw,5rem)] font-bold leading-[0.96]">
             Personal Net
             <br />
             Worth
             <br />
             Evolution
           </h2>
-          <p className="mt-6 max-w-lg text-[1.08rem] leading-relaxed" style={{ color: 'var(--muted-ink)' }}>
+          <p className="mt-7 max-w-[25rem] text-[1.02rem] leading-[1.55]" style={{ color: 'var(--muted-ink)' }}>
             Rishit, your current retention rate is excellent. Based on your consistent habits, you've saved
             ₹12,400 more than last month.
           </p>
           <Link
             to="/reports"
-            className="pill-button mt-8 inline-flex px-8 py-3 text-[1.02rem] font-semibold"
+            className="pill-button mt-8 inline-flex px-8 py-3 text-[1rem] font-semibold"
             style={{ background: 'var(--ink)', color: 'var(--canvas)' }}
           >
             Generate Report
           </Link>
         </div>
 
-        <article className="card-stadium relative z-10 px-7 py-7 md:px-8 md:py-8">
+        <article className="card-stadium relative z-10 min-h-[17.5rem] px-7 py-7 md:px-8 md:py-8">
           <div className="flex items-center justify-between">
-            <h3 className="wealth-display text-[1.9rem] font-bold">Growth Pulse</h3>
+            <h3 className="wealth-display text-[1.75rem] font-bold">Growth Pulse</h3>
             <span
               className="pill-button px-4 py-1.5 text-xs font-semibold uppercase"
               style={{ background: 'color-mix(in srgb, var(--growth) 14%, transparent)', color: 'var(--growth)' }}
@@ -85,7 +85,7 @@ export default function Dashboard() {
             </span>
           </div>
 
-          <div className="mt-10 flex h-[12.2rem] items-end justify-between gap-3">
+          <div className="mt-8 flex h-[8.8rem] items-end justify-between gap-3">
             {pulseBars.map((height, index) => {
               const isLast = index === pulseBars.length - 1;
               return (
@@ -106,21 +106,21 @@ export default function Dashboard() {
       </section>
 
       <section className="grid gap-5 md:grid-cols-3">
-        <article className="card-stadium p-7">
+        <article className="card-stadium min-h-[10.2rem] p-7">
           <p className="eyebrow" style={{ color: 'var(--muted-ink)' }}>
             Total Assets
           </p>
-          <p className="wealth-display mt-5 text-[2.9rem] font-bold leading-none">{formatCurrency(netWorth)}</p>
-          <p className="mt-5 text-[1rem] font-semibold" style={{ color: 'var(--growth)' }}>
+          <p className="wealth-display mt-5 text-[2.45rem] font-bold leading-none">{formatCurrency(netWorth)}</p>
+          <p className="mt-4 text-[1rem] font-semibold" style={{ color: 'var(--growth)' }}>
             +5.2% Quarterly
           </p>
         </article>
 
-        <article className="card-stadium p-7">
+        <article className="card-stadium min-h-[10.2rem] p-7">
           <p className="eyebrow" style={{ color: 'var(--muted-ink)' }}>
             Savings Goal
           </p>
-          <p className="wealth-display mt-5 text-[2.9rem] font-bold leading-none">{formatCurrency(goalTarget)}</p>
+          <p className="wealth-display mt-5 text-[2.45rem] font-bold leading-none">{formatCurrency(goalTarget)}</p>
           <div
             className="mt-7 h-2.5"
             style={{ borderRadius: 'var(--radius-pill)', background: 'color-mix(in srgb, var(--ink) 8%, transparent)' }}
@@ -136,12 +136,12 @@ export default function Dashboard() {
           </div>
         </article>
 
-        <article className="card-stadium p-7">
+        <article className="card-stadium min-h-[10.2rem] p-7">
           <p className="eyebrow" style={{ color: 'var(--muted-ink)' }}>
             Daily Intention
           </p>
-          <p className="wealth-display mt-5 text-[2.9rem] font-bold leading-none">12 Days</p>
-          <p className="eyebrow mt-5" style={{ color: 'var(--muted-ink)' }}>
+          <p className="wealth-display mt-5 text-[2.45rem] font-bold leading-none">12 Days</p>
+          <p className="eyebrow mt-4" style={{ color: 'var(--muted-ink)' }}>
             Streak Count
           </p>
         </article>

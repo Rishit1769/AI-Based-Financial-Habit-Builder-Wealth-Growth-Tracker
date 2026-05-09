@@ -32,9 +32,9 @@ export default function Layout() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--canvas)', color: 'var(--ink)' }}>
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="min-h-screen lg:pl-[16.5rem]">
+      <div className="min-h-screen lg:pl-[15.5rem]">
         <Navbar onMenuClick={() => setSidebarOpen(true)} title={pageTitle} />
-        <main className="px-5 pb-10 pt-2 md:px-10 md:pt-3">
+        <main className="px-5 pb-10 pt-0 md:px-10 md:pt-0">
           <AnimatePresence mode="wait">
             <motion.section
               key={location.pathname}
