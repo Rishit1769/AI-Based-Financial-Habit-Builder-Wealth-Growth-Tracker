@@ -7,18 +7,8 @@ export default function Navbar({ onMenuClick, title }) {
   const navigate = useNavigate();
 
   return (
-    <header
-      className="sticky top-0 z-30 px-[clamp(1rem,3vw,2.6rem)] pt-4 md:px-[clamp(2rem,5vw,4.5rem)]"
-    >
-      <div
-        className="radius-stadium flex items-center justify-between px-4 py-3 md:px-6"
-      style={{
-          border: '1px solid var(--border)',
-          background: 'color-mix(in srgb, var(--lifted-surface) 64%, transparent)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-      }}
-    >
+    <header className="sticky top-0 z-30 px-5 pb-1 pt-4 md:px-10 md:pt-5">
+      <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
@@ -28,22 +18,17 @@ export default function Navbar({ onMenuClick, title }) {
         >
           <FaBars />
         </button>
-        <div>
-          <p className="eyebrow" style={{ color: 'var(--muted-ink)' }}>
-            Wealth Growth Tracker
-          </p>
-          <h1 className="wealth-display text-[clamp(1.4rem,3vw,2rem)] font-extrabold">{title}</h1>
-        </div>
+        <h1 className="wealth-display text-[clamp(1.95rem,3.4vw,2.85rem)] font-bold">{title}</h1>
       </div>
 
-      <div className="ml-2 flex items-center gap-2 md:gap-3">
+      <div className="ml-2 flex items-center gap-3">
         <button
           onClick={toggleTheme}
-          className="radius-circle flex h-11 w-11 items-center justify-center"
+          className="radius-circle flex h-12 w-12 items-center justify-center"
           style={{
             border: '1px solid var(--border)',
             color: 'var(--ink)',
-            background: 'color-mix(in srgb, var(--lifted-surface) 82%, transparent)',
+            background: 'transparent',
           }}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -53,22 +38,23 @@ export default function Navbar({ onMenuClick, title }) {
 
         <button
           type="button"
-          className="radius-pill flex items-center gap-2.5 px-3 py-2 md:px-3.5"
+          className="radius-pill flex items-center gap-2.5 px-2 py-1.5 md:px-3"
           style={{
             border: '1px solid var(--border)',
-            background: 'color-mix(in srgb, var(--lifted-surface) 90%, transparent)',
+            background: 'var(--lifted-surface)',
           }}
           onClick={() => {
             navigate('/profile');
           }}
           aria-label="Open account settings"
         >
-          <img
-            src="/avatar-rishit.svg"
-            alt="Rishit profile"
-            className="h-8 w-8 radius-circle object-cover"
-          />
-          <span className="hidden text-sm font-semibold sm:inline" style={{ color: 'var(--ink)' }}>Rishit P.</span>
+          <span
+            className="radius-circle flex h-8 w-8 items-center justify-center text-[0.78rem] font-semibold"
+            style={{ background: 'var(--ink)', color: 'var(--canvas)' }}
+          >
+            RI
+          </span>
+          <span className="hidden text-[1rem] font-semibold sm:inline" style={{ color: 'var(--ink)' }}>Rishit P.</span>
         </button>
       </div>
     </div>

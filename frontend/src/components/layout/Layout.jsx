@@ -7,7 +7,7 @@ import Navbar from './Navbar';
 const PAGE_TITLES = [
   { path: '/dashboard', title: 'Overview' },
   { path: '/habits', title: 'Habit Builder' },
-  { path: '/ai-advisor', title: 'AI Advisor' },
+  { path: '/ai-advisor', title: 'AI Intelligence' },
   { path: '/investments', title: 'Asset Allocation' },
   { path: '/expenses', title: 'Transactions' },
   { path: '/profile', title: 'Settings' },
@@ -32,9 +32,9 @@ export default function Layout() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--canvas)', color: 'var(--ink)' }}>
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="min-h-screen lg:pl-[18rem]">
+      <div className="min-h-screen lg:pl-[16.5rem]">
         <Navbar onMenuClick={() => setSidebarOpen(true)} title={pageTitle} />
-        <main className="px-[clamp(1.1rem,3vw,2.6rem)] pb-10 pt-4 md:px-[clamp(2rem,5vw,4.5rem)] md:pt-6">
+        <main className="px-5 pb-10 pt-2 md:px-10 md:pt-3">
           <AnimatePresence mode="wait">
             <motion.section
               key={location.pathname}
