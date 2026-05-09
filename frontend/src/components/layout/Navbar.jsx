@@ -1,99 +1,77 @@
-import { useState } from 'react';
-import { Menu, Bell, Sun, Moon, Search, CalendarDays } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { FaBars, FaMoon, FaSun } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 
-export default function Navbar({ onMenuClick }) {
-  const { user } = useAuth();
+export default function Navbar({ onMenuClick, title }) {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
 
   return (
     <header
-      className="h-14 flex items-center gap-4 px-5 flex-shrink-0"
+      className="sticky top-0 z-30 px-[clamp(1rem,3vw,2.6rem)] pt-4 md:px-[clamp(2rem,5vw,4.5rem)]"
+    >
+      <div
+        className="radius-stadium flex items-center justify-between px-4 py-3 md:px-6"
       style={{
-        backgroundColor: 'var(--color-surface)',
-        borderBottom: '1px solid var(--color-ink)',
+          border: '1px solid var(--border)',
+          background: 'color-mix(in srgb, var(--lifted-surface) 64%, transparent)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
       }}
     >
-      {/* Mobile hamburger */}
-      <button
-        onClick={onMenuClick}
-        className="lg:hidden text-[var(--color-muted)] hover:text-[var(--color-ink)] p-1.5   transition-colors"
-        style={{ background: 'var(--color-surface)' }}
-      >
-        <Menu className="w-4 h-4" />
-      </button>
-
-      {/* Search bar — centered, Atelier-style */}
-      <div className="flex-1 max-w-md">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--color-muted)]" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search assets, transactions..."
-            className="w-full text-sm pl-9 pr-4 py-2   transition-colors outline-none"
-            style={{
-              background: 'var(--color-surface)',
-              border: '1px solid var(--color-ink)',
-              color: 'var(--text)',
-            }}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-ink)'; }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'var(--color-ink)'; }}
-          />
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onMenuClick}
+          className="radius-circle flex h-10 w-10 items-center justify-center lg:hidden"
+          style={{ border: '1px solid var(--border)', color: 'var(--muted-ink)' }}
+          aria-label="Open sidebar"
+        >
+          <FaBars />
+        </button>
+        <div>
+          <p className="eyebrow" style={{ color: 'var(--muted-ink)' }}>
+            Wealth Growth Tracker
+          </p>
+          <h1 className="wealth-display text-[clamp(1.4rem,3vw,2rem)] font-extrabold">{title}</h1>
         </div>
       </div>
 
-      {/* Right cluster */}
-      <div className="ml-auto flex items-center gap-1">
-        {/* Theme */}
+      <div className="ml-2 flex items-center gap-2 md:gap-3">
         <button
           onClick={toggleTheme}
-          className="p-2   transition-colors text-[var(--color-muted)] hover:text-[var(--color-ink)]"
-          style={{ background: 'transparent' }}
-          onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          className="radius-circle flex h-11 w-11 items-center justify-center"
+          style={{
+            border: '1px solid var(--border)',
+            color: 'var(--ink)',
+            background: 'color-mix(in srgb, var(--lifted-surface) 82%, transparent)',
+          }}
           title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {theme === 'dark' ? <FaSun /> : <FaMoon />}
         </button>
 
-        {/* Calendar */}
         <button
-          className="p-2   transition-colors text-[var(--color-muted)] hover:text-[var(--color-ink)]"
-          onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-          title="Calendar"
+          type="button"
+          className="radius-pill flex items-center gap-2.5 px-3 py-2 md:px-3.5"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'color-mix(in srgb, var(--lifted-surface) 90%, transparent)',
+          }}
+          onClick={() => {
+            navigate('/profile');
+          }}
+          aria-label="Open account settings"
         >
-          <CalendarDays className="w-4 h-4" />
-        </button>
-
-        {/* Notifications */}
-        <Link
-          to="/notifications"
-          className="relative p-2   transition-colors text-[var(--color-muted)] hover:text-[var(--color-ink)]"
-          onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-        >
-          <Bell className="w-4 h-4" />
-          <span
-            className="absolute top-2 right-2 w-1.5 h-1.5  "
-            style={{ background: 'var(--color-volt)' }}
+          <img
+            src="/avatar-rishit.svg"
+            alt="Rishit profile"
+            className="h-8 w-8 radius-circle object-cover"
           />
-        </Link>
-
-        {/* Avatar */}
-        <Link to="/profile" className="ml-1">
-          <div
-            className="w-7 h-7 grad-brand   flex items-center justify-center text-black font-bold text-xs"
-          >
-            {user?.name?.charAt(0).toUpperCase()}
-          </div>
-        </Link>
+          <span className="hidden text-sm font-semibold sm:inline" style={{ color: 'var(--ink)' }}>Rishit P.</span>
+        </button>
       </div>
+    </div>
     </header>
   );
 }

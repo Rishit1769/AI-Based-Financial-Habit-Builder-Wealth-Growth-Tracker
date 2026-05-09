@@ -1,22 +1,62 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
-  LayoutDashboard, TrendingUp, CreditCard, Target, PiggyBank,
-  LineChart, Bot, FileText, User, ShieldCheck, X, Bell, LogOut,
-  Settings, HelpCircle, Wallet, Zap
-} from 'lucide-react';
+  FaArrowRightArrowLeft,
+  FaChartLine,
+  FaChartPie,
+  FaGear,
+  FaListCheck,
+  FaRobot,
+  FaShield,
+  FaXmark,
+} from 'react-icons/fa6';
 
-const navItems = [
-  { to: '/dashboard',     icon: LayoutDashboard, label: 'Portfolio' },
-  { to: '/income',        icon: TrendingUp,      label: 'Income' },
-  { to: '/expenses',      icon: CreditCard,      label: 'Transactions' },
-  { to: '/habits',        icon: Target,          label: 'Goals & Habits' },
-  { to: '/savings',       icon: PiggyBank,       label: 'Savings' },
-  { to: '/investments',   icon: LineChart,       label: 'Investments' },
-  { to: '/ai-advisor',    icon: Bot,             label: 'AI Advisor' },
-  { to: '/reports',       icon: FileText,        label: 'Documents' },
-  { to: '/notifications', icon: Bell,            label: 'Notifications' },
+const corePortfolio = [
+  { to: '/dashboard', icon: FaChartLine, label: 'Overview' },
+  { to: '/habits', icon: FaListCheck, label: 'Habit Builder' },
+  { to: '/ai-advisor', icon: FaRobot, label: 'AI Advisor' },
+  { to: '/investments', icon: FaChartPie, label: 'Asset Allocation' },
 ];
+
+const operations = [
+  { to: '/expenses', icon: FaArrowRightArrowLeft, label: 'Transactions' },
+  { to: '/profile', icon: FaGear, label: 'Settings' },
+];
+
+function DotLabel({ color = 'var(--orbit)', text }) {
+  return (
+    <p className="eyebrow flex items-center gap-2 px-1" style={{ color: 'var(--muted-ink)' }}>
+      <span
+        aria-hidden="true"
+        className="h-2 w-2 radius-circle"
+        style={{ background: color }}
+      />
+      {text}
+    </p>
+  );
+}
+
+function SideNavLink({ to, icon: Icon, label, onClose }) {
+  return (
+    <NavLink
+      to={to}
+      onClick={onClose}
+      className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-3 pill-button text-sm transition-all duration-200 ${
+          isActive ? 'font-semibold' : 'font-medium'
+        }`
+      }
+      style={({ isActive }) => ({
+        borderRadius: 'var(--radius-pill)',
+        color: isActive ? 'var(--nav-active-text)' : 'var(--muted-ink)',
+        background: isActive ? 'var(--nav-active-bg)' : 'transparent',
+      })}
+    >
+      <Icon className="text-[0.95rem]" />
+      <span>{label}</span>
+    </NavLink>
+  );
+}
 
 export default function Sidebar({ open, onClose }) {
   const { user, logout } = useAuth();
@@ -32,104 +72,98 @@ export default function Sidebar({ open, onClose }) {
       {open && (
         <div
           className="fixed inset-0 z-40 lg:hidden"
-          style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+          style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)' }}
           onClick={onClose}
         />
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 flex flex-col
-          transition-transform duration-200 ease-in-out
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col transition-transform duration-300 ease-out
           ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
         style={{
-          width: '220px',
-          backgroundColor: 'var(--color-surface)',
-          borderRight: '1px solid var(--color-ink)',
+          width: 'min(18rem, 88vw)',
+          background: 'color-mix(in srgb, var(--lifted-surface) 70%, transparent)',
+          borderRight: '1px solid var(--border)',
+          backdropFilter: 'blur(28px)',
+          WebkitBackdropFilter: 'blur(28px)',
         }}
       >
-        {/* Brand */}
-        <div className="flex items-center justify-between h-16 px-5 flex-shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 grad-brand   flex items-center justify-center flex-shrink-0">
-              <Wallet className="w-3.5 h-3.5 text-black" />
+        <div className="flex h-20 items-center justify-between px-6">
+          <div className="flex items-center gap-3">
+            <div className="relative h-8 w-10" aria-hidden="true">
+              <span
+                className="absolute left-0 top-1 h-6 w-6 radius-circle"
+                style={{ background: '#eb001b', opacity: 0.9 }}
+              />
+              <span
+                className="absolute left-3.5 top-1 h-6 w-6 radius-circle"
+                style={{ background: '#f79e1b', opacity: 0.9 }}
+              />
             </div>
-            <span className="font-bold text-sm text-[var(--color-ink)] tracking-tight">FinTrack</span>
+            <span className="wealth-display text-xl font-extrabold">WealthGrow</span>
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden text-[var(--color-muted)] hover:text-[var(--color-ink)] transition-colors"
+            className="lg:hidden"
+            style={{ color: 'var(--muted-ink)' }}
+            aria-label="Close sidebar"
           >
-            <X className="w-4 h-4" />
+            <FaXmark className="text-lg" />
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
-          {navItems.map(({ to, icon: Icon, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              onClick={onClose}
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-              {label}
-            </NavLink>
-          ))}
+        <nav className="flex-1 space-y-8 overflow-y-auto px-4 pb-6 pt-3">
+          <section className="space-y-2">
+            <DotLabel text="Core Portfolio" color="var(--signal)" />
+            <div className="space-y-1.5">
+              {corePortfolio.map((item) => (
+                <SideNavLink key={item.to} {...item} onClose={onClose} />
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-2">
+            <DotLabel text="Operations" color="var(--growth)" />
+            <div className="space-y-1.5">
+              {operations.map((item) => (
+                <SideNavLink key={item.to} {...item} onClose={onClose} />
+              ))}
+            </div>
+          </section>
 
           {user?.role === 'admin' && (
-            <>
-              <div className="my-3 divider mx-1" />
-              <NavLink
-                to="/admin"
-                onClick={onClose}
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-              >
-                <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
-                Admin Panel
-              </NavLink>
-            </>
+            <section className="space-y-2">
+              <DotLabel text="Governance" color="var(--orbit)" />
+              <SideNavLink to="/admin" icon={FaShield} label="Admin Panel" onClose={onClose} />
+            </section>
           )}
         </nav>
 
-        {/* Bottom section — Atelier-style */}
-        <div className="px-3 pb-4 flex-shrink-0 space-y-0.5" style={{ borderTop: '1px solid var(--color-ink)', paddingTop: '12px' }}>
-          {/* User info */}
-          <div className="px-2.5 py-3 mb-2  " style={{ background: 'var(--color-surface)' }}>
-            <div className="flex items-center gap-2.5 mb-2">
-              <div className="w-7 h-7 grad-brand   flex items-center justify-center text-black font-bold text-xs flex-shrink-0">
-                {user?.name?.charAt(0).toUpperCase()}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[var(--color-ink)] text-xs font-semibold truncate">{user?.name}</p>
-                <div className="inline-flex items-center gap-1 mt-0.5">
-                  <Zap className="w-2.5 h-2.5" style={{ color: 'var(--color-volt)' }} />
-                  <span className="font-semibold uppercase" style={{ fontSize: '9px', color: 'var(--color-volt)', letterSpacing: '0.06em' }}>Pro Plan</span>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => { navigate('/profile'); onClose(); }}
-              className="w-full py-1.5   text-xs font-semibold transition-colors"
-              style={{ background: 'var(--color-volt)', color: '#000', letterSpacing: '-0.01em' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-hover)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'var(--color-volt)'}
-            >
-              Manage Account
-            </button>
+        <div className="px-4 pb-5 pt-3">
+          <div
+            className="radius-stadium px-5 py-3 text-sm font-semibold"
+            style={{
+              border: '1px solid var(--border)',
+              background: 'color-mix(in srgb, var(--lifted-surface) 85%, transparent)',
+            }}
+          >
+            Institutional Grade
           </div>
-
-          {/* Settings & Support */}
-          <NavLink to="/profile" onClick={onClose} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-            <Settings className="w-3.5 h-3.5 flex-shrink-0" />
-            Settings
-          </NavLink>
           <button
             onClick={handleLogout}
-            className="nav-link w-full text-left"
-            style={{ color: 'var(--danger)' }}
+            className="mt-3 w-full radius-pill px-4 py-2 text-sm font-semibold transition-opacity"
+            style={{
+              border: '1px solid var(--border)',
+              color: 'var(--muted-ink)',
+              background: 'transparent',
+            }}
+            onMouseEnter={(event) => {
+              event.currentTarget.style.opacity = '0.75';
+            }}
+            onMouseLeave={(event) => {
+              event.currentTarget.style.opacity = '1';
+            }}
           >
-            <LogOut className="w-3.5 h-3.5 flex-shrink-0" />
             Sign out
           </button>
         </div>

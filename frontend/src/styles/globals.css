@@ -10,6 +10,8 @@
   --muted-ink: rgba(20, 20, 19, 0.64);
   --border: rgba(20, 20, 19, 0.12);
   --atmospheric-shadow: 0 40px 80px rgba(0, 0, 0, 0.06);
+  --nav-active-bg: var(--ink);
+  --nav-active-text: var(--canvas);
   --radius-stadium: 40px;
   --radius-pill: 999px;
   --radius-circle: 50%;
@@ -39,6 +41,8 @@ html.dark,
   --lifted-surface: #1e1e1d;
   --muted-ink: rgba(243, 240, 238, 0.68);
   --border: rgba(243, 240, 238, 0.18);
+  --nav-active-bg: var(--canvas);
+  --nav-active-text: var(--ink);
 }
 
 @layer base {

@@ -1,22 +1,53 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
-import MobileAppBanner from '../MobileAppBanner';
+
+const PAGE_TITLES = [
+  { path: '/dashboard', title: 'Overview' },
+  { path: '/habits', title: 'Habit Builder' },
+  { path: '/ai-advisor', title: 'AI Advisor' },
+  { path: '/investments', title: 'Asset Allocation' },
+  { path: '/expenses', title: 'Transactions' },
+  { path: '/profile', title: 'Settings' },
+  { path: '/settings', title: 'Settings' },
+  { path: '/income', title: 'Income' },
+  { path: '/reports', title: 'Reports' },
+  { path: '/notifications', title: 'Notifications' },
+  { path: '/savings', title: 'Savings Goals' },
+  { path: '/admin', title: 'Administration' },
+];
+
+function resolvePageTitle(pathname) {
+  const found = PAGE_TITLES.find((entry) => pathname.startsWith(entry.path));
+  return found?.title || 'Overview';
+}
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const pageTitle = resolvePageTitle(location.pathname);
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg)' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--canvas)', color: 'var(--ink)' }}>
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Navbar onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-5">
-          <Outlet />
+      <div className="min-h-screen lg:pl-[18rem]">
+        <Navbar onMenuClick={() => setSidebarOpen(true)} title={pageTitle} />
+        <main className="px-[clamp(1.1rem,3vw,2.6rem)] pb-10 pt-4 md:px-[clamp(2rem,5vw,4.5rem)] md:pt-6">
+          <AnimatePresence mode="wait">
+            <motion.section
+              key={location.pathname}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Outlet />
+            </motion.section>
+          </AnimatePresence>
         </main>
       </div>
-      <MobileAppBanner />
     </div>
   );
 }
