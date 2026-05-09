@@ -1,33 +1,59 @@
-import { useState, useEffect, useRef } from 'react';
-import { Send, Bot, User, Sparkles } from 'lucide-react';
-import { getAdvice, getHistory } from '../services/aiService';
-import Card from '../components/common/Card';
-import Button from '../components/common/Button';
-import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { FaArrowUpLong, FaRobot, FaUser } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
+import { getAdvice, getHistory } from '../services/aiService';
 
-const SUGGESTED = [
-  'How can I improve my savings rate?',
-  'Am I spending too much on food?',
-  'What investment options suit my profile?',
-  'How do I build an emergency fund?',
-  'Analyze my financial habits this month',
+const suggestedPrompts = [
+  'How can I grow my savings rate by 10% in 90 days?',
+  'Review my spending behavior and suggest corrections.',
+  'What is the safest allocation for moderate risk?',
 ];
 
-function MessageBubble({ msg }) {
-  const isUser = msg.role === 'user';
+function Bubble({ role, content }) {
+  const isUser = role === 'user';
+
   return (
-    <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
-      <div className={`w-8 h-8   flex items-center justify-center flex-shrink-0 ${isUser ? 'bg-indigo-600' : 'bg-indigo-500/10 border border-base'}`}>
-        {isUser ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-indigo-400" />}
+    <div className={`flex items-end gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
+      {!isUser && (
+        <span
+          className="radius-circle flex h-10 w-10 items-center justify-center"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'color-mix(in srgb, var(--orbit) 14%, var(--lifted-surface))',
+            color: 'var(--signal)',
+          }}
+        >
+          <FaRobot />
+        </span>
+      )}
+
+      <div
+        className="px-5 py-3.5 text-sm leading-relaxed"
+        style={{
+          maxWidth: 'min(78%, 700px)',
+          border: `1px solid ${isUser ? 'transparent' : 'var(--border)'}`,
+          borderRadius: 'var(--radius-stadium)',
+          borderTopRightRadius: isUser ? '0' : 'var(--radius-stadium)',
+          borderTopLeftRadius: isUser ? 'var(--radius-stadium)' : '0',
+          background: isUser ? 'var(--ink)' : 'var(--lifted-surface)',
+          color: isUser ? 'var(--canvas)' : 'var(--ink)',
+        }}
+      >
+        {content}
       </div>
-      <div className={`max-w-[75%] px-4 py-3   text-sm leading-relaxed ${isUser ? 'bg-indigo-600 text-white rounded-tr-sm' : 'rounded-tl-sm border border-base'}`}
-        style={!isUser ? { backgroundColor: 'var(--color-surface)', color: 'var(--text)' } : {}}>
-        {msg.content.split('\n').map((line, i) => {
-          const bold = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-          return <p key={i} dangerouslySetInnerHTML={{ __html: bold }} className={i > 0 ? 'mt-1' : ''} />;
-        })}
-      </div>
+
+      {isUser && (
+        <span
+          className="radius-circle flex h-10 w-10 items-center justify-center"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'color-mix(in srgb, var(--growth) 14%, var(--lifted-surface))',
+            color: 'var(--growth)',
+          }}
+        >
+          <FaUser />
+        </span>
+      )}
     </div>
   );
 }
@@ -40,121 +66,155 @@ export default function AIAdvisor() {
   const bottomRef = useRef(null);
 
   useEffect(() => {
-    getHistory()
-      .then((res) => {
-        const history = res.data.data || [];
-        const flat = history.flatMap((c) => [
-          { role: 'user', content: c.message },
-          { role: 'ai', content: c.response },
+    const loadHistory = async () => {
+      try {
+        const response = await getHistory();
+        const history = response?.data?.data || [];
+        const flatMessages = history.flatMap((chat) => [
+          { role: 'user', content: chat.message },
+          { role: 'ai', content: chat.response },
         ]);
-        setMessages(flat);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+        setMessages(flatMessages);
+      } catch {
+        toast.error('Unable to load advisor history.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadHistory();
   }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, sending]);
+
+  const chatMessages = useMemo(() => {
+    if (messages.length > 0) {
+      return messages;
+    }
+
+    return [
+      {
+        role: 'ai',
+        content:
+          'Strategic Advisor online. Share your current goal and I will map a focused, risk-aware wealth plan.',
+      },
+    ];
   }, [messages]);
 
-  const send = async (text) => {
-    const msg = text || input.trim();
-    if (!msg) return;
+  const handleSend = async (overrideText) => {
+    const outgoing = (overrideText || input).trim();
+    if (!outgoing || sending) {
+      return;
+    }
+
     setInput('');
-    setMessages((m) => [...m, { role: 'user', content: msg }]);
+    setMessages((current) => [...current, { role: 'user', content: outgoing }]);
     setSending(true);
+
     try {
-      const res = await getAdvice(msg);
-      setMessages((m) => [...m, { role: 'ai', content: res.data.data.response }]);
+      const response = await getAdvice(outgoing);
+      const aiReply = response?.data?.data?.response || 'I need a little more context to advise accurately.';
+      setMessages((current) => [...current, { role: 'ai', content: aiReply }]);
     } catch {
-      toast.error('Failed to get AI response');
-      setMessages((m) => [...m, { role: 'ai', content: 'Sorry, I encountered an error. Please try again.' }]);
+      toast.error('Advisor service unavailable right now.');
+      setMessages((current) => [
+        ...current,
+        { role: 'ai', content: 'I could not process that request right now. Please try again shortly.' },
+      ]);
     } finally {
       setSending(false);
     }
   };
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      <div>
-        <h1 className="text-xl font-semibold text-[var(--color-ink)] flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-indigo-400" /> AI Financial Advisor
-        </h1>
-        <p className="text-sub text-sm mt-0.5">Powered by Gemini AI — ask anything about your finances</p>
-      </div>
-
-      <Card className="flex-1 flex flex-col" style={{ minHeight: '500px' }}>
-        {/* Messages area */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4" style={{ maxHeight: '520px', minHeight: '380px' }}>
-          {loading ? (
-            <LoadingSkeleton rows={3} />
-          ) : messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full py-10 text-center">
-              <div className="w-14 h-14 bg-indigo-500/10 border border-base   flex items-center justify-center mb-4">
-                <Sparkles className="w-7 h-7 text-indigo-400" />
-              </div>
-              <h3 className="text-[var(--color-ink)] font-semibold mb-1">Start a Conversation</h3>
-              <p className="text-[var(--color-muted)] text-sm max-w-xs">Ask your AI advisor anything about your finances — savings, investments, spending habits, and more.</p>
-              <div className="flex flex-wrap justify-center gap-2 mt-5">
-                {SUGGESTED.map((s) => (
-                  <button key={s} onClick={() => send(s)}
-                    className="px-3 py-1.5 text-xs bg-elevated hover:bg-hover border border-base   text-sub hover:text-[var(--color-ink)] transition-colors">
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <>
-              {messages.map((m, i) => <MessageBubble key={i} msg={m} />)}
-              {sending && (
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8   bg-indigo-500/10 border border-base flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-4 h-4 text-indigo-400" />
-                  </div>
-                  <div className="border border-base px-4 py-3   rounded-tl-sm" style={{ backgroundColor: 'var(--color-surface)' }}>
-                    <div className="flex gap-1.5 items-center h-4">
-              <span className="w-2 h-2 bg-indigo-400   animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-indigo-400   animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-indigo-400   animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div ref={bottomRef} />
-            </>
-          )}
-        </div>
-
-        {/* Suggestions if history exists */}
-        {messages.length > 0 && !sending && (
-          <div className="px-5 pb-2 flex gap-2 overflow-x-auto">
-            {SUGGESTED.slice(0, 3).map((s) => (
-              <button key={s} onClick={() => send(s)}
-                className="px-3 py-1.5 text-xs bg-elevated hover:bg-hover border border-base   text-sub hover:text-[var(--color-ink)] transition-colors whitespace-nowrap flex-shrink-0">
-                {s}
-              </button>
-            ))}
+    <div className="space-y-7 md:space-y-8">
+      <section className="card-stadium fade-in-up p-6 md:p-8">
+        <div className="flex items-center gap-3">
+          <span
+            className="radius-circle flex h-12 w-12 items-center justify-center"
+            style={{
+              background: 'color-mix(in srgb, var(--signal) 14%, var(--lifted-surface))',
+              border: '1px solid var(--border)',
+              color: 'var(--signal)',
+            }}
+          >
+            <FaRobot className="text-lg" />
+          </span>
+          <div>
+            <p className="eyebrow" style={{ color: 'var(--muted-ink)' }}>
+              Intelligence Layer
+            </p>
+            <h2 className="wealth-display text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold">Strategic Advisor</h2>
           </div>
-        )}
-
-        {/* Input */}
-        <div className="p-4 border-t border-base">
-          <form onSubmit={(e) => { e.preventDefault(); send(); }} className="flex gap-3">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about your finances..."
-              disabled={sending}
-              className="field   flex-1"
-            />
-            <button type="submit" disabled={!input.trim() || sending}
-              className="p-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white   transition-colors flex items-center justify-center">
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
         </div>
-      </Card>
+
+        <div
+          className="mt-6 card-stadium flex flex-col p-4 md:p-5"
+          style={{ minHeight: '62vh', maxHeight: '72vh' }}
+        >
+          <div className="flex-1 space-y-4 overflow-y-auto pr-1">
+            {loading ? (
+              <p className="text-sm" style={{ color: 'var(--muted-ink)' }}>
+                Building your advisory context...
+              </p>
+            ) : (
+              chatMessages.map((message, index) => (
+                <Bubble key={`${message.role}-${index}`} role={message.role} content={message.content} />
+              ))
+            )}
+            {sending && <Bubble role="ai" content="Compiling recommendation..." />}
+            <div ref={bottomRef} />
+          </div>
+
+          <div className="mt-4 space-y-3 border-t pt-4" style={{ borderColor: 'var(--border)' }}>
+            <div className="flex flex-wrap gap-2">
+              {suggestedPrompts.map((prompt) => (
+                <button
+                  key={prompt}
+                  type="button"
+                  onClick={() => handleSend(prompt)}
+                  className="pill-button px-3 py-2 text-xs md:text-sm"
+                  style={{ border: '1px solid var(--border)', color: 'var(--muted-ink)' }}
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSend();
+              }}
+              className="radius-pill flex items-center gap-3 px-3 py-2"
+              style={{ border: '1px solid var(--border)', background: 'var(--lifted-surface)' }}
+            >
+              <input
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                placeholder="Message Strategic Advisor..."
+                className="w-full bg-transparent px-2 text-sm outline-none md:text-[0.96rem]"
+                style={{ color: 'var(--ink)' }}
+              />
+              <button
+                type="submit"
+                disabled={sending || !input.trim()}
+                className="radius-circle flex h-10 w-10 items-center justify-center transition-opacity"
+                style={{
+                  background: 'var(--ink)',
+                  color: 'var(--canvas)',
+                  opacity: sending || !input.trim() ? 0.45 : 1,
+                }}
+                aria-label="Send message"
+              >
+                <FaArrowUpLong />
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

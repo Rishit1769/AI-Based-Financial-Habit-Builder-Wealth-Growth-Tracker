@@ -1,207 +1,112 @@
-import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, Flame, CheckCircle, Circle } from 'lucide-react';
-import { getStats, create, update, remove, complete, uncomplete, getCompletions } from '../services/habitService';
-import { formatDate } from '../utils/constants';
-import Card from '../components/common/Card';
-import Button from '../components/common/Button';
-import Modal from '../components/common/Modal';
-import Input from '../components/common/Input';
-import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  FaBullseye,
+  FaCalendarCheck,
+  FaEllipsis,
+  FaLeaf,
+  FaPiggyBank,
+  FaWallet,
+} from 'react-icons/fa6';
 import toast from 'react-hot-toast';
+import { getStats } from '../services/habitService';
 
-const FREQUENCIES = ['daily', 'weekly', 'monthly'];
-const today = new Date().toISOString().split('T')[0];
+const habitIcons = [FaPiggyBank, FaLeaf, FaBullseye, FaWallet, FaCalendarCheck];
 
-// Build last 63-day heatmap grid (9 weeks)
-function buildHeatmap(completions = []) {
-  const days = [];
-  const now = new Date();
-  for (let i = 62; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const str = d.toISOString().split('T')[0];
-    days.push({ date: str, filled: completions.includes(str) });
-  }
-  return days;
-}
+const fallbackHabits = [
+  { id: 'demo-1', name: 'No Impulse Buy', streak: 12, frequency: 'daily', description: 'Delay non-essential spending by 24 hours.' },
+  { id: 'demo-2', name: 'Auto Transfer to Savings', streak: 8, frequency: 'weekly', description: 'Route income into long-term savings first.' },
+  { id: 'demo-3', name: 'Track Every Transaction', streak: 17, frequency: 'daily', description: 'Maintain complete spending visibility.' },
+  { id: 'demo-4', name: 'Review Asset Mix', streak: 5, frequency: 'weekly', description: 'Rebalance portfolio according to target risk.' },
+];
 
-function StreakBadge({ streak }) {
-  if (!streak) return null;
+function HabitCard({ habit, index }) {
+  const Icon = habitIcons[index % habitIcons.length];
+
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-500/20 text-orange-400   text-xs font-semibold">
-      <Flame className="w-3 h-3" /> {streak}d
-    </span>
+    <article className="card-stadium fade-in-up p-5 md:p-6">
+      <div className="flex items-center gap-4">
+        <div
+          className="radius-circle flex h-16 w-16 items-center justify-center"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'color-mix(in srgb, var(--signal) 12%, var(--lifted-surface))',
+            color: 'var(--signal)',
+          }}
+        >
+          <Icon className="text-xl" />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <p className="wealth-display truncate text-[1.25rem] font-bold">{habit.name}</p>
+          <p className="mt-1 text-sm" style={{ color: 'var(--muted-ink)' }}>
+            {habit.streak || 0} day streak • {habit.frequency || 'daily'} cadence
+          </p>
+          <p className="mt-2 line-clamp-2 text-sm" style={{ color: 'var(--muted-ink)' }}>
+            {habit.description || 'Keep this behavior active to reinforce long-term wealth discipline.'}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          className="radius-circle flex h-10 w-10 items-center justify-center"
+          style={{ border: '1px solid var(--border)', color: 'var(--muted-ink)' }}
+          aria-label="Habit options"
+        >
+          <FaEllipsis />
+        </button>
+      </div>
+    </article>
   );
 }
 
 export default function Habits() {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', description: '', frequency: 'daily', target_count: 30 });
-  const [saving, setSaving] = useState(false);
-  const [expandedHabit, setExpandedHabit] = useState(null);
-  const [heatmapData, setHeatmapData] = useState({});
 
-  const load = async () => {
-    try {
-      const res = await getStats();
-      setHabits(res.data.data.habits || []);
-    } catch { toast.error('Failed to load habits'); }
-    finally { setLoading(false); }
-  };
-
-  useEffect(() => { load(); }, []);
-
-  const openAdd = () => { setEditing(null); setForm({ name: '', description: '', frequency: 'daily', target_count: 30 }); setModal(true); };
-  const openEdit = (h) => { setEditing(h); setForm({ name: h.name, description: h.description || '', frequency: h.frequency, target_days: h.target_days }); setModal(true); };
-
-  const handleSave = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-    try {
-      if (editing) { await update(editing.id, form); toast.success('Habit updated'); }
-      else { await create(form); toast.success('Habit created!'); }
-      setModal(false);
-      load();
-    } catch { toast.error('Failed to save'); }
-    finally { setSaving(false); }
-  };
-
-  const handleDelete = async (id) => {
-    if (!confirm('Delete this habit?')) return;
-    try { await remove(id); toast.success('Deleted'); load(); }
-    catch { toast.error('Failed to delete'); }
-  };
-
-  const toggleComplete = async (habit) => {
-    try {
-      if (habit.completed_today) {
-        await uncomplete(habit.id);
-        toast('Unchecked', { icon: '↩️' });
-      } else {
-        await complete(habit.id);
-        toast.success('Marked complete!');
+  useEffect(() => {
+    const loadHabits = async () => {
+      try {
+        const response = await getStats();
+        const serverHabits = response?.data?.data?.habits || [];
+        setHabits(serverHabits);
+      } catch {
+        toast.error('Unable to load habits. Showing strategy templates.');
+      } finally {
+        setLoading(false);
       }
-      load();
-    } catch { toast.error('Failed to update'); }
-  };
+    };
 
-  const loadHeatmap = async (habitId) => {
-    if (expandedHabit === habitId) { setExpandedHabit(null); return; }
-    try {
-      const res = await getCompletions(habitId, 63);
-      const dates = res.data.data.map((c) => (typeof c === 'string' ? c.split('T')[0] : String(c)));
-      setHeatmapData((d) => ({ ...d, [habitId]: buildHeatmap(dates) }));
-      setExpandedHabit(habitId);
-    } catch { toast.error('Failed to load history'); }
-  };
+    loadHabits();
+  }, []);
 
-  const todayHabits = habits.filter((h) => h.frequency === 'daily');
-  const completedToday = todayHabits.filter((h) => h.completed_today).length;
+  const cards = useMemo(() => {
+    if (habits.length > 0) {
+      return habits;
+    }
+    return fallbackHabits;
+  }, [habits]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold text-[var(--color-ink)]">Habits</h1>
-          <p className="text-sub text-sm mt-0.5">Build consistent financial habits</p>
-        </div>
-        <Button onClick={openAdd} icon={Plus}>Add Habit</Button>
-      </div>
+    <div className="space-y-7 md:space-y-8">
+      <section className="card-stadium fade-in-up px-7 py-8 md:px-10">
+        <p className="eyebrow" style={{ color: 'var(--signal)' }}>
+          Wealth Behavior Engine
+        </p>
+        <h2 className="wealth-display mt-3 text-[clamp(2rem,5.3vw,3.2rem)] font-extrabold">Habit Builder</h2>
+        <p className="mt-3 max-w-2xl text-[0.98rem] md:text-[1.03rem]" style={{ color: 'var(--muted-ink)' }}>
+          Operationalize small financial disciplines that compound into strong long-term outcomes.
+        </p>
+      </section>
 
-      {/* Daily progress */}
-      {todayHabits.length > 0 && (
-        <Card>
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-[var(--color-ink)]">Today's Progress</span>
-              <span className="text-sm font-bold text-indigo-400">{completedToday}/{todayHabits.length}</span>
-            </div>
-            <div className="w-full bg-elevated   h-2">
-              <div className="bg-indigo-600 h-2   transition-all duration-500"
-                style={{ width: `${todayHabits.length ? (completedToday / todayHabits.length) * 100 : 0}%` }} />
-            </div>
-          </div>
-        </Card>
-      )}
-
-      {/* Habits list */}
-      {loading ? <LoadingSkeleton rows={4} /> : habits.length === 0 ? (
-        <Card><p className="text-[var(--color-muted)] text-sm text-center py-12">No habits yet. Start building good financial habits!</p></Card>
-      ) : (
-        <div className="space-y-3">
-          {habits.map((h) => (
-            <Card key={h.id}>
-              <div className="p-4">
-                <div className="flex items-start gap-3">
-                  <button onClick={() => toggleComplete(h)}
-                    className={`mt-0.5 flex-shrink-0 transition-all duration-200 ${h.completed_today ? 'text-emerald-400' : 'text-[var(--color-muted)] hover:text-sub'}`}>
-                    {h.completed_today ? <CheckCircle className="w-6 h-6" /> : <Circle className="w-6 h-6" />}
-                  </button>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className={`text-sm font-semibold ${h.completed_today ? 'text-[var(--color-muted)] line-through' : 'text-[var(--color-ink)]'}`}>{h.name}</span>
-                      <span className="text-xs text-[var(--color-muted)] bg-elevated px-2 py-0.5   capitalize">{h.frequency}</span>
-                      <StreakBadge streak={h.streak} />
-                    </div>
-                    {h.description && <p className="text-xs text-[var(--color-muted)] mt-0.5">{h.description}</p>}
-                    <div className="flex items-center gap-3 mt-2">
-                      <button onClick={() => loadHeatmap(h.id)}
-                        className="text-xs text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
-                        {expandedHabit === h.id ? 'Hide history' : 'View history'}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex gap-1 flex-shrink-0">
-                    <button onClick={() => openEdit(h)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-ink)] hover:bg-hover rounded transition-colors">
-                      <Pencil className="w-3.5 h-3.5" />
-                    </button>
-                    <button onClick={() => handleDelete(h.id)} className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-terracotta)] hover:bg-rose-500/10 rounded transition-colors">
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-                {/* Heatmap */}
-                {expandedHabit === h.id && heatmapData[h.id] && (
-                  <div className="mt-4 pt-4 border-t border-base">
-                    <p className="text-xs text-[var(--color-muted)] mb-2">Last 63 days</p>
-                    <div className="flex flex-wrap gap-1">
-                      {heatmapData[h.id].map((d) => (
-                        <div key={d.date} title={`${d.date}${d.filled ? ' ✓' : ''}`}
-                          className={`w-4 h-4   transition-colors ${d.filled ? 'bg-emerald-500' : 'bg-elevated'}`} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      <Modal open={modal} onClose={() => setModal(false)} title={editing ? 'Edit Habit' : 'New Habit'}>
-        <form onSubmit={handleSave} className="space-y-4">
-          <Input label="Habit name" placeholder="e.g. Track daily expenses" value={form.name}
-            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} required />
-          <Input label="Description (optional)" placeholder="Why this habit matters..."
-            value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
-          <div>
-            <label className="text-xs font-medium text-sub block mb-1">Frequency</label>
-            <select value={form.frequency} onChange={(e) => setForm((f) => ({ ...f, frequency: e.target.value }))}
-              className="field capitalize">
-              {FREQUENCIES.map((f) => <option key={f} value={f} className="capitalize">{f}</option>)}
-            </select>
-          </div>
-          <Input label="Target days" type="number" min="1" max="365" value={form.target_count}
-            onChange={(e) => setForm((f) => ({ ...f, target_count: Number(e.target.value) }))} />
-          <div className="flex gap-3 pt-2">
-            <Button variant="secondary" onClick={() => setModal(false)} className="flex-1">Cancel</Button>
-            <Button type="submit" loading={saving} className="flex-1">{editing ? 'Update' : 'Create'}</Button>
-          </div>
-        </form>
-      </Modal>
+      <section className="grid gap-4 md:grid-cols-2">
+        {loading && cards.length === 0 ? (
+          <article className="card-stadium p-6">
+            <p style={{ color: 'var(--muted-ink)' }}>Loading habits...</p>
+          </article>
+        ) : (
+          cards.map((habit, index) => <HabitCard key={habit.id} habit={habit} index={index} />)
+        )}
+      </section>
     </div>
   );
 }
