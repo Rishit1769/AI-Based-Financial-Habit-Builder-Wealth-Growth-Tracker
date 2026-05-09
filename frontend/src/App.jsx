@@ -30,13 +30,13 @@ export default function App() {
             position="top-right"
             toastOptions={{
               style: {
-                background: 'var(--color-surface)',
-                color: 'var(--text)',
-                border: '1px solid var(--color-ink)',
-                borderRadius: '8px',
+                background: 'var(--lifted-surface)',
+                color: 'var(--ink)',
+                border: '1px solid var(--border)',
+                borderRadius: '40px',
                 fontSize: '13px',
-                padding: '10px 14px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                padding: '12px 16px',
+                boxShadow: 'var(--atmospheric-shadow)',
               },
               success: { iconTheme: { primary: '#10b981', secondary: '#fff' } },
               error: { iconTheme: { primary: '#f43f5e', secondary: '#fff' } },
