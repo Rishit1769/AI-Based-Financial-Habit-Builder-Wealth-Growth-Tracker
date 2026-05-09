@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #f3f0ee;
+  --ink: #141413;
+  --signal: #cf4500;
+  --orbit: #f37338;
+  --growth: #10b981;
+  --lifted-surface: #fcfbfa;
+  --muted-ink: rgba(20, 20, 19, 0.62);
+  --border: rgba(20, 20, 19, 0.12);
+  --atmospheric-shadow: 0 40px 80px rgba(0, 0, 0, 0.06);
+  --radius-stadium: 40px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+  --display-font: 'Sofia Sans', 'Avenir Next', 'Segoe UI', sans-serif;
+  --body-font: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.dark {
+  --canvas: #0f0f0e;
+  --ink: #f3f0ee;
+  --lifted-surface: #1e1e1d;
+  --muted-ink: rgba(243, 240, 238, 0.68);
+  --border: rgba(243, 240, 238, 0.16);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--body-font);
+    font-weight: 500;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--display-font);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font-family: var(--body-font);
+  }
+}
+
+@layer utilities {
+  .radius-stadium {
+    border-radius: var(--radius-stadium);
+  }
+
+  .radius-pill {
+    border-radius: var(--radius-pill);
+  }
+
+  .radius-circle {
+    border-radius: var(--radius-circle);
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .wealth-display {
+    font-family: var(--display-font);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .card-stadium {
+    border-radius: var(--radius-stadium);
+    border: 1px solid var(--border);
+    background: var(--lifted-surface);
+    box-shadow: var(--atmospheric-shadow);
+  }
+
+  .ghost-watermark {
+    position: absolute;
+    font-family: var(--display-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(4rem, 14vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: color-mix(in srgb, var(--ink) 5%, transparent);
+    pointer-events: none;
+    user-select: none;
+  }
+}
