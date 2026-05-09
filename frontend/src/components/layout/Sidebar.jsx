@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   FaArrowRightArrowLeft,
@@ -59,13 +59,7 @@ function SideNavLink({ to, icon: Icon, label, onClose }) {
 }
 
 export default function Sidebar({ open, onClose }) {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
-  };
+  const { user } = useAuth();
 
   return (
     <>
