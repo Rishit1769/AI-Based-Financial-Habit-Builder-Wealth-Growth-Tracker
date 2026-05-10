@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import AuthLayout from './AuthLayout.jsx';
 
 const phoneRegex = /^\+?[0-9]{10,15}$/;
@@ -12,6 +13,7 @@ export default function RegisterView({ onRequestOtp, onSwitchToLogin }) {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -94,15 +96,29 @@ export default function RegisterView({ onRequestOtp, onSwitchToLogin }) {
 
         <label className="block text-sm font-semibold">
           Password
-          <input
-            type="password"
-            value={form.password}
-            onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
-            className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+          <div
+            className="mt-2 flex items-center gap-2 radius-pill border bg-transparent px-4"
             style={{ borderColor: 'var(--border)' }}
-            placeholder="Minimum 8 characters"
-            autoComplete="new-password"
-          />
+          >
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={form.password}
+              onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
+              className="w-full bg-transparent py-3 outline-none"
+              placeholder="Minimum 8 characters"
+              autoComplete="new-password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((current) => !current)}
+              className="radius-circle flex h-8 w-8 items-center justify-center"
+              style={{ color: 'var(--muted-ink)' }}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              title={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
         </label>
 
         {error ? (
