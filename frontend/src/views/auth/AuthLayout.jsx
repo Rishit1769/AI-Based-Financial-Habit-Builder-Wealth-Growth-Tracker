@@ -1,4 +1,5 @@
 import { useTheme } from '../../context/ThemeContext.jsx';
+import { FaMoon, FaSun } from 'react-icons/fa6';
 
 export default function AuthLayout({ title, subtitle, children }) {
   const { theme, toggleTheme } = useTheme();
@@ -24,11 +25,12 @@ export default function AuthLayout({ title, subtitle, children }) {
             <button
               type="button"
               onClick={toggleTheme}
-              className="radius-circle flex h-10 w-10 items-center justify-center text-xs font-semibold"
+              className="radius-circle flex h-10 w-10 items-center justify-center"
               style={{ border: '1px solid var(--border)', color: 'var(--muted-ink)' }}
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
             >
-              {theme === 'dark' ? 'LM' : 'DM'}
+              {theme === 'dark' ? <FaSun /> : <FaMoon />}
             </button>
           </div>
 
