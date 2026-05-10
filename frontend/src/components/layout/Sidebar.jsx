@@ -43,10 +43,16 @@ export default function Sidebar({ navSections, activeTab, onTabChange, open, onC
         }}
       >
         <div className="flex h-24 items-center justify-between px-6">
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            className="flex items-center gap-3 text-left"
+            onClick={() => onTabChange('overview')}
+            aria-label="Go to main dashboard"
+            title="Go to Dashboard"
+          >
             <img src="/Logo.png" alt="WealthGrow logo" className="h-8 w-8 object-contain" />
             <span className="wealth-display text-[1.58rem] font-extrabold">WealthGrow</span>
-          </div>
+          </button>
 
           <button
             type="button"
