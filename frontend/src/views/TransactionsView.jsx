@@ -24,64 +24,78 @@ export default function TransactionsView({ accessToken }) {
     totalIncomeYear: 0,
     totalExpenseYear: 0,
   });
+  const [form, setForm] = useState({
+    type: 'expense',
+    title: '',
+    amount: '',
+    category: 'other',
+    date: new Date().toISOString().slice(0, 10),
+    notes: '',
+  });
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+
+  const expenseCategories = ['food', 'transport', 'rent', 'entertainment', 'health', 'education', 'shopping', 'utilities', 'other'];
+  const incomeCategories = ['salary', 'freelance', 'business', 'investment', 'other'];
+
+  const loadTransactions = async () => {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+
+    const [incomeResponse, expenseResponse, incomeSummaryResponse, expenseSummaryResponse] = await Promise.all([
+      apiRequest(`/income?month=${month}&year=${year}&limit=50`, { token: accessToken }),
+      apiRequest(`/expenses?month=${month}&year=${year}&limit=50`, { token: accessToken }),
+      apiRequest(`/income/summary?year=${year}`, { token: accessToken }),
+      apiRequest(`/expenses/summary?year=${year}&month=${month}`, { token: accessToken }),
+    ]);
+
+    const mappedIncome = incomeResponse.data.map((entry) => ({
+      id: `income-${entry.id}`,
+      type: 'income',
+      title: entry.source,
+      category: entry.category,
+      amount: Number(entry.amount || 0),
+      date: entry.date,
+    }));
+
+    const mappedExpense = expenseResponse.data.map((entry) => ({
+      id: `expense-${entry.id}`,
+      type: 'expense',
+      title: entry.description,
+      category: entry.category,
+      amount: Number(entry.amount || 0),
+      date: entry.date,
+    }));
+
+    const merged = [...mappedIncome, ...mappedExpense].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+    const monthlyIncome = mappedIncome.reduce((acc, item) => acc + item.amount, 0);
+    const monthlyExpense = mappedExpense.reduce((acc, item) => acc + item.amount, 0);
+
+    setItems(merged);
+    setSummary({
+      monthlyIncome,
+      monthlyExpense,
+      totalIncomeYear: Number(incomeSummaryResponse.data.totalYear || 0),
+      totalExpenseYear: Number(expenseSummaryResponse.data.total || 0),
+    });
+  };
 
   useEffect(() => {
     let mounted = true;
 
-    const loadTransactions = async () => {
-      const now = new Date();
-      const month = now.getMonth() + 1;
-      const year = now.getFullYear();
-
+    const run = async () => {
       try {
         setLoading(true);
         setError('');
-
-        const [incomeResponse, expenseResponse, incomeSummaryResponse, expenseSummaryResponse] = await Promise.all([
-          apiRequest(`/income?month=${month}&year=${year}&limit=50`, { token: accessToken }),
-          apiRequest(`/expenses?month=${month}&year=${year}&limit=50`, { token: accessToken }),
-          apiRequest(`/income/summary?year=${year}`, { token: accessToken }),
-          apiRequest(`/expenses/summary?year=${year}&month=${month}`, { token: accessToken }),
-        ]);
-
+        await loadTransactions();
         if (!mounted) {
           return;
         }
-
-        const mappedIncome = incomeResponse.data.map((entry) => ({
-          id: `income-${entry.id}`,
-          type: 'income',
-          title: entry.source,
-          category: entry.category,
-          amount: Number(entry.amount || 0),
-          date: entry.date,
-        }));
-
-        const mappedExpense = expenseResponse.data.map((entry) => ({
-          id: `expense-${entry.id}`,
-          type: 'expense',
-          title: entry.description,
-          category: entry.category,
-          amount: Number(entry.amount || 0),
-          date: entry.date,
-        }));
-
-        const merged = [...mappedIncome, ...mappedExpense].sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
-
-        const monthlyIncome = mappedIncome.reduce((acc, item) => acc + item.amount, 0);
-        const monthlyExpense = mappedExpense.reduce((acc, item) => acc + item.amount, 0);
-
-        setItems(merged);
-        setSummary({
-          monthlyIncome,
-          monthlyExpense,
-          totalIncomeYear: Number(incomeSummaryResponse.data.totalYear || 0),
-          totalExpenseYear: Number(expenseSummaryResponse.data.total || 0),
-        });
       } catch (err) {
         if (!mounted) {
           return;
@@ -94,12 +108,69 @@ export default function TransactionsView({ accessToken }) {
       }
     };
 
-    loadTransactions();
+    run();
 
     return () => {
       mounted = false;
     };
   }, [accessToken]);
+
+  const handleAddTransaction = async (event) => {
+    event.preventDefault();
+    setError('');
+
+    if (!form.title.trim()) {
+      setError('Title is required.');
+      return;
+    }
+
+    const amount = Number(form.amount);
+    if (!amount || amount <= 0) {
+      setError('Amount must be greater than zero.');
+      return;
+    }
+
+    try {
+      setSaving(true);
+      if (form.type === 'income') {
+        await apiRequest('/income', {
+          method: 'POST',
+          token: accessToken,
+          body: {
+            source: form.title.trim(),
+            amount,
+            category: form.category,
+            notes: form.notes.trim() || null,
+            date: form.date,
+          },
+        });
+      } else {
+        await apiRequest('/expenses', {
+          method: 'POST',
+          token: accessToken,
+          body: {
+            description: form.title.trim(),
+            amount,
+            category: form.category,
+            notes: form.notes.trim() || null,
+            date: form.date,
+          },
+        });
+      }
+
+      setForm((current) => ({
+        ...current,
+        title: '',
+        amount: '',
+        notes: '',
+      }));
+      await loadTransactions();
+    } catch (err) {
+      setError(err.message || 'Unable to add transaction right now.');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const netMonthly = useMemo(() => summary.monthlyIncome - summary.monthlyExpense, [summary]);
 
@@ -113,6 +184,105 @@ export default function TransactionsView({ accessToken }) {
         <p className="mt-4 max-w-2xl text-[1.04rem] leading-[1.6]" style={{ color: 'var(--muted-ink)' }}>
           Income and expense records are loaded directly from your database for the current month and yearly totals.
         </p>
+      </section>
+
+      <section className="card-stadium px-6 py-6 md:px-7">
+        <h3 className="wealth-display text-3xl font-bold">Add Transaction</h3>
+        <form onSubmit={handleAddTransaction} className="mt-5 grid gap-3 md:grid-cols-2">
+          <label className="text-sm font-semibold">
+            Type
+            <select
+              value={form.type}
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  type: event.target.value,
+                  category: event.target.value === 'income' ? 'salary' : 'other',
+                }))
+              }
+              className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+              style={{ borderColor: 'var(--border)' }}
+            >
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+
+          <label className="text-sm font-semibold">
+            Category
+            <select
+              value={form.category}
+              onChange={(event) => setForm((current) => ({ ...current, category: event.target.value }))}
+              className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+              style={{ borderColor: 'var(--border)' }}
+            >
+              {(form.type === 'income' ? incomeCategories : expenseCategories).map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="text-sm font-semibold md:col-span-2">
+            {form.type === 'income' ? 'Source' : 'Description'}
+            <input
+              type="text"
+              value={form.title}
+              onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
+              className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+              style={{ borderColor: 'var(--border)' }}
+              placeholder={form.type === 'income' ? 'Salary credit' : 'Grocery payment'}
+            />
+          </label>
+
+          <label className="text-sm font-semibold">
+            Amount
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={form.amount}
+              onChange={(event) => setForm((current) => ({ ...current, amount: event.target.value }))}
+              className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+              style={{ borderColor: 'var(--border)' }}
+            />
+          </label>
+
+          <label className="text-sm font-semibold">
+            Date
+            <input
+              type="date"
+              value={form.date}
+              onChange={(event) => setForm((current) => ({ ...current, date: event.target.value }))}
+              className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+              style={{ borderColor: 'var(--border)' }}
+            />
+          </label>
+
+          <label className="text-sm font-semibold md:col-span-2">
+            Notes (optional)
+            <input
+              type="text"
+              value={form.notes}
+              onChange={(event) => setForm((current) => ({ ...current, notes: event.target.value }))}
+              className="mt-2 w-full radius-pill border bg-transparent px-4 py-3 outline-none"
+              style={{ borderColor: 'var(--border)' }}
+              placeholder="Any extra detail"
+            />
+          </label>
+
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              disabled={saving}
+              className="pill-button w-full px-4 py-3 text-sm font-semibold"
+              style={{ background: 'var(--ink)', color: 'var(--canvas)', opacity: saving ? 0.7 : 1 }}
+            >
+              {saving ? 'Saving Transaction...' : 'Add Transaction'}
+            </button>
+          </div>
+        </form>
       </section>
 
       {loading ? (
