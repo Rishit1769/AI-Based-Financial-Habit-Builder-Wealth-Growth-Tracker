@@ -44,7 +44,7 @@ export default function Sidebar({ navSections, activeTab, onTabChange, open, onC
       >
         <div className="flex h-24 items-center justify-between px-6">
           <div className="flex items-center gap-3">
-            <img src="/wealthgrow-logo.svg" alt="WealthGrow logo" className="h-8 w-8 object-contain" />
+            <img src="/Logo.png" alt="WealthGrow logo" className="h-8 w-8 object-contain" />
             <span className="wealth-display text-[1.58rem] font-extrabold">WealthGrow</span>
           </div>
 

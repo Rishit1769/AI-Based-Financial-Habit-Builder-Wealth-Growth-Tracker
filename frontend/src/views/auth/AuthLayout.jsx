@@ -17,7 +17,7 @@ export default function AuthLayout({ title, subtitle, children }) {
         <section className="card-stadium w-full max-w-md px-7 py-8 md:px-8 md:py-9">
           <div className="mb-7 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/wealthgrow-logo.svg" alt="WealthGrow logo" className="h-9 w-9 object-contain" />
+              <img src="/Logo.png" alt="WealthGrow logo" className="h-9 w-9 object-contain" />
               <span className="wealth-display text-2xl font-extrabold">WealthGrow</span>
             </div>
 
