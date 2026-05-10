@@ -9,9 +9,12 @@ import {
 } from 'react-icons/fa6';
 import AppShell from './components/layout/AppShell.jsx';
 import { apiRequest } from './services/api.js';
+import AllocationView from './views/AllocationView.jsx';
 import AdvisorView from './views/AdvisorView.jsx';
 import HabitsView from './views/HabitsView.jsx';
 import OverviewView from './views/OverviewView.jsx';
+import SettingsView from './views/SettingsView.jsx';
+import TransactionsView from './views/TransactionsView.jsx';
 import LoginView from './views/auth/LoginView.jsx';
 import RegisterView from './views/auth/RegisterView.jsx';
 import VerifyOtpView from './views/auth/VerifyOtpView.jsx';
@@ -222,6 +225,24 @@ export default function App() {
     return 'OTP sent again successfully';
   }, [pendingRegistration]);
 
+  const handleUserUpdated = useCallback((nextUserProfile) => {
+    setUser(nextUserProfile);
+    setAuth((current) => {
+      if (!current) {
+        return current;
+      }
+      const nextAuth = {
+        ...current,
+        user: {
+          ...current.user,
+          ...nextUserProfile,
+        },
+      };
+      writeJsonStorage(AUTH_STORAGE_KEY, nextAuth);
+      return nextAuth;
+    });
+  }, []);
+
   const activeLabel = useMemo(() => {
     for (const section of navSections) {
       const found = section.items.find((item) => item.id === activeTab);
@@ -284,7 +305,12 @@ export default function App() {
       {activeTab === 'overview' && <OverviewView accessToken={auth.accessToken} user={user} />}
       {activeTab === 'habits' && <HabitsView accessToken={auth.accessToken} />}
       {activeTab === 'advisor' && <AdvisorView accessToken={auth.accessToken} />}
-      {!['overview', 'habits', 'advisor'].includes(activeTab) && (
+      {activeTab === 'transactions' && <TransactionsView accessToken={auth.accessToken} />}
+      {activeTab === 'settings' && (
+        <SettingsView accessToken={auth.accessToken} onUserUpdated={handleUserUpdated} />
+      )}
+      {activeTab === 'allocation' && <AllocationView accessToken={auth.accessToken} />}
+      {!['overview', 'habits', 'advisor', 'transactions', 'settings', 'allocation'].includes(activeTab) && (
         <section className="card-stadium px-8 py-14 md:px-12 md:py-16">
           <p className="eyebrow">Editorial Wealth</p>
           <h2 className="wealth-display mt-3 text-5xl font-extrabold">{activeLabel}</h2>
