@@ -17,6 +17,10 @@ router.post(
   '/register',
   [
     body('name').trim().isLength({ min: 2, max: 100 }).withMessage('Name must be 2–100 characters'),
+    body('phone')
+      .trim()
+      .matches(/^\+?[0-9]{10,15}$/)
+      .withMessage('Phone number must be 10-15 digits and may start with +'),
     body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
     body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
     body('otp').notEmpty().withMessage('OTP is required'),

@@ -96,7 +96,7 @@ const register = async (req, res, next) => {
 
     const userResult = await query(
       `INSERT INTO users (name, email, password_hash, phone) VALUES ($1, $2, $3, $4) RETURNING id, name, email, role, created_at`,
-      [name, email, passwordHash, phone || null]
+      [name, email, passwordHash, phone]
     );
     const user = userResult.rows[0];
 
