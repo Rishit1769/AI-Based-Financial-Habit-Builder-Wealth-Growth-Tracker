@@ -67,6 +67,9 @@ Please provide helpful, encouraging, and specific financial advice. Keep your re
     if (err.message?.includes('GEMINI_API_KEY')) {
       return res.status(503).json({ success: false, message: 'AI service not configured. Please set GEMINI_API_KEY.' });
     }
+    if (err.message?.includes('Gemini API key is invalid')) {
+      return res.status(503).json({ success: false, message: err.message });
+    }
     next(err);
   }
 };
