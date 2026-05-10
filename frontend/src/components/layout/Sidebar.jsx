@@ -44,16 +44,7 @@ export default function Sidebar({ navSections, activeTab, onTabChange, open, onC
       >
         <div className="flex h-24 items-center justify-between px-6">
           <div className="flex items-center gap-3">
-            <div className="relative h-7 w-10" aria-hidden="true">
-              <span
-                className="radius-circle absolute left-0 top-0 h-6 w-6"
-                style={{ background: '#eb001b', opacity: 0.9 }}
-              />
-              <span
-                className="radius-circle absolute left-[14px] top-0 h-6 w-6"
-                style={{ background: '#f79e1b', opacity: 0.9 }}
-              />
-            </div>
+            <img src="/wealthgrow-logo.svg" alt="WealthGrow logo" className="h-8 w-8 object-contain" />
             <span className="wealth-display text-[1.58rem] font-extrabold">WealthGrow</span>
           </div>
 

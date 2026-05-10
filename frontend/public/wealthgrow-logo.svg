@@ -1,0 +1,14 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bars" x1="24" y1="20" x2="104" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CF4500"/>
+      <stop offset="0.6" stop-color="#F37338"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#141413"/>
+  <path d="M36 80V56C36 53.7909 37.7909 52 40 52H48C50.2091 52 52 53.7909 52 56V80C52 82.2091 50.2091 84 48 84H40C37.7909 84 36 82.2091 36 80Z" fill="url(#bars)"/>
+  <path d="M56 80V44C56 41.7909 57.7909 40 60 40H68C70.2091 40 72 41.7909 72 44V80C72 82.2091 70.2091 84 68 84H60C57.7909 84 56 82.2091 56 80Z" fill="url(#bars)"/>
+  <path d="M76 80V32C76 29.7909 77.7909 28 80 28H88C90.2091 28 92 29.7909 92 32V80C92 82.2091 90.2091 84 88 84H80C77.7909 84 76 82.2091 76 80Z" fill="url(#bars)"/>
+  <path d="M35 97C42 92.5 52.2 90 63.6 90C74.8 90 84.8 92.3 92.1 96.4" stroke="#F3F0EE" stroke-width="6" stroke-linecap="round"/>
+</svg>

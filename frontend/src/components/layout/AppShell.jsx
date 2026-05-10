@@ -3,7 +3,15 @@ import { useMemo, useState } from 'react';
 import Sidebar from './Sidebar.jsx';
 import TopHeader from './TopHeader.jsx';
 
-export default function AppShell({ children, activeTitle, activeTab, navSections, onTabChange }) {
+export default function AppShell({
+  children,
+  activeTitle,
+  activeTab,
+  navSections,
+  onTabChange,
+  user,
+  onLogout,
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const motionKey = useMemo(() => activeTab, [activeTab]);
@@ -22,7 +30,12 @@ export default function AppShell({ children, activeTitle, activeTab, navSections
       />
 
       <div className="min-h-screen lg:pl-[18rem]">
-        <TopHeader title={activeTitle} onMenuClick={() => setSidebarOpen(true)} />
+        <TopHeader
+          title={activeTitle}
+          onMenuClick={() => setSidebarOpen(true)}
+          user={user}
+          onLogout={onLogout}
+        />
 
         <main className="px-5 pb-10 pt-3 md:px-10 md:pb-12 md:pt-5 xl:px-16 xl:pb-14 xl:pt-6">
           <AnimatePresence mode="wait">
