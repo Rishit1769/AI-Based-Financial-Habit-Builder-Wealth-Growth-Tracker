@@ -53,26 +53,32 @@ export function GroupedBarChart({ data, keys, height = 190 }) {
     1,
     ...data.flatMap((item) => keys.map((keyMeta) => Number(item[keyMeta.key] || 0)))
   );
+  const chartHeight = Math.max(Number(height) || 190, 140);
+  const usableBarHeight = Math.max(chartHeight - 34, 90);
 
   return (
     <div>
-      <div className="flex h-[190px] items-end gap-2" style={{ height }}>
+      <div className="flex items-end gap-2" style={{ height: `${chartHeight}px` }}>
         {data.map((row) => (
-          <div key={row.label} className="flex min-w-0 flex-1 items-end gap-1">
+          <div key={row.label} className="flex h-full min-w-0 flex-1 items-end gap-1">
             {keys.map((keyMeta) => {
               const raw = Number(row[keyMeta.key] || 0);
-              const ratio = Math.max(6, Math.round((raw / maxValue) * 100));
+              const scaledHeight = Math.round((Math.max(raw, 0) / maxValue) * usableBarHeight);
+              const barHeight = raw > 0 ? Math.max(14, scaledHeight) : 4;
+              const barColor =
+                raw > 0
+                  ? keyMeta.color
+                  : 'color-mix(in srgb, var(--muted-ink) 36%, transparent)';
               return (
-                <div key={keyMeta.key} className="flex flex-1 flex-col items-center gap-1">
+                <div key={keyMeta.key} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
                   <span className="text-[10px] font-semibold" style={{ color: 'var(--muted-ink)' }}>
                     {formatCompact(raw)}
                   </span>
                   <span
                     className="radius-pill block w-full"
                     style={{
-                      height: `${ratio}%`,
-                      background: keyMeta.color,
-                      minHeight: '10px',
+                      height: `${barHeight}px`,
+                      background: barColor,
                     }}
                   />
                 </div>
