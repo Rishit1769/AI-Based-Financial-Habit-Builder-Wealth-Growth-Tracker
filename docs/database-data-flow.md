@@ -13,8 +13,39 @@ This project uses PostgreSQL as the source of truth for user-facing data.
   - Monthly savings
   - Net worth
   - Savings goals progress
-  - Net worth trend bars
+  - Net worth trend chart
+  - Expense category breakdown chart
   - Habit completion summary
+
+### Transactions View
+
+- Endpoints:
+  - `GET /api/income`
+  - `GET /api/expenses`
+  - `GET /api/income/summary`
+  - `GET /api/expenses/summary`
+- Data shown:
+  - Monthly and yearly totals
+  - Income vs expense monthly chart
+  - Expense category breakdown chart
+
+### Allocation View
+
+- Endpoints:
+  - `GET /api/investments/summary`
+  - `GET /api/savings`
+- Data shown:
+  - Portfolio totals and gain/loss
+  - Investment type mix charts
+  - Savings progress and target comparison charts
+
+### Reports View
+
+- Endpoint: `GET /api/reports`
+- Data shown:
+  - Generated report history
+  - Report volume trend chart
+  - Report type distribution chart
 
 ### Habits View
 

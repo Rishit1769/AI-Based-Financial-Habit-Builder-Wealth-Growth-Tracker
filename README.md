@@ -1,194 +1,166 @@
-﻿# Financial Habit Builder & Wealth Growth Tracker
+﻿# Financial Habit Builder and Wealth Growth Tracker
 
-> A full-stack, AI-powered personal finance platform with **sleek fintech UI**, habit tracking, and real-time wealth analytics — available on web and mobile.
+A full-stack personal finance platform with habit tracking, AI guidance, dynamic analytics charts, and premium PDF reporting.
 
----
+## Current Status
 
-## UI Design System
-
-The web frontend features a **high-fidelity, dual-theme dashboard** designed around the _Sleek Fintech_ aesthetic.
-
-### Dark Mode
-- Deep charcoal/navy base (#080b12) with layered surface tones
-- Vibrant Indigo accent (#6366f1) with subtle glassmorphism cards
-- 1px borders at gba(255,255,255,0.06) opacity for depth
-
-### Light Mode
-- Soft-grey background (#f0f2f7) with pure-white card surfaces
-- High-contrast slate typography with professional Indigo branding (#4f46e5)
-
-### Dashboard Layout — Bento Grid
-| Component | Description |
-|---|---|
-| **Net Worth Hero** | Full-width area chart showing 6-month wealth trend |
-| **Stat Cards × 4** | Net Worth · Income (Emerald) · Expenses (Rose) · Savings |
-| **Habit Ring** | SVG circular progress ring — today's habit completion |
-| **Transaction List** | Color-coded recent activity with TrendingUp/Down icons |
-| **Income vs Expenses** | 6-month grouped bar chart |
-| **Expense Breakdown** | Pie chart by category |
-| **Savings Goals** | Progress bars per goal |
-
-### Design Tokens
-- **Font**: Inter (anti-aliased, system fallback)
-- **Sidebar**: Thin line-icons · gradient glow on active link · gradient text brand title
-- **Cards**: order-radius: 1.25rem · shimmer accent line · smooth hover transitions
-- **Animations**: adeInUp stagger on page load · pulse-glow · float
-
----
+- Backend: Express + PostgreSQL API with JWT auth, reporting, scheduler, and email integration
+- Frontend: React + Vite dashboard with live chart visualizations across Overview, Transactions, Allocation, Habits, and Reports
+- Storage: MinIO buckets for generated reports and APK download artifacts
+- AI: Gemini-powered advisor endpoint with persisted chat history
 
 ## Features
 
-- **Dashboard** — Real-time overview of income, expenses, savings, and net worth
-- **Income & Expense Tracking** — Log transactions with categories, notes, and date filters
-- **Habit Tracker** — Build and monitor financial habits with streaks and reminders
-- **Savings Goals** — Create goals, track progress, and visualize milestones
-- **Investments** — Record and monitor investment portfolios
-- **AI Advisor** — Google Gemini-powered personalized financial insights
-- **Reports** — Generate and download PDF/CSV reports; stored via MinIO
-- **Notifications** — Scheduled email reminders and alerts via cron jobs
-- **Admin Panel** — User management and platform-level oversight
-- **Mobile App** — Flutter app with full feature parity
-
----
+- Secure auth with OTP onboarding, login, refresh, and logout
+- Income and expense tracking with filters and summaries
+- Habit management with daily completion, streaks, and stats
+- Savings goals and investments with live allocation analytics
+- Dashboard aggregation endpoint for cross-module insights
+- AI advisor chat and history
+- Date-range and preset PDF report generation with email delivery
+- In-app notifications and admin management endpoints
+- Reusable frontend chart system:
+    - line trend charts
+    - grouped bar charts
+    - donut breakdown charts
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 19, Vite, Tailwind CSS, Recharts, Framer Motion |
+| Frontend | React 19, Vite, Tailwind CSS v4, Framer Motion, React Icons |
 | Backend | Node.js, Express, PostgreSQL, JWT, bcryptjs |
-| AI | Google Gemini (`gemini-1.5-flash`) |
-| Storage | MinIO (reports, APK files) |
-| Email | Nodemailer (SMTP) |
-| Mobile | Flutter 3, Provider, Dio |
+| Reports | PDFKit, MinIO |
+| AI | Google Generative AI (Gemini) |
+| Email | Nodemailer |
 
----
-
-## Project Structure
+## Repository Layout
 
 ```
-├── backend/          # Express REST API
+.
+├── backend/
+│   ├── server.js
 │   ├── src/
-│   │   ├── config/   # DB, email, Gemini, MinIO clients
+│   │   ├── config/
 │   │   ├── controllers/
 │   │   ├── middleware/
 │   │   ├── routes/
-│   │   ├── services/ # Email, reports, cron scheduler
-│   │   └── db/       # schema.sql + migration script
-│   └── server.js
-├── frontend/         # React SPA
+│   │   ├── services/
+│   │   └── db/
+├── frontend/
+│   ├── index.html
+│   ├── vite.config.js
 │   └── src/
-│       ├── pages/
 │       ├── components/
-│       ├── services/ # Axios API wrappers
-│       └── context/  # Auth, Theme
-└── mobile/           # Flutter app
-    └── lib/
-        ├── screens/
-        ├── providers/
-        └── services/
+│       │   ├── layout/
+│       │   └── charts/
+│       ├── context/
+│       ├── services/
+│       ├── styles/
+│       └── views/
+├── docs/
+├── dev.js
+└── package.json
 ```
 
----
-
-## Getting Started
+## Setup
 
 ### Prerequisites
 
-- Node.js >= 18
-- PostgreSQL >= 14
-- MinIO (local or hosted)
-- Flutter SDK >= 3.0 (for mobile)
+- Node.js 18+
+- PostgreSQL
+- MinIO (or compatible S3 endpoint)
 
-### 1. Clone & Install
+### 1) Install dependencies
 
 ```bash
-git clone <repo-url>
-cd financial-habit-builder
-
-# Install all dependencies (backend + frontend)
 npm run install:all
 ```
 
-### 2. Configure Environment
+### 2) Configure environment
 
 ```bash
-# Backend
 cp backend/.env.example backend/.env
-
-# Frontend
-cp frontend/.env.example frontend/.env
 ```
 
-Fill in the values in `backend/.env` — see [.env.example](backend/.env.example) for all required keys.
+Update backend/.env with valid DB, JWT, MinIO, Gemini, and SMTP values.
 
-### 3. Set Up Database
+### 3) Run database migration
 
 ```bash
-# Run migrations (creates all tables)
 npm run migrate --prefix backend
 ```
 
-### 4. Start Development Servers
+### 4) Start development
 
 ```bash
-# Starts both backend (port 5000) and frontend (port 5173) concurrently
 npm run dev
 ```
 
-Or start them individually:
+This uses dev.js to start backend and frontend safely on Windows when the folder path contains an ampersand.
+
+## Build and Run Notes
+
+- Standard frontend build:
 
 ```bash
-npm run backend
-npm run frontend
+npm run build --prefix frontend
 ```
 
-### 5. Mobile (Flutter)
+- If your shell fails because of special characters in the folder path, run Vite directly:
 
 ```bash
-cd mobile
-flutter pub get
-flutter run
+cd frontend
+node .\node_modules\vite\bin\vite.js build
 ```
 
-Update `lib/config/constants.dart` with your backend API URL.
+## Scripts
 
----
+Root package scripts:
 
-## Environment Variables
+- npm run dev
+- npm run backend
+- npm run frontend
+- npm run install:all
 
-See [`backend/.env.example`](backend/.env.example) for a full reference. Key variables:
+Backend package scripts:
 
-| Variable | Description |
-|---|---|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `JWT_SECRET` | Secret key for signing JWT tokens |
-| `GEMINI_API_KEY` | Google Gemini AI API key |
-| `EMAIL_USER` / `EMAIL_PASS` | SMTP credentials |
-| `MINIO_ENDPOINT` | MinIO server host |
-| `FRONTEND_URL` | Allowed CORS origin |
+- npm run dev --prefix backend
+- npm run start --prefix backend
+- npm run migrate --prefix backend
 
----
+Frontend package scripts:
 
-## API Overview
+- npm run dev --prefix frontend
+- npm run build --prefix frontend
+- npm run preview --prefix frontend
 
-All endpoints are prefixed with `/api`.
+## API Summary
 
-| Prefix | Description |
-|---|---|
-| `/auth` | Register, login, token refresh |
-| `/users` | Profile, avatar, settings |
-| `/income` | Income records (CRUD) |
-| `/expenses` | Expense records (CRUD) |
-| `/habits` | Habits and completions |
-| `/savings` | Savings goals |
-| `/investments` | Investment records |
-| `/dashboard` | Aggregated stats |
-| `/ai` | Gemini AI advice |
-| `/reports` | PDF/CSV generation |
-| `/notifications` | In-app notifications |
-| `/admin` | Admin-only management |
-| `/download` | File download via MinIO |
+Base path: /api
 
----
+- /auth
+- /users
+- /income
+- /expenses
+- /habits
+- /savings
+- /investments
+- /dashboard
+- /ai
+- /reports
+- /notifications
+- /admin
+- /download
+- /health
+
+For full route list, see docs/api-endpoints.md.
+
+## Documentation
+
+- docs/README.md
+- docs/authentication-flow.md
+- docs/database-data-flow.md
+- docs/development-workflow.md
+- docs/api-endpoints.md
 
