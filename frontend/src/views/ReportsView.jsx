@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FaCalendarDays, FaEye, FaFileArrowDown } from 'react-icons/fa6';
 import { apiDownload, apiRequest } from '../services/api.js';
+import { ChartPanel, DonutBreakdownChart, GroupedBarChart } from '../components/charts/FinanceCharts.jsx';
 
 const dateFormatter = new Intl.DateTimeFormat('en-IN', {
   day: '2-digit',
@@ -14,6 +15,8 @@ const getInitialFromDate = () => {
   const now = new Date();
   return toInputDate(new Date(now.getFullYear(), now.getMonth(), 1));
 };
+
+const chartPalette = ['var(--signal)', 'var(--orbit)', 'var(--growth)', '#36A2EB'];
 
 export default function ReportsView({ accessToken }) {
   const [reports, setReports] = useState([]);
@@ -69,6 +72,48 @@ export default function ReportsView({ accessToken }) {
     }
     return 'Custom Date Range';
   }, [reportMode]);
+
+  const reportVolumeTrend = useMemo(() => {
+    const now = new Date();
+    const monthSlots = [];
+    for (let offset = 5; offset >= 0; offset -= 1) {
+      const date = new Date(now.getFullYear(), now.getMonth() - offset, 1);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const key = `${year}-${month}`;
+      const label = date.toLocaleDateString('en-IN', { month: 'short' });
+      monthSlots.push({ key, label });
+    }
+
+    const counts = new Map();
+    reports.forEach((report) => {
+      const createdAt = new Date(report.created_at);
+      if (Number.isNaN(createdAt.getTime())) {
+        return;
+      }
+      const key = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
+      counts.set(key, Number(counts.get(key) || 0) + 1);
+    });
+
+    return monthSlots.map((slot) => ({
+      label: slot.label,
+      reports: Number(counts.get(slot.key) || 0),
+    }));
+  }, [reports]);
+
+  const reportTypeSegments = useMemo(() => {
+    const counts = new Map();
+    reports.forEach((report) => {
+      const type = report.report_type || 'custom';
+      counts.set(type, Number(counts.get(type) || 0) + 1);
+    });
+
+    return Array.from(counts.entries()).map(([label, value], index) => ({
+      label: label.replace('_', ' '),
+      value,
+      color: chartPalette[index % chartPalette.length],
+    }));
+  }, [reports]);
 
   const handleGenerate = async (event) => {
     event.preventDefault();
@@ -253,6 +298,31 @@ export default function ReportsView({ accessToken }) {
           {successMessage}
         </section>
       ) : null}
+
+      <section className="grid gap-5 xl:grid-cols-2">
+        <ChartPanel
+          title="Report Volume Trend"
+          subtitle="Generated report count over the last six months"
+        >
+          <GroupedBarChart
+            data={reportVolumeTrend}
+            keys={[
+              { key: 'reports', label: 'Reports', color: 'var(--orbit)' },
+            ]}
+          />
+        </ChartPanel>
+
+        <ChartPanel
+          title="Report Type Distribution"
+          subtitle="How your generated reports are split by type"
+        >
+          <DonutBreakdownChart
+            segments={reportTypeSegments}
+            centerLabel="Total"
+            centerValue={`${reports.length}`}
+          />
+        </ChartPanel>
+      </section>
 
       <section className="card-stadium px-6 py-6 md:px-7">
         <div className="flex items-center justify-between gap-4 border-b pb-4" style={{ borderColor: 'var(--border)' }}>

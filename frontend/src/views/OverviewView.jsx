@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FaArrowRightLong, FaCircle } from 'react-icons/fa6';
 import { apiRequest } from '../services/api.js';
+import { ChartPanel, DonutBreakdownChart, LineTrendChart } from '../components/charts/FinanceCharts.jsx';
 
 const currencyFormatter = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -9,6 +10,8 @@ const currencyFormatter = new Intl.NumberFormat('en-IN', {
 });
 
 const numberFormatter = new Intl.NumberFormat('en-IN');
+
+const chartPalette = ['var(--signal)', 'var(--orbit)', 'var(--growth)', '#36A2EB', '#9966FF', '#F59E0B'];
 
 const formatCurrency = (value) => currencyFormatter.format(Number(value || 0));
 
@@ -80,16 +83,26 @@ export default function OverviewView({ accessToken, user, onGenerateReport }) {
     };
   }, [accessToken]);
 
-  const pulseBars = useMemo(() => {
+  const netWorthTrendChart = useMemo(() => {
     const trend = dashboard?.netWorthTrend || [];
     if (!trend.length) {
-      return [40, 52, 60, 70, 82, 100];
+      return [];
     }
 
-    const values = trend.map((entry) => Number(entry.net_worth || 0));
-    const max = Math.max(...values.map((value) => Math.abs(value)), 1);
-    return values.map((value) => Math.max(18, Math.round((Math.abs(value) / max) * 100)));
+    return trend.map((entry) => ({
+      label: String(entry.label || '').split(' ')[0] || 'Month',
+      value: Number(entry.net_worth || 0),
+    }));
   }, [dashboard?.netWorthTrend]);
+
+  const expenseBreakdown = useMemo(() => {
+    const rows = dashboard?.expenseByCategory || [];
+    return rows.map((item, index) => ({
+      label: item.category,
+      value: Number(item.total || 0),
+      color: chartPalette[index % chartPalette.length],
+    }));
+  }, [dashboard?.expenseByCategory]);
 
   const overview = dashboard?.overview;
   const primaryGoal = dashboard?.savingsGoals?.[0] || null;
@@ -165,22 +178,8 @@ export default function OverviewView({ accessToken, user, onGenerateReport }) {
             </span>
           </div>
 
-          <div className="mt-8 flex h-[11.25rem] items-end gap-3">
-            {pulseBars.map((height, index) => {
-              const isFinal = index === pulseBars.length - 1;
-              return (
-                <span
-                  key={`${height}-${index}`}
-                  className="radius-pill block w-full"
-                  style={{
-                    height: `${height}%`,
-                    background: isFinal
-                      ? 'var(--ink)'
-                      : 'color-mix(in srgb, var(--ink) 8%, var(--lifted-surface))',
-                  }}
-                />
-              );
-            })}
+          <div className="mt-5">
+            <LineTrendChart points={netWorthTrendChart} valuePrefix="INR " color="var(--orbit)" />
           </div>
         </article>
       </section>
@@ -225,6 +224,26 @@ export default function OverviewView({ accessToken, user, onGenerateReport }) {
             Habits Completed Today
           </p>
         </MetricCard>
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-2">
+        <ChartPanel
+          title="Net Worth Trajectory"
+          subtitle="Rolling six-month movement based on your cumulative income and expenses"
+        >
+          <LineTrendChart points={netWorthTrendChart} valuePrefix="INR " color="var(--growth)" />
+        </ChartPanel>
+
+        <ChartPanel
+          title="Expense Category Mix"
+          subtitle="Current month expense distribution by category"
+        >
+          <DonutBreakdownChart
+            segments={expenseBreakdown}
+            centerLabel="Expenses"
+            centerValue={formatCompactCurrency(overview?.monthlyExpense)}
+          />
+        </ChartPanel>
       </section>
     </div>
   );

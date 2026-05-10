@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { apiRequest } from '../services/api.js';
+import { ChartPanel, DonutBreakdownChart, GroupedBarChart } from '../components/charts/FinanceCharts.jsx';
 
 const currencyFormatter = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -8,6 +9,10 @@ const currencyFormatter = new Intl.NumberFormat('en-IN', {
 });
 
 const formatCurrency = (value) => currencyFormatter.format(Number(value || 0));
+
+const chartPalette = ['var(--signal)', 'var(--orbit)', 'var(--growth)', '#36A2EB', '#9966FF', '#F59E0B'];
+
+const prettyLabel = (value) => String(value || '').replaceAll('_', ' ');
 
 export default function AllocationView({ accessToken }) {
   const [investmentSummary, setInvestmentSummary] = useState(null);
@@ -172,6 +177,36 @@ export default function AllocationView({ accessToken }) {
 
   const totalSavingsCurrent = useMemo(
     () => savingsGoals.reduce((acc, goal) => acc + Number(goal.current_amount || 0), 0),
+    [savingsGoals]
+  );
+
+  const investmentTypeSegments = useMemo(
+    () =>
+      byType.map((item, index) => ({
+        label: prettyLabel(item.asset_type),
+        value: Number(item.total_current || 0),
+        color: chartPalette[index % chartPalette.length],
+      })),
+    [byType]
+  );
+
+  const investmentComparisonChart = useMemo(
+    () =>
+      byType.slice(0, 6).map((item) => ({
+        label: prettyLabel(item.asset_type),
+        invested: Number(item.total_invested || 0),
+        current: Number(item.total_current || 0),
+      })),
+    [byType]
+  );
+
+  const savingsComparisonChart = useMemo(
+    () =>
+      savingsGoals.slice(0, 6).map((goal) => ({
+        label: goal.title,
+        current: Number(goal.current_amount || 0),
+        target: Number(goal.target_amount || 0),
+      })),
     [savingsGoals]
   );
 
@@ -402,6 +437,32 @@ export default function AllocationView({ accessToken }) {
             </article>
           </section>
 
+          <section className="grid gap-5 xl:grid-cols-2">
+            <ChartPanel
+              title="Portfolio Mix"
+              subtitle="Distribution by current value"
+            >
+              <DonutBreakdownChart
+                segments={investmentTypeSegments}
+                centerLabel="Portfolio"
+                centerValue={formatCurrency(totalCurrent)}
+              />
+            </ChartPanel>
+
+            <ChartPanel
+              title="Invested vs Current"
+              subtitle="Top asset classes performance"
+            >
+              <GroupedBarChart
+                data={investmentComparisonChart}
+                keys={[
+                  { key: 'invested', label: 'Invested', color: 'color-mix(in srgb, var(--ink) 20%, transparent)' },
+                  { key: 'current', label: 'Current Value', color: 'var(--growth)' },
+                ]}
+              />
+            </ChartPanel>
+          </section>
+
           <section className="grid gap-5 lg:grid-cols-2">
             <article className="card-stadium px-6 py-6 md:px-7">
               <h3 className="wealth-display text-3xl font-bold">Investments by Type</h3>
@@ -445,6 +506,17 @@ export default function AllocationView({ accessToken }) {
               <p className="mt-2 text-sm" style={{ color: 'var(--muted-ink)' }}>
                 Total saved across goals: {formatCurrency(totalSavingsCurrent)}
               </p>
+
+              <div className="mt-5">
+                <GroupedBarChart
+                  data={savingsComparisonChart}
+                  keys={[
+                    { key: 'current', label: 'Current', color: 'var(--growth)' },
+                    { key: 'target', label: 'Target', color: 'color-mix(in srgb, var(--ink) 20%, transparent)' },
+                  ]}
+                  height={150}
+                />
+              </div>
 
               {savingsGoals.length === 0 ? (
                 <p className="mt-5 text-sm" style={{ color: 'var(--muted-ink)' }}>

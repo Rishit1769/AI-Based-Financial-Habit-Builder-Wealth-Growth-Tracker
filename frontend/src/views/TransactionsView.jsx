@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6';
 import { apiRequest } from '../services/api.js';
+import { ChartPanel, DonutBreakdownChart, GroupedBarChart } from '../components/charts/FinanceCharts.jsx';
 
 const currencyFormatter = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -16,6 +17,9 @@ const dateFormatter = new Intl.DateTimeFormat('en-IN', {
 
 const formatCurrency = (value) => currencyFormatter.format(Number(value || 0));
 
+const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const chartPalette = ['var(--signal)', 'var(--orbit)', 'var(--growth)', '#36A2EB', '#9966FF', '#F59E0B'];
+
 export default function TransactionsView({ accessToken }) {
   const [items, setItems] = useState([]);
   const [summary, setSummary] = useState({
@@ -23,6 +27,8 @@ export default function TransactionsView({ accessToken }) {
     monthlyExpense: 0,
     totalIncomeYear: 0,
     totalExpenseYear: 0,
+    trend: [],
+    expenseByCategory: [],
   });
   const [form, setForm] = useState({
     type: 'expense',
@@ -76,12 +82,51 @@ export default function TransactionsView({ accessToken }) {
     const monthlyIncome = mappedIncome.reduce((acc, item) => acc + item.amount, 0);
     const monthlyExpense = mappedExpense.reduce((acc, item) => acc + item.amount, 0);
 
+    const incomeByMonth = new Map();
+    (incomeSummaryResponse.data?.monthly || []).forEach((item) => {
+      const month = Number(item.month || 0);
+      const current = Number(incomeByMonth.get(month) || 0);
+      incomeByMonth.set(month, current + Number(item.total || 0));
+    });
+
+    const expenseByMonth = new Map();
+    (expenseSummaryResponse.data?.byMonth || []).forEach((item) => {
+      const month = Number(item.month || 0);
+      expenseByMonth.set(month, Number(item.total || 0));
+    });
+
+    const trend = monthLabels.slice(0, month).map((label, index) => {
+      const monthNo = index + 1;
+      return {
+        label,
+        income: Number(incomeByMonth.get(monthNo) || 0),
+        expense: Number(expenseByMonth.get(monthNo) || 0),
+      };
+    });
+
+    const expenseByCategoryMap = mappedExpense.reduce((acc, entry) => {
+      const key = entry.category || 'other';
+      acc.set(key, Number(acc.get(key) || 0) + Number(entry.amount || 0));
+      return acc;
+    }, new Map());
+
+    const expenseByCategory = Array.from(expenseByCategoryMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([label, value], index) => ({
+        label,
+        value,
+        color: chartPalette[index % chartPalette.length],
+      }));
+
     setItems(merged);
     setSummary({
       monthlyIncome,
       monthlyExpense,
       totalIncomeYear: Number(incomeSummaryResponse.data.totalYear || 0),
       totalExpenseYear: Number(expenseSummaryResponse.data.total || 0),
+      trend,
+      expenseByCategory,
     });
   };
 
@@ -332,6 +377,32 @@ export default function TransactionsView({ accessToken }) {
                 Year income {formatCurrency(summary.totalIncomeYear)} | year expense {formatCurrency(summary.totalExpenseYear)}
               </p>
             </article>
+          </section>
+
+          <section className="grid gap-5 xl:grid-cols-2">
+            <ChartPanel
+              title="Monthly Income vs Expense"
+              subtitle="Year-to-date flow comparison"
+            >
+              <GroupedBarChart
+                data={summary.trend}
+                keys={[
+                  { key: 'income', label: 'Income', color: 'var(--growth)' },
+                  { key: 'expense', label: 'Expense', color: 'var(--signal)' },
+                ]}
+              />
+            </ChartPanel>
+
+            <ChartPanel
+              title="Expense Category Split"
+              subtitle="Current month spending concentration"
+            >
+              <DonutBreakdownChart
+                segments={summary.expenseByCategory}
+                centerLabel="This Month"
+                centerValue={formatCurrency(summary.monthlyExpense)}
+              />
+            </ChartPanel>
           </section>
 
           <section className="card-stadium px-6 py-6 md:px-7">

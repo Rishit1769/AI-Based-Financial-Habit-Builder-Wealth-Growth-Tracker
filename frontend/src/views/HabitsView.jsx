@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   FaBolt,
   FaChartLine,
@@ -7,6 +7,13 @@ import {
   FaWallet,
 } from 'react-icons/fa6';
 import { apiRequest } from '../services/api.js';
+import { ChartPanel, DonutBreakdownChart, GroupedBarChart } from '../components/charts/FinanceCharts.jsx';
+
+const chartPalette = {
+  daily: 'var(--growth)',
+  weekly: 'var(--orbit)',
+  monthly: 'var(--signal)',
+};
 
 const iconByFrequency = {
   daily: FaBolt,
@@ -168,6 +175,36 @@ export default function HabitsView({ accessToken }) {
     }
   };
 
+  const completionSegments = useMemo(() => {
+    const completed = Number(data.completedToday || 0);
+    const total = Number(data.totalHabits || 0);
+    const pending = Math.max(total - completed, 0);
+
+    return [
+      { label: 'Completed Today', value: completed, color: 'var(--growth)' },
+      { label: 'Pending Today', value: pending, color: 'var(--signal)' },
+    ];
+  }, [data.completedToday, data.totalHabits]);
+
+  const frequencyChart = useMemo(() => {
+    const buckets = new Map();
+    data.habits.forEach((habit) => {
+      const frequency = habit.frequency || 'other';
+      const existing = buckets.get(frequency) || { total: 0, completed: 0 };
+      existing.total += 1;
+      if (habit.completed_today) {
+        existing.completed += 1;
+      }
+      buckets.set(frequency, existing);
+    });
+
+    return Array.from(buckets.entries()).map(([frequency, values]) => ({
+      label: frequency,
+      total: values.total,
+      completed: values.completed,
+    }));
+  }, [data.habits]);
+
   return (
     <div className="space-y-8 md:space-y-10">
       <section className="max-w-[49rem]">
@@ -246,6 +283,40 @@ export default function HabitsView({ accessToken }) {
             </button>
           </div>
         </form>
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-2">
+        <ChartPanel
+          title="Daily Completion Status"
+          subtitle="How many active habits were completed today"
+        >
+          <DonutBreakdownChart
+            segments={completionSegments}
+            centerLabel="Completion"
+            centerValue={`${data.completionRate || 0}%`}
+          />
+        </ChartPanel>
+
+        <ChartPanel
+          title="Frequency Performance"
+          subtitle="Total habits vs completed today by cadence"
+        >
+          <GroupedBarChart
+            data={frequencyChart}
+            keys={[
+              { key: 'total', label: 'Total', color: 'color-mix(in srgb, var(--ink) 18%, transparent)' },
+              { key: 'completed', label: 'Completed Today', color: 'var(--growth)' },
+            ]}
+          />
+          <div className="mt-4 flex flex-wrap gap-3">
+            {Object.entries(chartPalette).map(([frequency, color]) => (
+              <span key={frequency} className="inline-flex items-center gap-2 text-xs font-semibold" style={{ color: 'var(--muted-ink)' }}>
+                <span className="h-2.5 w-2.5 rounded-full" style={{ background: color }} />
+                {frequency}
+              </span>
+            ))}
+          </div>
+        </ChartPanel>
       </section>
 
       {loading ? (
