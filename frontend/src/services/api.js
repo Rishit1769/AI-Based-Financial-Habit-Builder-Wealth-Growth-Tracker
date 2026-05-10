@@ -26,3 +26,27 @@ export async function apiRequest(path, options = {}) {
 
   return payload;
 }
+
+export async function apiDownload(path, options = {}) {
+  const { method = 'GET', token } = options;
+  const headers = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method,
+    headers,
+  });
+
+  if (!response.ok) {
+    const payload = await response
+      .json()
+      .catch(() => ({ success: false, message: 'Unable to download file' }));
+    throw new Error(payload.message || 'Download failed');
+  }
+
+  const blob = await response.blob();
+  return { blob, headers: response.headers };
+}

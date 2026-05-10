@@ -3,6 +3,7 @@ import {
   FaArrowRightArrowLeft,
   FaChartLine,
   FaChartPie,
+  FaFileLines,
   FaGear,
   FaListCheck,
   FaRobot,
@@ -13,6 +14,7 @@ import AllocationView from './views/AllocationView.jsx';
 import AdvisorView from './views/AdvisorView.jsx';
 import HabitsView from './views/HabitsView.jsx';
 import OverviewView from './views/OverviewView.jsx';
+import ReportsView from './views/ReportsView.jsx';
 import SettingsView from './views/SettingsView.jsx';
 import TransactionsView from './views/TransactionsView.jsx';
 import LoginView from './views/auth/LoginView.jsx';
@@ -53,6 +55,7 @@ const navSections = [
     label: 'Operations',
     items: [
       { id: 'transactions', label: 'Transactions', icon: FaArrowRightArrowLeft },
+      { id: 'reports', label: 'Reports', icon: FaFileLines },
       { id: 'settings', label: 'Settings', icon: FaGear },
     ],
   },
@@ -302,15 +305,22 @@ export default function App() {
       onLogout={handleLogout}
       accessToken={auth.accessToken}
     >
-      {activeTab === 'overview' && <OverviewView accessToken={auth.accessToken} user={user} />}
+      {activeTab === 'overview' && (
+        <OverviewView
+          accessToken={auth.accessToken}
+          user={user}
+          onGenerateReport={() => setActiveTab('reports')}
+        />
+      )}
       {activeTab === 'habits' && <HabitsView accessToken={auth.accessToken} />}
       {activeTab === 'advisor' && <AdvisorView accessToken={auth.accessToken} />}
       {activeTab === 'transactions' && <TransactionsView accessToken={auth.accessToken} />}
+      {activeTab === 'reports' && <ReportsView accessToken={auth.accessToken} />}
       {activeTab === 'settings' && (
         <SettingsView accessToken={auth.accessToken} onUserUpdated={handleUserUpdated} />
       )}
       {activeTab === 'allocation' && <AllocationView accessToken={auth.accessToken} />}
-      {!['overview', 'habits', 'advisor', 'transactions', 'settings', 'allocation'].includes(activeTab) && (
+      {!['overview', 'habits', 'advisor', 'transactions', 'reports', 'settings', 'allocation'].includes(activeTab) && (
         <section className="card-stadium px-8 py-14 md:px-12 md:py-16">
           <p className="eyebrow">Editorial Wealth</p>
           <h2 className="wealth-display mt-3 text-5xl font-extrabold">{activeLabel}</h2>

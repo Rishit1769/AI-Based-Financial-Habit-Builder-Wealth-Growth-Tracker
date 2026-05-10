@@ -44,7 +44,7 @@ function MetricCard({ eyebrow, value, footnote, children, valueColor }) {
   );
 }
 
-export default function OverviewView({ accessToken, user }) {
+export default function OverviewView({ accessToken, user, onGenerateReport }) {
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -147,6 +147,7 @@ export default function OverviewView({ accessToken, user }) {
             type="button"
             className="pill-button mt-8 inline-flex items-center gap-2 px-8 py-3 text-sm"
             style={{ background: 'var(--ink)', color: 'var(--canvas)' }}
+            onClick={onGenerateReport}
           >
             Generate Report
             <FaArrowRightLong />
