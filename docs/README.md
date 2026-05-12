@@ -1,15 +1,25 @@
 # Documentation Index
 
-This folder contains project documentation split by topic.
+This directory contains implementation-aligned project documentation for backend APIs, authentication, data architecture, and team workflow.
 
-## Files
+## Documents
 
+- [API Endpoints](./api-endpoints.md)
 - [Authentication Flow](./authentication-flow.md)
-- [Database Data Flow](./database-data-flow.md)
-- [Development and Release Workflow](./development-workflow.md)
-- [API Endpoints in Use](./api-endpoints.md)
+- [Database and Data Flow](./database-data-flow.md)
+- [Development Workflow](./development-workflow.md)
 
-## Notes
+## Scope
 
-- Frontend chart components are implemented under `frontend/src/components/charts/FinanceCharts.jsx`.
-- The dashboard and financial modules consume live API data; charts are not hardcoded mock visuals.
+These docs are written against the current codebase in backend/ and frontend/ and are intended for:
+
+- onboarding new developers
+- API integration planning
+- feature-level impact analysis
+- release readiness and verification
+
+## Maintenance Notes
+
+- Update these files whenever routes, payloads, middleware rules, or scheduler behavior changes.
+- Keep endpoint behavior synchronized with backend/src/routes and backend/src/controllers.
+- Keep UI data flow synchronized with frontend/src/views and frontend/src/services/api.js.

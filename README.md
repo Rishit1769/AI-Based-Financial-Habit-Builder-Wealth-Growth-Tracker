@@ -1,145 +1,175 @@
 ﻿# Financial Habit Builder and Wealth Growth Tracker
 
-A full-stack personal finance platform with habit tracking, AI guidance, dynamic analytics charts, and premium PDF reporting.
+A full-stack personal finance platform that combines financial tracking, habit consistency, AI-assisted coaching, and PDF reporting.
 
-## Current Status
+## Product Overview
 
-- Backend: Express + PostgreSQL API with JWT auth, reporting, scheduler, and email integration
-- Frontend: React + Vite dashboard with live chart visualizations across Overview, Transactions, Allocation, Habits, and Reports
-- Storage: MinIO buckets for generated reports and APK download artifacts
-- AI: Gemini-powered advisor endpoint with persisted chat history
+The application is designed for users who want one workspace for day-to-day money operations and long-term wealth habits.
 
-## Features
+Core capabilities:
 
-- Secure auth with OTP onboarding, login, refresh, and logout
-- Income and expense tracking with filters and summaries
-- Habit management with daily completion, streaks, and stats
-- Savings goals and investments with live allocation analytics
-- Dashboard aggregation endpoint for cross-module insights
-- AI advisor chat and history
-- Date-range and preset PDF report generation with email delivery
-- In-app notifications and admin management endpoints
-- Reusable frontend chart system:
-    - line trend charts
-    - grouped bar charts
-    - donut breakdown charts
+- Email OTP registration with JWT-based authentication and refresh token rotation
+- Income and expense ledger with month and year summaries
+- Habit creation, daily completion tracking, and streak analytics
+- Savings goals and investment allocation insights
+- Aggregated dashboard metrics and trend visualizations
+- AI financial guidance using Gemini with persisted conversation history
+- PDF report generation with MinIO storage and downloadable artifacts
+- Notification center plus admin moderation and platform analytics
 
-## Tech Stack
+## Architecture
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 19, Vite, Tailwind CSS v4, Framer Motion, React Icons |
-| Backend | Node.js, Express, PostgreSQL, JWT, bcryptjs |
-| Reports | PDFKit, MinIO |
-| AI | Google Generative AI (Gemini) |
-| Email | Nodemailer |
+Frontend:
+
+- React 19 + Vite
+- Tailwind CSS v4 styling system
+- View-driven dashboard modules (Overview, Transactions, Allocation, Habits, Reports, Settings, Advisor)
+
+Backend:
+
+- Node.js + Express REST API
+- PostgreSQL as primary datastore
+- JWT access/refresh auth model with middleware-protected routes
+- Cron scheduler for daily reminders and monthly report jobs
+
+Supporting services:
+
+- MinIO for report PDFs and APK artifact distribution
+- Nodemailer for OTP, reminders, and report emails
+- Google Gemini API for advisor responses
 
 ## Repository Layout
 
-```
+```text
 .
-├── backend/
-│   ├── server.js
-│   ├── src/
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── middleware/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   └── db/
-├── frontend/
-│   ├── index.html
-│   ├── vite.config.js
-│   └── src/
-│       ├── components/
-│       │   ├── layout/
-│       │   └── charts/
-│       ├── context/
-│       ├── services/
-│       ├── styles/
-│       └── views/
-├── docs/
-├── dev.js
-└── package.json
+|-- backend/
+|   |-- server.js
+|   |-- .env.example
+|   `-- src/
+|       |-- config/
+|       |-- controllers/
+|       |-- db/
+|       |-- middleware/
+|       |-- routes/
+|       `-- services/
+|-- frontend/
+|   |-- index.html
+|   |-- vite.config.js
+|   `-- src/
+|       |-- components/
+|       |-- context/
+|       |-- services/
+|       |-- styles/
+|       `-- views/
+|-- docs/
+|-- dev.js
+`-- package.json
 ```
 
-## Setup
+## Quick Start
 
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL
-- MinIO (or compatible S3 endpoint)
+- PostgreSQL 14+
+- MinIO (or S3-compatible object storage)
 
-### 1) Install dependencies
+### 1. Install dependencies
 
 ```bash
 npm run install:all
 ```
 
-### 2) Configure environment
+### 2. Configure backend environment
 
 ```bash
-cp backend/.env.example backend/.env
+copy backend\.env.example backend\.env
 ```
 
-Update backend/.env with valid DB, JWT, MinIO, Gemini, and SMTP values.
+Update backend/.env with valid values for database, JWT, MinIO, SMTP, and Gemini.
 
-### 3) Run database migration
+### 3. Run database migration
 
 ```bash
 npm run migrate --prefix backend
 ```
 
-### 4) Start development
+### 4. Start development servers
 
 ```bash
 npm run dev
 ```
 
-This uses dev.js to start backend and frontend safely on Windows when the folder path contains an ampersand.
+The root dev script uses dev.js to avoid Windows shell parsing issues in folder names that contain ampersands.
 
-## Build and Run Notes
+## Environment Variables
 
-- Standard frontend build:
+Backend variables (backend/.env):
 
-```bash
-npm run build --prefix frontend
-```
+| Variable | Required | Description |
+|---|---|---|
+| NODE_ENV | Yes | Runtime mode, usually development or production |
+| PORT | Yes | Backend server port |
+| FRONTEND_URL | Yes | Allowed CORS origin(s), comma-separated supported |
+| DATABASE_URL | Yes | PostgreSQL connection string |
+| JWT_SECRET | Yes | Access token signing key |
+| JWT_REFRESH_SECRET | Yes | Refresh token signing key |
+| JWT_EXPIRES_IN | Optional | Access token lifetime, default 15m |
+| JWT_REFRESH_EXPIRES_IN | Optional | Refresh token lifetime, default 7d |
+| EMAIL_HOST | Yes | SMTP host |
+| EMAIL_PORT | Yes | SMTP port |
+| EMAIL_USER | Yes | SMTP username |
+| EMAIL_PASS | Yes | SMTP password or app password |
+| EMAIL_FROM | Optional | Sender display and email |
+| GEMINI_API_KEY | Yes for AI | Gemini API key |
+| MINIO_ENDPOINT | Yes | MinIO/S3 host |
+| MINIO_PORT | Yes | MinIO/S3 port |
+| MINIO_USE_SSL | Yes | true or false |
+| MINIO_ACCESS_KEY | Yes | Object storage access key |
+| MINIO_SECRET_KEY | Yes | Object storage secret key |
+| MINIO_BUCKET_REPORTS | Yes | Bucket for generated reports |
+| MINIO_BUCKET_APK | Yes | Bucket for downloadable APK |
+| APK_OBJECT_NAME | Optional | APK object key, default financial-habit-builder.apk |
 
-- If your shell fails because of special characters in the folder path, run Vite directly:
+Frontend variables (optional, frontend/.env):
 
-```bash
-cd frontend
-node .\node_modules\vite\bin\vite.js build
-```
+| Variable | Required | Description |
+|---|---|---|
+| VITE_API_BASE_URL | No | API base URL, defaults to http://localhost:5000/api |
 
 ## Scripts
 
-Root package scripts:
+Root:
 
 - npm run dev
 - npm run backend
 - npm run frontend
 - npm run install:all
 
-Backend package scripts:
+Backend:
 
 - npm run dev --prefix backend
 - npm run start --prefix backend
 - npm run migrate --prefix backend
 
-Frontend package scripts:
+Frontend:
 
 - npm run dev --prefix frontend
 - npm run build --prefix frontend
 - npm run preview --prefix frontend
 
-## API Summary
+## API Surface
 
-Base path: /api
+All endpoints are under /api.
 
-- /auth
+Public routes:
+
+- /auth/*
+- /download/apk
+- /health
+
+Protected routes:
+
 - /users
 - /income
 - /expenses
@@ -150,17 +180,25 @@ Base path: /api
 - /ai
 - /reports
 - /notifications
-- /admin
-- /download
-- /health
 
-For full route list, see docs/api-endpoints.md.
+Admin-only routes:
+
+- /admin
+
+For full endpoint and parameter details, see docs/api-endpoints.md.
+
+## Operations and Security Notes
+
+- Global API rate limit: 300 requests per 15 minutes
+- Auth routes rate limit: 20 requests per hour
+- Access tokens are short-lived; refresh endpoint rotates refresh tokens
+- Report download responses expose X-Report-Email-Status to indicate email attachment delivery outcome
 
 ## Documentation
 
 - docs/README.md
+- docs/api-endpoints.md
 - docs/authentication-flow.md
 - docs/database-data-flow.md
 - docs/development-workflow.md
-- docs/api-endpoints.md
 
